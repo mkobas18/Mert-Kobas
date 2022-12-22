@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="MK">
+<meta name="dcterms.date" content="2022-12-21">
+
+<title>Mert’s Learning Journal - Expertise Data Analysis Trials</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="../../site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="../../site_libs/plotly-binding-4.10.0/plotly.js"></script>
+<script src="../../site_libs/typedarray-0.1/typedarray.min.js"></script>
+<script src="../../site_libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="../../site_libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet">
+<script src="../../site_libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<link href="../../site_libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="../../site_libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Mert’s Learning Journal</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/mkobas18"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/mertkobas"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Expertise Data Analysis Trials</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">example data</div>
+                <div class="quarto-category">code</div>
+                <div class="quarto-category">analysis</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>MK </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">December 21, 2022</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p>Import necessary packages and expertise data</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse,<span class="at">quietly =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ ggplot2 3.3.6      ✔ purrr   0.3.5 
+✔ tibble  3.1.8      ✔ dplyr   1.0.10
+✔ tidyr   1.2.0      ✔ stringr 1.4.0 
+✔ readr   2.1.2      ✔ forcats 0.5.1 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(heatmaply,<span class="at">quietly =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'plotly'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:ggplot2':
+
+    last_plot</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:stats':
+
+    filter</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:graphics':
+
+    layout</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+======================
+Welcome to heatmaply version 1.4.0
+
+Type citation('heatmaply') for how to cite the package.
+Type ?heatmaply for the main documentation.
+
+The github page is: https://github.com/talgalili/heatmaply/
+Please submit your suggestions and bug-reports at: https://github.com/talgalili/heatmaply/issues
+You may ask questions at stackoverflow, use the r and heatmaply tags: 
+     https://stackoverflow.com/questions/tagged/heatmaply
+======================</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>expertise<span class="ot">&lt;-</span><span class="fu">read_csv</span>(<span class="st">"~/Desktop/Expertise/NEW/Combined STUDY for R.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Descriptive statistics of inherence scores from the 1st and 2nd study</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>expertise<span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(study<span class="sc">==</span><span class="dv">1</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    subject        item                 ih            high        
+ Min.   :  1   Length:1592        Min.   :1.00   Min.   :-0.6448  
+ 1st Qu.: 50   Class :character   1st Qu.:3.50   1st Qu.:-0.3706  
+ Median :100   Mode  :character   Median :5.00   Median :-0.2488  
+ Mean   :100                      Mean   :4.87   Mean   : 0.0000  
+ 3rd Qu.:150                      3rd Qu.:6.00   3rd Qu.:-0.1632  
+ Max.   :199                      Max.   :9.00   Max.   :12.2091  
+                                                                  
+      coll              grad             books              mag          
+ Min.   :-0.5406   Min.   :-0.1541   Min.   :-0.4928   Min.   :-0.41020  
+ 1st Qu.:-0.2714   1st Qu.:-0.1234   1st Qu.:-0.3380   1st Qu.:-0.24982  
+ Median :-0.2290   Median :-0.1038   Median :-0.2529   Median :-0.11861  
+ Mean   : 0.0000   Mean   : 0.0000   Mean   : 0.0000   Mean   : 0.00000  
+ 3rd Qu.:-0.1865   3rd Qu.:-0.0953   3rd Qu.:-0.2354   3rd Qu.:-0.08064  
+ Max.   : 9.9358   Max.   :14.0358   Max.   :11.2170   Max.   :13.91452  
+                   NA's   :199                                           
+      know            needforcog       needclo         study  
+ Min.   :-2.65921   Min.   :2.111   Min.   : NA    Min.   :1  
+ 1st Qu.:-0.76721   1st Qu.:5.056   1st Qu.: NA    1st Qu.:1  
+ Median : 0.01276   Median :5.889   Median : NA    Median :1  
+ Mean   : 0.00000   Mean   :5.958   Mean   :NaN    Mean   :1  
+ 3rd Qu.: 0.75596   3rd Qu.:6.889   3rd Qu.: NA    3rd Qu.:1  
+ Max.   : 2.95800   Max.   :8.778   Max.   : NA    Max.   :1  
+                                    NA's   :1592              
+   high_w025          coll_w025          grad_w025          books_w025      
+ Min.   :-0.64478   Min.   :-0.54058   Min.   :-0.15413   Min.   :-0.49281  
+ 1st Qu.:-0.37065   1st Qu.:-0.27138   1st Qu.:-0.12341   1st Qu.:-0.33797  
+ Median :-0.24880   Median :-0.22903   Median :-0.10384   Median :-0.25290  
+ Mean   :-0.04743   Mean   :-0.05107   Mean   :-0.10788   Mean   :-0.05969  
+ 3rd Qu.:-0.16320   3rd Qu.:-0.18651   3rd Qu.:-0.09530   3rd Qu.:-0.23538  
+ Max.   : 2.91073   Max.   : 3.13722   Max.   :-0.07089   Max.   : 2.62381  
+                                       NA's   :199                          
+    mag_w025         readingcomp        schoolcomp       readcomp025      
+ Min.   :-0.41020   Min.   :-0.3961   Min.   :-0.4465   Min.   :-0.39605  
+ 1st Qu.:-0.24982   1st Qu.:-0.2757   1st Qu.:-0.2506   1st Qu.:-0.27567  
+ Median :-0.11861   Median :-0.1825   Median :-0.2212   Median :-0.18254  
+ Mean   :-0.08237   Mean   : 0.0000   Mean   : 0.0000   Mean   :-0.05538  
+ 3rd Qu.:-0.08064   3rd Qu.:-0.1051   3rd Qu.:-0.1687   3rd Qu.:-0.10513  
+ Max.   : 1.21479   Max.   :11.9385   Max.   : 7.4510   Max.   : 1.96513  
+                                      NA's   :199                         
+ schoolcomp025      objectivecomp1     objectivecomp01    objectivecomp025  
+ Min.   :-0.44650   Min.   :-0.41880   Min.   :-0.41880   Min.   :-0.41880  
+ 1st Qu.:-0.25065   1st Qu.:-0.25965   1st Qu.:-0.25965   1st Qu.:-0.25965  
+ Median :-0.22124   Median :-0.21247   Median :-0.21247   Median :-0.21247  
+ Mean   :-0.04046   Mean   : 0.00000   Mean   :-0.01449   Mean   :-0.02807  
+ 3rd Qu.:-0.16872   3rd Qu.:-0.02451   3rd Qu.:-0.02451   3rd Qu.:-0.02451  
+ Max.   : 2.03964   Max.   : 6.72741   Max.   : 2.70624   Max.   : 1.87096  
+ NA's   :199        NA's   :199        NA's   :199        NA's   :199       
+ objectivecomp05       know_w05           know_w025         
+ Min.   :-0.38152   Min.   :-1.581299   Min.   :-1.8858149  
+ 1st Qu.:-0.25965   1st Qu.:-0.767212   1st Qu.:-0.7672123  
+ Median :-0.21247   Median : 0.012760   Median : 0.0127596  
+ Mean   :-0.05507   Mean   : 0.003705   Mean   :-0.0004338  
+ 3rd Qu.:-0.02451   3rd Qu.: 0.755964   3rd Qu.: 0.7559637  
+ Max.   : 1.02637   Max.   : 1.619293   Max.   : 1.8324862  
+ NA's   :199                                                
+    know_w01         
+ Min.   :-2.0975756  
+ 1st Qu.:-0.7672123  
+ Median : 0.0127596  
+ Mean   : 0.0000465  
+ 3rd Qu.: 0.7559637  
+ Max.   : 2.0733853  
+                     </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>expertise<span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(study<span class="sc">==</span><span class="dv">2</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    subject          item                 ih             high        
+ Min.   :200.0   Length:1536        Min.   :1.000   Min.   :-0.3519  
+ 1st Qu.:247.8   Class :character   1st Qu.:3.500   1st Qu.:-0.2716  
+ Median :295.5   Mode  :character   Median :5.000   Median :-0.2143  
+ Mean   :295.5                      Mean   :5.112   Mean   : 0.0000  
+ 3rd Qu.:343.2                      3rd Qu.:7.000   3rd Qu.:-0.1104  
+ Max.   :391.0                      Max.   :9.000   Max.   :13.7543  
+                                                                     
+      coll               grad             books               mag          
+ Min.   :-0.50140   Min.   :-0.1224   Min.   :-0.42153   Min.   :-0.44152  
+ 1st Qu.:-0.26320   1st Qu.:-0.1208   1st Qu.:-0.29282   1st Qu.:-0.30989  
+ Median :-0.25482   Median :-0.1023   Median :-0.25439   Median :-0.23676  
+ Mean   : 0.00000   Mean   : 0.0000   Mean   : 0.00000   Mean   : 0.00000  
+ 3rd Qu.:-0.08065   3rd Qu.:-0.0744   3rd Qu.:-0.08109   3rd Qu.:-0.08575  
+ Max.   :13.78290   Max.   :13.7842   Max.   :13.65792   Max.   :13.72199  
+                    NA's   :384                                            
+      know           needforcog      needclo          study  
+ Min.   :-2.1972   Min.   : NA    Min.   :3.929   Min.   :2  
+ 1st Qu.:-0.8439   1st Qu.: NA    1st Qu.:5.143   1st Qu.:2  
+ Median :-0.1677   Median : NA    Median :5.702   Median :2  
+ Mean   : 0.0000   Mean   :NaN    Mean   :5.650   Mean   :2  
+ 3rd Qu.: 0.6845   3rd Qu.: NA    3rd Qu.:6.095   3rd Qu.:2  
+ Max.   : 3.0503   Max.   : NA    Max.   :7.548   Max.   :2  
+                   NA's   :1536                              
+   high_w025          coll_w025          grad_w025         books_w025      
+ Min.   :-0.35188   Min.   :-0.50140   Min.   :-0.1224   Min.   :-0.42153  
+ 1st Qu.:-0.27160   1st Qu.:-0.26320   1st Qu.:-0.1208   1st Qu.:-0.29282  
+ Median :-0.21427   Median :-0.25482   Median :-0.1023   Median :-0.25439  
+ Mean   :-0.05455   Mean   :-0.07605   Mean   :-0.0958   Mean   :-0.07792  
+ 3rd Qu.:-0.11043   3rd Qu.:-0.08065   3rd Qu.:-0.0744   3rd Qu.:-0.08109  
+ Max.   : 2.79051   Max.   : 1.75819   Max.   : 0.0130   Max.   : 2.15922  
+                                       NA's   :384                         
+    mag_w025         readingcomp         schoolcomp       readcomp025      
+ Min.   :-0.44152   Min.   :-0.39298   Min.   :-0.2817   Min.   :-0.39297  
+ 1st Qu.:-0.30989   1st Qu.:-0.25168   1st Qu.:-0.1933   1st Qu.:-0.25168  
+ Median :-0.23676   Median :-0.20129   Median :-0.1175   Median :-0.20129  
+ Mean   :-0.07705   Mean   : 0.00000   Mean   : 0.0000   Mean   :-0.05458  
+ 3rd Qu.:-0.08575   3rd Qu.:-0.07418   3rd Qu.:-0.0682   3rd Qu.:-0.07418  
+ Max.   : 2.11494   Max.   : 9.32467   Max.   :13.7736   Max.   : 2.01190  
+                                       NA's   :384                         
+ schoolcomp025     objectivecomp1 objectivecomp01   objectivecomp025 
+ Min.   :-0.2817   Min.   : NA    Min.   :-0.2812   Min.   :-0.2812  
+ 1st Qu.:-0.1933   1st Qu.: NA    1st Qu.:-0.2164   1st Qu.:-0.2164  
+ Median :-0.1175   Median : NA    Median :-0.1537   Median :-0.1537  
+ Mean   :-0.0547   Mean   :NaN    Mean   :-0.0215   Mean   :-0.0378  
+ 3rd Qu.:-0.0682   3rd Qu.: NA    3rd Qu.:-0.0368   3rd Qu.:-0.0368  
+ Max.   : 1.3437   Max.   : NA    Max.   : 2.5783   Max.   : 1.5410  
+ NA's   :384       NA's   :1536   NA's   :384       NA's   :384      
+ objectivecomp05      know_w05           know_w025         
+ Min.   :-0.2812   Min.   :-1.304722   Min.   :-1.5674281  
+ 1st Qu.:-0.2164   1st Qu.:-0.843905   1st Qu.:-0.8439054  
+ Median :-0.1537   Median :-0.167666   Median :-0.1676661  
+ Mean   :-0.0611   Mean   :-0.003341   Mean   :-0.0008275  
+ 3rd Qu.:-0.0368   3rd Qu.: 0.684484   3rd Qu.: 0.6844843  
+ Max.   : 0.8561   Max.   : 1.824793   Max.   : 2.1532753  
+ NA's   :384                                               
+    know_w01         
+ Min.   :-1.7913281  
+ 1st Qu.:-0.8439054  
+ Median :-0.1676661  
+ Mean   :-0.0008895  
+ 3rd Qu.: 0.6844843  
+ Max.   : 2.4240202  
+                     </code></pre>
+</div>
+</div>
+<div class="cell">
+
+</div>
+<p>The boxplot of inherence scores by expertise areas in study 1</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>plot1<span class="ot">&lt;-</span>expertise<span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(study<span class="sc">==</span><span class="dv">1</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>item, <span class="at">y=</span>ih)) <span class="sc">+</span> </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">colour =</span> <span class="st">"black"</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Inherence scores by expertise areas in study 1"</span>) <span class="sc">+</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Inherence Scores"</span>)<span class="sc">+</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Expertise areas"</span>)<span class="sc">+</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.placement =</span> <span class="st">"outside"</span>,              </span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position=</span><span class="st">"none"</span>,</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.border =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.spacing.x =</span> <span class="fu">unit</span>(<span class="dv">0</span>,<span class="st">"line"</span>))</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>plot1<span class="sc">+</span><span class="fu">geom_jitter</span>(<span class="at">shape=</span><span class="dv">16</span>, <span class="at">position=</span><span class="fu">position_jitter</span>(<span class="fl">0.2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The boxplot of inherence scores by expertise areas in study 2</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>plot2<span class="ot">&lt;-</span>expertise<span class="sc">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(study<span class="sc">==</span><span class="dv">2</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>item, <span class="at">y=</span>ih)) <span class="sc">+</span> </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">colour =</span> <span class="st">"black"</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Inherence scores by expertise areas in study 2"</span>) <span class="sc">+</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Inherence Scores"</span>)<span class="sc">+</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Expertise areas"</span>)<span class="sc">+</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.placement =</span> <span class="st">"outside"</span>,              </span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position=</span><span class="st">"none"</span>,</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.border =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.spacing.x =</span> <span class="fu">unit</span>(<span class="dv">0</span>,<span class="st">"line"</span>))</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>plot2<span class="sc">+</span><span class="fu">geom_jitter</span>(<span class="at">shape=</span><span class="dv">16</span>, <span class="at">position=</span><span class="fu">position_jitter</span>(<span class="fl">0.2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Correlation matrix of language expertise in study 1</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>expert_sublev_st1<span class="ot">&lt;-</span>expertise<span class="sc">%&gt;%</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(study<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> item<span class="sc">==</span><span class="st">'LANGUAGE'</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(subject,ih, high, coll, grad, books, mag, know, needforcog)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> expert_sublev_st1</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmaply_cor</span>(<span class="at">x =</span> <span class="fu">cor</span>(df),</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">k_col =</span> <span class="dv">2</span>,</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">k_row =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in doTryCatch(return(expr), name, parentenv, handler): unable to load shared object '/Library/Frameworks/R.framework/Resources/modules//R_X11.so':
+  dlopen(/Library/Frameworks/R.framework/Resources/modules//R_X11.so, 6): Library not loaded: /opt/X11/lib/libSM.6.dylib
+  Referenced from: /Library/Frameworks/R.framework/Versions/4.1-arm64/Resources/modules/R_X11.so
+  Reason: image not found</code></pre>
+</div>
+<div class="cell-output-display">
+<div id="htmlwidget-72b6e88b26d4d94a40c2" style="width:100%;height:464px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-72b6e88b26d4d94a40c2">{"x":{"data":[{"x":[6.15625,8.5,null,8.5,8.5,null,8.5,8,null,8,8,null,8.5,9,null,9,9],"y":[2.12142619988774,2.12142619988774,null,2.12142619988774,1.47311476451097,null,1.47311476451097,1.47311476451097,null,1.47311476451097,0,null,1.47311476451097,1.47311476451097,null,1.47311476451097,0],"text":["y: 2.1214262","y: 2.1214262",null,"y: 2.1214262","y: 2.1214262",null,"y: 1.4731148","y: 1.4731148",null,"y: 1.4731148","y: 1.4731148",null,"y: 1.4731148","y: 1.4731148",null,"y: 1.4731148","y: 1.4731148"],"type":"scatter","mode":"lines","line":{"width":2.26771653543307,"color":"rgba(57,190,177,1)","dash":"solid"},"hoveron":"points","name":"(#39BEB1,solid)","legendgroup":"(#39BEB1,solid)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[6.15625,3.8125,null,3.8125,3.8125,null,3.8125,1.75,null,1.75,1.75,null,1.75,1,null,1,1,null,1.75,2.5,null,2.5,2.5,null,2.5,2,null,2,2,null,2.5,3,null,3,3,null,3.8125,5.875,null,5.875,5.875,null,5.875,4.75,null,4.75,4.75,null,4.75,4,null,4,4,null,4.75,5.5,null,5.5,5.5,null,5.5,5,null,5,5,null,5.5,6,null,6,6,null,5.875,7,null,7,7],"y":[2.12142619988774,2.12142619988774,null,2.12142619988774,1.41558628719564,null,1.41558628719564,1.41558628719564,null,1.41558628719564,1.28571938579411,null,1.28571938579411,1.28571938579411,null,1.28571938579411,0,null,1.28571938579411,1.28571938579411,null,1.28571938579411,0.838447626408703,null,0.838447626408703,0.838447626408703,null,0.838447626408703,0,null,0.838447626408703,0.838447626408703,null,0.838447626408703,0,null,1.41558628719564,1.41558628719564,null,1.41558628719564,1.22298197031256,null,1.22298197031256,1.22298197031256,null,1.22298197031256,1.06328810824132,null,1.06328810824132,1.06328810824132,null,1.06328810824132,0,null,1.06328810824132,1.06328810824132,null,1.06328810824132,0.666114449175746,null,0.666114449175746,0.666114449175746,null,0.666114449175746,0,null,0.666114449175746,0.666114449175746,null,0.666114449175746,0,null,1.22298197031256,1.22298197031256,null,1.22298197031256,0],"text":["y: 2.1214262","y: 2.1214262",null,"y: 2.1214262","y: 2.1214262",null,"y: 1.4155863","y: 1.4155863",null,"y: 1.4155863","y: 1.4155863",null,"y: 1.2857194","y: 1.2857194",null,"y: 1.2857194","y: 1.2857194",null,"y: 1.2857194","y: 1.2857194",null,"y: 1.2857194","y: 1.2857194",null,"y: 0.8384476","y: 0.8384476",null,"y: 0.8384476","y: 0.8384476",null,"y: 0.8384476","y: 0.8384476",null,"y: 0.8384476","y: 0.8384476",null,"y: 1.4155863","y: 1.4155863",null,"y: 1.4155863","y: 1.4155863",null,"y: 1.2229820","y: 1.2229820",null,"y: 1.2229820","y: 1.2229820",null,"y: 1.0632881","y: 1.0632881",null,"y: 1.0632881","y: 1.0632881",null,"y: 1.0632881","y: 1.0632881",null,"y: 1.0632881","y: 1.0632881",null,"y: 0.6661144","y: 0.6661144",null,"y: 0.6661144","y: 0.6661144",null,"y: 0.6661144","y: 0.6661144",null,"y: 0.6661144","y: 0.6661144",null,"y: 1.2229820","y: 1.2229820",null,"y: 1.2229820","y: 1.2229820"],"type":"scatter","mode":"lines","line":{"width":2.26771653543307,"color":"rgba(228,149,165,1)","dash":"solid"},"hoveron":"points","name":"(#E495A5,solid)","legendgroup":"(#E495A5,solid)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[6.15625,3.8125,1.75,1,2.5,2,3,5.875,4.75,4,5.5,5,6,7,8.5,8,9],"y":[2.12142619988774,1.41558628719564,1.28571938579411,0,0.838447626408703,0,0,1.22298197031256,1.06328810824132,0,0.666114449175746,0,0,0,1.47311476451097,0,0],"text":["y: 2.1214262","y: 1.4155863","y: 1.2857194","y: 0.0000000","y: 0.8384476","y: 0.0000000","y: 0.0000000","y: 1.2229820","y: 1.0632881","y: 0.0000000","y: 0.6661144","y: 0.0000000","y: 0.0000000","y: 0.0000000","y: 1.4731148","y: 0.0000000","y: 0.0000000"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"transparent","opacity":1,"size":null,"symbol":null,"line":{"width":1.88976377952756,"color":"transparent"}},"hoveron":"points","name":"(NA,1)","legendgroup":"(NA,1)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"type":"scatter","mode":"markers","marker":{"color":"rgba(214,39,40,1)","line":{"color":"rgba(214,39,40,1)"}},"error_y":{"color":"rgba(214,39,40,1)"},"error_x":{"color":"rgba(214,39,40,1)"},"line":{"color":"rgba(214,39,40,1)"},"xaxis":"x2","yaxis":"y","frame":null},{"x":[1,2,3,4,5,6,7,8,9],"y":[1,2,3,4,5,6,7,8,9],"z":[[1,0.366757849936292,0.340301844923829,0.321981317097017,0.405137733884175,0.330052844102046,0.248135839902436,0.156039660570823,0],[0.366757849936292,1,0.557710858813623,0.408118204452323,0.643656619165457,0.347887764567239,0.263840713555749,0.15309554763832,0.0904467913487559],[0.340301844923829,0.557710858813623,1,0.384561901718975,0.673391386575356,0.544869435828671,0.316951699164111,0.286847147586517,0.159812743323511],[0.321981317097017,0.408118204452323,0.384561901718975,1,0.517119182653889,0.471439387662798,0.324547468288424,0.226659234758185,0.143310951029471],[0.405137733884175,0.643656619165457,0.673391386575356,0.517119182653889,1,0.72600157349332,0.546833724491142,0.152029001840804,0.0789139271911028],[0.330052844102046,0.347887764567239,0.544869435828671,0.471439387662798,0.72600157349332,1,0.617967922213294,0.2100240272062,0.21526706698074],[0.248135839902436,0.263840713555749,0.316951699164111,0.324547468288424,0.546833724491142,0.617967922213294,1,0.229941316180314,0.233455456913515],[0.156039660570823,0.15309554763832,0.286847147586517,0.226659234758185,0.152029001840804,0.2100240272062,0.229941316180314,1,0.176552167932152],[0,0.0904467913487559,0.159812743323511,0.143310951029471,0.0789139271911028,0.21526706698074,0.233455456913515,0.176552167932152,1]],"text":[["row: needforcog<br>column: needforcog<br>value:  1.00000","row: needforcog<br>column: mag<br>value:  0.21521","row: needforcog<br>column: grad<br>value:  0.18242","row: needforcog<br>column: know<br>value:  0.15972","row: needforcog<br>column: books<br>value:  0.26277","row: needforcog<br>column: coll<br>value:  0.16972","row: needforcog<br>column: high<br>value:  0.06820","row: needforcog<br>column: subject<br>value: -0.04594","row: needforcog<br>column: ih<br>value: -0.23932"],["row: mag<br>column: needforcog<br>value:  0.21521","row: mag<br>column: mag<br>value:  1.00000","row: mag<br>column: grad<br>value:  0.45186","row: mag<br>column: know<br>value:  0.26647","row: mag<br>column: books<br>value:  0.55838","row: mag<br>column: coll<br>value:  0.19182","row: mag<br>column: high<br>value:  0.08766","row: mag<br>column: subject<br>value: -0.04959","row: mag<br>column: ih<br>value: -0.12723"],["row: grad<br>column: needforcog<br>value:  0.18242","row: grad<br>column: mag<br>value:  0.45186","row: grad<br>column: grad<br>value:  1.00000","row: grad<br>column: know<br>value:  0.23727","row: grad<br>column: books<br>value:  0.59523","row: grad<br>column: coll<br>value:  0.43595","row: grad<br>column: high<br>value:  0.15348","row: grad<br>column: subject<br>value:  0.11617","row: grad<br>column: ih<br>value: -0.04126"],["row: know<br>column: needforcog<br>value:  0.15972","row: know<br>column: mag<br>value:  0.26647","row: know<br>column: grad<br>value:  0.23727","row: know<br>column: know<br>value:  1.00000","row: know<br>column: books<br>value:  0.40155","row: know<br>column: coll<br>value:  0.34494","row: know<br>column: high<br>value:  0.16290","row: know<br>column: subject<br>value:  0.04158","row: know<br>column: ih<br>value: -0.06171"],["row: books<br>column: needforcog<br>value:  0.26277","row: books<br>column: mag<br>value:  0.55838","row: books<br>column: grad<br>value:  0.59523","row: books<br>column: know<br>value:  0.40155","row: books<br>column: books<br>value:  1.00000","row: books<br>column: coll<br>value:  0.66043","row: books<br>column: high<br>value:  0.43838","row: books<br>column: subject<br>value: -0.05091","row: books<br>column: ih<br>value: -0.14152"],["row: coll<br>column: needforcog<br>value:  0.16972","row: coll<br>column: mag<br>value:  0.19182","row: coll<br>column: grad<br>value:  0.43595","row: coll<br>column: know<br>value:  0.34494","row: coll<br>column: books<br>value:  0.66043","row: coll<br>column: coll<br>value:  1.00000","row: coll<br>column: high<br>value:  0.52654","row: coll<br>column: subject<br>value:  0.02096","row: coll<br>column: ih<br>value:  0.02746"],["row: high<br>column: needforcog<br>value:  0.06820","row: high<br>column: mag<br>value:  0.08766","row: high<br>column: grad<br>value:  0.15348","row: high<br>column: know<br>value:  0.16290","row: high<br>column: books<br>value:  0.43838","row: high<br>column: coll<br>value:  0.52654","row: high<br>column: high<br>value:  1.00000","row: high<br>column: subject<br>value:  0.04565","row: high<br>column: ih<br>value:  0.05000"],["row: subject<br>column: needforcog<br>value: -0.04594","row: subject<br>column: mag<br>value: -0.04959","row: subject<br>column: grad<br>value:  0.11617","row: subject<br>column: know<br>value:  0.04158","row: subject<br>column: books<br>value: -0.05091","row: subject<br>column: coll<br>value:  0.02096","row: subject<br>column: high<br>value:  0.04565","row: subject<br>column: subject<br>value:  1.00000","row: subject<br>column: ih<br>value: -0.02052"],["row: ih<br>column: needforcog<br>value: -0.23932","row: ih<br>column: mag<br>value: -0.12723","row: ih<br>column: grad<br>value: -0.04126","row: ih<br>column: know<br>value: -0.06171","row: ih<br>column: books<br>value: -0.14152","row: ih<br>column: coll<br>value:  0.02746","row: ih<br>column: high<br>value:  0.05000","row: ih<br>column: subject<br>value: -0.02052","row: ih<br>column: ih<br>value:  1.00000"]],"colorscale":[[0,"#BAD1F8"],[0.0789139271911028,"#C9D8F0"],[0.0904467913487559,"#CBD8EE"],[0.143310951029471,"#D5DBE5"],[0.152029001840804,"#D6DCE4"],[0.15309554763832,"#D6DCE4"],[0.156039660570823,"#D7DCE3"],[0.159812743323511,"#D7DCE3"],[0.176552167932152,"#DADCE0"],[0.2100240272062,"#DFDBD9"],[0.21526706698074,"#E0DBD8"],[0.226659234758185,"#E3DAD5"],[0.229941316180314,"#E3DAD4"],[0.233455456913515,"#E4D9D3"],[0.248135839902436,"#E5D8D1"],[0.263840713555749,"#E8D6CD"],[0.286847147586517,"#EBD4C7"],[0.316951699164111,"#EED0C0"],[0.321981317097017,"#EFCFBF"],[0.324547468288424,"#EFCFBE"],[0.330052844102046,"#EFCEBD"],[0.340301844923829,"#F1CDBA"],[0.347887764567239,"#F1CCB8"],[0.366757849936292,"#F3C9B4"],[0.384561901718975,"#F4C6AF"],[0.405137733884175,"#F5C3AA"],[0.408118204452323,"#F5C2AA"],[0.471439387662798,"#F7B69A"],[0.517119182653889,"#F7AC8F"],[0.544869435828671,"#F7A688"],[0.546833724491142,"#F7A687"],[0.557710858813623,"#F6A385"],[0.617967922213294,"#F39476"],[0.643656619165457,"#F18E70"],[0.673391386575356,"#EE8669"],[0.72600157349332,"#E8775C"],[1,"#B40426"]],"type":"heatmap","showscale":false,"autocolorscale":false,"showlegend":false,"xaxis":"x","yaxis":"y2","hoverinfo":"text","frame":null},{"x":[1],"y":[1],"name":"99_6840b6943320da3d262ba2cde3de12d0","type":"scatter","mode":"markers","opacity":0,"hoverinfo":"skip","showlegend":false,"marker":{"color":[0,1],"colorscale":[[0,"#3B4CC0"],[0.00334448160535117,"#3C4EC2"],[0.00668896321070234,"#3D4FC3"],[0.0100334448160535,"#3E51C4"],[0.0133779264214047,"#3E52C6"],[0.0167224080267558,"#3F54C7"],[0.020066889632107,"#4055C8"],[0.0234113712374582,"#4257CA"],[0.0267558528428093,"#4358CB"],[0.0301003344481605,"#4459CC"],[0.0334448160535117,"#455BCD"],[0.0367892976588629,"#455DCE"],[0.040133779264214,"#465ECF"],[0.0434782608695652,"#485FD1"],[0.0468227424749164,"#4961D2"],[0.0501672240802676,"#4A63D4"],[0.0535117056856187,"#4B64D5"],[0.0568561872909699,"#4C65D5"],[0.0602006688963211,"#4D67D7"],[0.0635451505016723,"#4E68D8"],[0.0668896321070234,"#4F6AD9"],[0.0702341137123746,"#506BDA"],[0.0735785953177258,"#516DDB"],[0.0769230769230769,"#526EDC"],[0.0802675585284281,"#536FDD"],[0.0836120401337793,"#5471DE"],[0.0869565217391304,"#5572DF"],[0.0903010033444816,"#5674E0"],[0.0936454849498328,"#5875E2"],[0.0969899665551839,"#5976E3"],[0.100334448160535,"#5A78E4"],[0.103678929765886,"#5A79E4"],[0.107023411371237,"#5C7BE5"],[0.110367892976589,"#5D7CE6"],[0.11371237458194,"#5E7DE7"],[0.117056856187291,"#5F7FE8"],[0.120401337792642,"#6080E9"],[0.123745819397993,"#6282EA"],[0.127090301003345,"#6283EA"],[0.130434782608696,"#6484EB"],[0.133779264214047,"#6585EC"],[0.137123745819398,"#6687ED"],[0.140468227424749,"#6788EE"],[0.1438127090301,"#6889EF"],[0.147157190635452,"#698BF0"],[0.150501672240803,"#6A8CF0"],[0.153846153846154,"#6B8DF0"],[0.157190635451505,"#6C8FF1"],[0.160535117056856,"#6E90F2"],[0.163879598662207,"#6F92F3"],[0.167224080267559,"#7093F4"],[0.17056856187291,"#7194F4"],[0.173913043478261,"#7295F4"],[0.177257525083612,"#7396F5"],[0.180602006688963,"#7598F6"],[0.183946488294314,"#7699F6"],[0.187290969899666,"#779AF7"],[0.190635451505017,"#789BF8"],[0.193979933110368,"#799CF8"],[0.197324414715719,"#7A9EF8"],[0.20066889632107,"#7B9FF9"],[0.204013377926421,"#7DA0F9"],[0.207357859531773,"#7EA2FA"],[0.210702341137124,"#7FA3FA"],[0.214046822742475,"#81A4FB"],[0.217391304347826,"#81A5FB"],[0.220735785953177,"#83A6FB"],[0.224080267558528,"#84A7FC"],[0.22742474916388,"#85A8FC"],[0.230769230769231,"#86AAFC"],[0.234113712374582,"#87ABFD"],[0.237458193979933,"#89ACFD"],[0.240802675585284,"#8AACFD"],[0.244147157190635,"#8BAEFD"],[0.247491638795987,"#8CAFFE"],[0.250836120401338,"#8DB0FE"],[0.254180602006689,"#8FB1FE"],[0.25752508361204,"#90B2FE"],[0.260869565217391,"#91B3FE"],[0.264214046822742,"#92B4FE"],[0.267558528428094,"#93B5FF"],[0.270903010033445,"#94B6FF"],[0.274247491638796,"#96B7FF"],[0.277591973244147,"#97B8FF"],[0.280936454849498,"#98B9FF"],[0.284280936454849,"#99BAFF"],[0.287625418060201,"#9ABBFF"],[0.290969899665552,"#9BBCFF"],[0.294314381270903,"#9DBDFF"],[0.297658862876254,"#9EBEFF"],[0.301003344481605,"#9FBFFF"],[0.304347826086957,"#A0C0FF"],[0.307692307692308,"#A1C0FF"],[0.311036789297659,"#A2C1FF"],[0.31438127090301,"#A3C2FE"],[0.317725752508361,"#A5C3FE"],[0.321070234113712,"#A6C4FE"],[0.324414715719064,"#A7C5FE"],[0.327759197324415,"#A9C6FE"],[0.331103678929766,"#A9C6FE"],[0.334448160535117,"#ABC7FD"],[0.337792642140468,"#ACC8FD"],[0.341137123745819,"#ADC9FD"],[0.344481605351171,"#AEC9FC"],[0.347826086956522,"#AFCAFC"],[0.351170568561873,"#B1CBFC"],[0.354515050167224,"#B1CBFC"],[0.357859531772575,"#B2CCFB"],[0.361204013377926,"#B3CDFB"],[0.364548494983278,"#B5CEFA"],[0.367892976588629,"#B6CEFA"],[0.37123745819398,"#B7CFF9"],[0.374581939799331,"#B8D0F9"],[0.377926421404682,"#B9D0F9"],[0.381270903010033,"#BAD1F8"],[0.384615384615385,"#BBD1F8"],[0.387959866220736,"#BCD2F7"],[0.391304347826087,"#BED3F6"],[0.394648829431438,"#BFD3F6"],[0.397993311036789,"#BFD3F6"],[0.40133779264214,"#C0D4F5"],[0.404682274247492,"#C1D4F4"],[0.408026755852843,"#C3D5F4"],[0.411371237458194,"#C4D6F3"],[0.414715719063545,"#C5D6F2"],[0.418060200668896,"#C6D7F1"],[0.421404682274247,"#C7D7F1"],[0.424749163879599,"#C8D7F1"],[0.42809364548495,"#C9D8F0"],[0.431438127090301,"#CAD8EF"],[0.434782608695652,"#CBD8EE"],[0.438127090301003,"#CCD9ED"],[0.441471571906354,"#CDD9EC"],[0.444816053511706,"#CDD9EC"],[0.448160535117057,"#CFDAEB"],[0.451505016722408,"#D0DAEA"],[0.454849498327759,"#D1DAE9"],[0.45819397993311,"#D2DBE8"],[0.461538461538462,"#D3DBE7"],[0.464882943143813,"#D4DBE6"],[0.468227424749164,"#D4DBE6"],[0.471571906354515,"#D5DBE5"],[0.474916387959866,"#D6DCE4"],[0.478260869565217,"#D7DCE3"],[0.481605351170569,"#D8DCE2"],[0.48494983277592,"#D9DCE1"],[0.488294314381271,"#DADCE0"],[0.491638795986622,"#DADCDF"],[0.494983277591973,"#DBDDDE"],[0.498327759197324,"#DCDDDD"],[0.501672240802676,"#DDDCDC"],[0.505016722408027,"#DEDCDB"],[0.508361204013378,"#DFDBDA"],[0.511705685618729,"#DFDBD9"],[0.51505016722408,"#E1DBD7"],[0.518394648829431,"#E2DAD6"],[0.521739130434783,"#E3DAD5"],[0.525083612040134,"#E4D9D3"],[0.528428093645485,"#E4D9D2"],[0.531772575250836,"#E5D8D1"],[0.535117056856187,"#E5D8D0"],[0.538461538461538,"#E6D8CF"],[0.54180602006689,"#E7D7CE"],[0.545150501672241,"#E8D6CC"],[0.548494983277592,"#E9D6CB"],[0.551839464882943,"#EAD5CA"],[0.555183946488294,"#EBD4C8"],[0.558528428093645,"#EBD4C7"],[0.561872909698997,"#EBD3C6"],[0.565217391304348,"#ECD3C5"],[0.568561872909699,"#EDD2C3"],[0.57190635451505,"#EED1C2"],[0.575250836120401,"#EED0C1"],[0.578595317725752,"#EFCFBF"],[0.581939799331104,"#EFCFBE"],[0.585284280936455,"#EFCEBD"],[0.588628762541806,"#F0CEBC"],[0.591973244147157,"#F1CDBA"],[0.595317725752508,"#F1CCB8"],[0.598662207357859,"#F2CBB7"],[0.602006688963211,"#F2CAB6"],[0.605351170568562,"#F2CAB5"],[0.608695652173913,"#F3C9B4"],[0.612040133779264,"#F3C8B2"],[0.615384615384615,"#F4C7B1"],[0.618729096989967,"#F4C6AF"],[0.622073578595318,"#F4C5AE"],[0.625418060200669,"#F4C5AD"],[0.62876254180602,"#F5C4AB"],[0.632107023411371,"#F5C3AA"],[0.635451505016722,"#F5C1A9"],[0.638795986622074,"#F6C0A7"],[0.642140468227425,"#F6BFA6"],[0.645484949832776,"#F6BEA5"],[0.648829431438127,"#F6BEA3"],[0.652173913043478,"#F6BDA2"],[0.655518394648829,"#F7BCA1"],[0.658862876254181,"#F7BA9F"],[0.662207357859532,"#F7B99E"],[0.665551839464883,"#F7B89D"],[0.668896321070234,"#F7B79B"],[0.672240802675585,"#F7B69A"],[0.675585284280936,"#F7B598"],[0.678929765886288,"#F7B497"],[0.682274247491639,"#F7B396"],[0.68561872909699,"#F7B194"],[0.688963210702341,"#F7B093"],[0.692307692307692,"#F7AF92"],[0.695652173913043,"#F7AE91"],[0.698996655518395,"#F7AD90"],[0.702341137123746,"#F7AC8E"],[0.705685618729097,"#F7AB8C"],[0.709030100334448,"#F7A98B"],[0.712374581939799,"#F7A88A"],[0.71571906354515,"#F7A788"],[0.719063545150502,"#F7A687"],[0.722408026755853,"#F6A586"],[0.725752508361204,"#F6A385"],[0.729096989966555,"#F6A283"],[0.732441471571906,"#F6A081"],[0.735785953177257,"#F59F80"],[0.739130434782609,"#F59E7F"],[0.74247491638796,"#F59D7E"],[0.745819397993311,"#F59C7D"],[0.749163879598662,"#F49A7B"],[0.752508361204013,"#F4997A"],[0.755852842809364,"#F49879"],[0.759197324414716,"#F39677"],[0.762541806020067,"#F39576"],[0.765886287625418,"#F39375"],[0.769230769230769,"#F29274"],[0.77257525083612,"#F29072"],[0.775919732441472,"#F18F71"],[0.779264214046823,"#F18E70"],[0.782608695652174,"#F08C6E"],[0.785953177257525,"#F08B6D"],[0.789297658862876,"#F0896C"],[0.792642140468227,"#EF886B"],[0.795986622073579,"#EE8669"],[0.79933110367893,"#EE8568"],[0.802675585284281,"#ED8467"],[0.806020066889632,"#EC8265"],[0.809364548494983,"#EC8064"],[0.812709030100334,"#EC7F63"],[0.816053511705686,"#EB7D62"],[0.819397993311037,"#EA7C60"],[0.822742474916388,"#EA7A5F"],[0.826086956521739,"#E9795E"],[0.82943143812709,"#E8775C"],[0.832775919732441,"#E8755C"],[0.836120401337793,"#E7745B"],[0.839464882943144,"#E67259"],[0.842809364548495,"#E57058"],[0.846153846153846,"#E56F56"],[0.849498327759197,"#E46E55"],[0.852842809364548,"#E46C55"],[0.8561872909699,"#E36A53"],[0.859531772575251,"#E26952"],[0.862876254180602,"#E16751"],[0.866220735785953,"#E0654F"],[0.869565217391304,"#DF644E"],[0.872909698996655,"#DE624D"],[0.876254180602007,"#DE604C"],[0.879598662207358,"#DD5E4B"],[0.882943143812709,"#DC5D4A"],[0.88628762541806,"#DB5B49"],[0.889632107023411,"#DA5947"],[0.892976588628763,"#D95746"],[0.896321070234114,"#D75545"],[0.899665551839465,"#D75345"],[0.903010033444816,"#D65143"],[0.906354515050167,"#D55042"],[0.909698996655518,"#D44E41"],[0.91304347826087,"#D34C40"],[0.916387959866221,"#D24A3F"],[0.919732441471572,"#D0483D"],[0.923076923076923,"#D0463D"],[0.926421404682274,"#CF453C"],[0.929765886287625,"#CE433B"],[0.933110367892977,"#CC4039"],[0.936454849498328,"#CB3E38"],[0.939799331103679,"#CA3C37"],[0.94314381270903,"#C93A36"],[0.946488294314381,"#C83836"],[0.949832775919732,"#C73635"],[0.953177257525084,"#C63434"],[0.956521739130435,"#C43132"],[0.959866220735786,"#C32F31"],[0.963210702341137,"#C22C30"],[0.966555183946488,"#C12A30"],[0.969899665551839,"#C0272F"],[0.973244147157191,"#BF242E"],[0.976588628762542,"#BD222D"],[0.979933110367893,"#BC1E2C"],[0.983277591973244,"#BB1B2B"],[0.986622073578595,"#B9182A"],[0.989966555183946,"#B81429"],[0.993311036789298,"#B70F28"],[0.996655518394649,"#B60A27"],[1,"#B40426"]],"colorbar":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"thickness":23.04,"title":null,"titlefont":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"tickmode":"array","ticktext":["-1.0","-0.5","0.0","0.5","1.0"],"tickvals":[0,0.25,0.5,0.75,1],"tickfont":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"ticklen":2,"len":0.5}},"xaxis":"x","yaxis":"y2","frame":null},{"x":[2.12142619988774,2.12142619988774,null,2.12142619988774,1.47311476451097,null,1.47311476451097,1.47311476451097,null,1.47311476451097,0,null,1.47311476451097,1.47311476451097,null,1.47311476451097,0],"y":[6.15625,8.5,null,8.5,8.5,null,8.5,8,null,8,8,null,8.5,9,null,9,9],"text":["y: 2.1214262","y: 2.1214262",null,"y: 2.1214262","y: 2.1214262",null,"y: 1.4731148","y: 1.4731148",null,"y: 1.4731148","y: 1.4731148",null,"y: 1.4731148","y: 1.4731148",null,"y: 1.4731148","y: 1.4731148"],"type":"scatter","mode":"lines","line":{"width":2.26771653543307,"color":"rgba(57,190,177,1)","dash":"solid"},"hoveron":"points","name":"(#39BEB1,solid)","legendgroup":"(#39BEB1,solid)","showlegend":true,"xaxis":"x2","yaxis":"y2","hoverinfo":"text","frame":null},{"x":[2.12142619988774,2.12142619988774,null,2.12142619988774,1.41558628719564,null,1.41558628719564,1.41558628719564,null,1.41558628719564,1.28571938579411,null,1.28571938579411,1.28571938579411,null,1.28571938579411,0,null,1.28571938579411,1.28571938579411,null,1.28571938579411,0.838447626408703,null,0.838447626408703,0.838447626408703,null,0.838447626408703,0,null,0.838447626408703,0.838447626408703,null,0.838447626408703,0,null,1.41558628719564,1.41558628719564,null,1.41558628719564,1.22298197031256,null,1.22298197031256,1.22298197031256,null,1.22298197031256,1.06328810824132,null,1.06328810824132,1.06328810824132,null,1.06328810824132,0,null,1.06328810824132,1.06328810824132,null,1.06328810824132,0.666114449175746,null,0.666114449175746,0.666114449175746,null,0.666114449175746,0,null,0.666114449175746,0.666114449175746,null,0.666114449175746,0,null,1.22298197031256,1.22298197031256,null,1.22298197031256,0],"y":[6.15625,3.8125,null,3.8125,3.8125,null,3.8125,1.75,null,1.75,1.75,null,1.75,1,null,1,1,null,1.75,2.5,null,2.5,2.5,null,2.5,2,null,2,2,null,2.5,3,null,3,3,null,3.8125,5.875,null,5.875,5.875,null,5.875,4.75,null,4.75,4.75,null,4.75,4,null,4,4,null,4.75,5.5,null,5.5,5.5,null,5.5,5,null,5,5,null,5.5,6,null,6,6,null,5.875,7,null,7,7],"text":["y: 2.1214262","y: 2.1214262",null,"y: 2.1214262","y: 2.1214262",null,"y: 1.4155863","y: 1.4155863",null,"y: 1.4155863","y: 1.4155863",null,"y: 1.2857194","y: 1.2857194",null,"y: 1.2857194","y: 1.2857194",null,"y: 1.2857194","y: 1.2857194",null,"y: 1.2857194","y: 1.2857194",null,"y: 0.8384476","y: 0.8384476",null,"y: 0.8384476","y: 0.8384476",null,"y: 0.8384476","y: 0.8384476",null,"y: 0.8384476","y: 0.8384476",null,"y: 1.4155863","y: 1.4155863",null,"y: 1.4155863","y: 1.4155863",null,"y: 1.2229820","y: 1.2229820",null,"y: 1.2229820","y: 1.2229820",null,"y: 1.0632881","y: 1.0632881",null,"y: 1.0632881","y: 1.0632881",null,"y: 1.0632881","y: 1.0632881",null,"y: 1.0632881","y: 1.0632881",null,"y: 0.6661144","y: 0.6661144",null,"y: 0.6661144","y: 0.6661144",null,"y: 0.6661144","y: 0.6661144",null,"y: 0.6661144","y: 0.6661144",null,"y: 1.2229820","y: 1.2229820",null,"y: 1.2229820","y: 1.2229820"],"type":"scatter","mode":"lines","line":{"width":2.26771653543307,"color":"rgba(228,149,165,1)","dash":"solid"},"hoveron":"points","name":"(#E495A5,solid)","legendgroup":"(#E495A5,solid)","showlegend":true,"xaxis":"x2","yaxis":"y2","hoverinfo":"text","frame":null},{"x":[2.12142619988774,1.41558628719564,1.28571938579411,0,0.838447626408703,0,0,1.22298197031256,1.06328810824132,0,0.666114449175746,0,0,0,1.47311476451097,0,0],"y":[6.15625,3.8125,1.75,1,2.5,2,3,5.875,4.75,4,5.5,5,6,7,8.5,8,9],"text":["y: 2.1214262","y: 1.4155863","y: 1.2857194","y: 0.0000000","y: 0.8384476","y: 0.0000000","y: 0.0000000","y: 1.2229820","y: 1.0632881","y: 0.0000000","y: 0.6661144","y: 0.0000000","y: 0.0000000","y: 0.0000000","y: 1.4731148","y: 0.0000000","y: 0.0000000"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"transparent","opacity":1,"size":null,"symbol":null,"line":{"width":1.88976377952756,"color":"transparent"}},"hoveron":"points","name":"(NA,1)","legendgroup":"(NA,1)","showlegend":true,"xaxis":"x2","yaxis":"y2","hoverinfo":"text","frame":null}],"layout":{"xaxis":{"domain":[0,0.8],"automargin":true,"type":"linear","autorange":false,"range":[0.5,9.5],"tickmode":"array","ticktext":["needforcog","mag","grad","know","books","coll","high","subject","ih"],"tickvals":[1,2,3,4,5,6,7,8,9],"categoryorder":"array","categoryarray":["needforcog","mag","grad","know","books","coll","high","subject","ih"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":13.2835201328352},"tickangle":-45,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y2","title":"","hoverformat":".2f"},"xaxis2":{"domain":[0.8,1],"automargin":true,"showticklabels":false,"showgrid":false,"zeroline":false,"anchor":"y2","type":"linear","autorange":false,"range":[0,2.12142619988774],"tickmode":"array","ticktext":["0.0","0.5","1.0","1.5","2.0"],"tickvals":[0,0.5,1,1.5,2],"categoryorder":"array","categoryarray":["0.0","0.5","1.0","1.5","2.0"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"tickfont":{"color":null,"family":null,"size":0},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"gridcolor":null,"gridwidth":0,"title":{"text":"","font":{"color":null,"family":null,"size":0}},"hoverformat":".2f"},"yaxis2":{"domain":[0,0.8],"automargin":true,"type":"linear","autorange":false,"range":[0.5,9.5],"tickmode":"array","ticktext":["needforcog","mag","grad","know","books","coll","high","subject","ih"],"tickvals":[1,2,3,4,5,6,7,8,9],"categoryorder":"array","categoryarray":["needforcog","mag","grad","know","books","coll","high","subject","ih"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":13.2835201328352},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":"","hoverformat":".2f"},"yaxis":{"domain":[0.8,1],"automargin":true,"showticklabels":false,"showgrid":false,"zeroline":false,"anchor":"x","type":"linear","autorange":false,"range":[0,2.12142619988774],"tickmode":"array","ticktext":["0.0","0.5","1.0","1.5","2.0"],"tickvals":[0,0.5,1,1.5,2],"categoryorder":"array","categoryarray":["0.0","0.5","1.0","1.5","2.0"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"tickfont":{"color":null,"family":null,"size":0},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"gridcolor":null,"gridwidth":0,"title":{"text":"","font":{"color":null,"family":null,"size":0}},"hoverformat":".2f"},"annotations":[],"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":0.8,"y0":0.8,"y1":1},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":0.8,"y0":0,"y1":0.8},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.8,"x1":1,"y0":0,"y1":0.8}],"images":[],"margin":{"t":0,"r":null,"b":79.7011207970112,"l":79.7011207970112},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"y":1,"yanchor":"top"},"hovermode":"closest","barmode":"relative","paper_bgcolor":"rgba(255,255,255,1)","title":""},"attrs":{"2f7d3c3d5257":{"xend":{},"yend":{},"colour":{},"linetype":{},"size":{},"x":{},"y":{},"type":"scatter"},"2f7d5de8eca6":{"colour":{},"shape":{},"size":{},"x":{},"y":{}},"2f7d6d02ae84":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20]},"2f7d78f69cde":{"x":{},"y":{},"fill":{},"text":{},"type":"heatmap"},"2f7d5440fbb9":{"xend":{},"yend":{},"colour":{},"linetype":{},"size":{},"x":{},"y":{},"type":"scatter"},"2f7d764e59e5":{"colour":{},"shape":{},"size":{},"x":{},"y":{}}},"source":"A","config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false,"displaylogo":false,"modeBarButtonsToRemove":["sendDataToCloud","select2d","lasso2d","autoScale2d","hoverClosestCartesian","hoverCompareCartesian","sendDataToCloud"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"subplot":true,"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>expert_sublev_scho<span class="ot">&lt;-</span>expertise<span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(study<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> item<span class="sc">==</span><span class="st">'SCHOOL'</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(subject,ih, high, coll, grad, books, mag, know, needforcog)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> expert_sublev_scho</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmaply_cor</span>(<span class="at">x =</span> <span class="fu">cor</span>(df),</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">k_col =</span> <span class="dv">2</span>,</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">k_row =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-12eeab100fac95c5e456" style="width:100%;height:464px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-12eeab100fac95c5e456">{"x":{"data":[{"x":[5.28125,8.125,null,8.125,8.125,null,8.125,7.25,null,7.25,7.25,null,7.25,6.5,null,6.5,6.5,null,6.5,6,null,6,6,null,6.5,7,null,7,7,null,7.25,8,null,8,8,null,8.125,9,null,9,9],"y":[1.76780647995723,1.76780647995723,null,1.76780647995723,1.58132747403021,null,1.58132747403021,1.58132747403021,null,1.58132747403021,1.45843981667919,null,1.45843981667919,1.45843981667919,null,1.45843981667919,0.742811161150506,null,0.742811161150506,0.742811161150506,null,0.742811161150506,0,null,0.742811161150506,0.742811161150506,null,0.742811161150506,0,null,1.45843981667919,1.45843981667919,null,1.45843981667919,0,null,1.58132747403021,1.58132747403021,null,1.58132747403021,0],"text":["y: 1.7678065","y: 1.7678065",null,"y: 1.7678065","y: 1.7678065",null,"y: 1.5813275","y: 1.5813275",null,"y: 1.5813275","y: 1.5813275",null,"y: 1.4584398","y: 1.4584398",null,"y: 1.4584398","y: 1.4584398",null,"y: 0.7428112","y: 0.7428112",null,"y: 0.7428112","y: 0.7428112",null,"y: 0.7428112","y: 0.7428112",null,"y: 0.7428112","y: 0.7428112",null,"y: 1.4584398","y: 1.4584398",null,"y: 1.4584398","y: 1.4584398",null,"y: 1.5813275","y: 1.5813275",null,"y: 1.5813275","y: 1.5813275"],"type":"scatter","mode":"lines","line":{"width":2.26771653543307,"color":"rgba(57,190,177,1)","dash":"solid"},"hoveron":"points","name":"(#39BEB1,solid)","legendgroup":"(#39BEB1,solid)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[5.28125,2.4375,null,2.4375,2.4375,null,2.4375,1,null,1,1,null,2.4375,3.875,null,3.875,3.875,null,3.875,2.75,null,2.75,2.75,null,2.75,2,null,2,2,null,2.75,3.5,null,3.5,3.5,null,3.5,3,null,3,3,null,3.5,4,null,4,4,null,3.875,5,null,5,5],"y":[1.76780647995723,1.76780647995723,null,1.76780647995723,1.36019227347749,null,1.36019227347749,1.36019227347749,null,1.36019227347749,0,null,1.36019227347749,1.36019227347749,null,1.36019227347749,1.2816302027782,null,1.2816302027782,1.2816302027782,null,1.2816302027782,1.18406682755604,null,1.18406682755604,1.18406682755604,null,1.18406682755604,0,null,1.18406682755604,1.18406682755604,null,1.18406682755604,0.666676693090349,null,0.666676693090349,0.666676693090349,null,0.666676693090349,0,null,0.666676693090349,0.666676693090349,null,0.666676693090349,0,null,1.2816302027782,1.2816302027782,null,1.2816302027782,0],"text":["y: 1.7678065","y: 1.7678065",null,"y: 1.7678065","y: 1.7678065",null,"y: 1.3601923","y: 1.3601923",null,"y: 1.3601923","y: 1.3601923",null,"y: 1.3601923","y: 1.3601923",null,"y: 1.3601923","y: 1.3601923",null,"y: 1.2816302","y: 1.2816302",null,"y: 1.2816302","y: 1.2816302",null,"y: 1.1840668","y: 1.1840668",null,"y: 1.1840668","y: 1.1840668",null,"y: 1.1840668","y: 1.1840668",null,"y: 1.1840668","y: 1.1840668",null,"y: 0.6666767","y: 0.6666767",null,"y: 0.6666767","y: 0.6666767",null,"y: 0.6666767","y: 0.6666767",null,"y: 0.6666767","y: 0.6666767",null,"y: 1.2816302","y: 1.2816302",null,"y: 1.2816302","y: 1.2816302"],"type":"scatter","mode":"lines","line":{"width":2.26771653543307,"color":"rgba(228,149,165,1)","dash":"solid"},"hoveron":"points","name":"(#E495A5,solid)","legendgroup":"(#E495A5,solid)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[5.28125,2.4375,1,3.875,2.75,2,3.5,3,4,5,8.125,7.25,6.5,6,7,8,9],"y":[1.76780647995723,1.36019227347749,0,1.2816302027782,1.18406682755604,0,0.666676693090349,0,0,0,1.58132747403021,1.45843981667919,0.742811161150506,0,0,0,0],"text":["y: 1.7678065","y: 1.3601923","y: 0.0000000","y: 1.2816302","y: 1.1840668","y: 0.0000000","y: 0.6666767","y: 0.0000000","y: 0.0000000","y: 0.0000000","y: 1.5813275","y: 1.4584398","y: 0.7428112","y: 0.0000000","y: 0.0000000","y: 0.0000000","y: 0.0000000"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"transparent","opacity":1,"size":null,"symbol":null,"line":{"width":1.88976377952756,"color":"transparent"}},"hoveron":"points","name":"(NA,1)","legendgroup":"(NA,1)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"type":"scatter","mode":"markers","marker":{"color":"rgba(214,39,40,1)","line":{"color":"rgba(214,39,40,1)"}},"error_y":{"color":"rgba(214,39,40,1)"},"error_x":{"color":"rgba(214,39,40,1)"},"line":{"color":"rgba(214,39,40,1)"},"xaxis":"x2","yaxis":"y","frame":null},{"x":[1,2,3,4,5,6,7,8,9],"y":[1,2,3,4,5,6,7,8,9],"z":[[1,0.184428468362203,0.228207750059024,0.290054507544772,0.245283538715237,0.187881444696512,0.0760070477116733,0,0.0924405393420417],[0.184428468362203,1,0.309139228723259,0.438455003080191,0.254039846068048,0.17849748580211,0.106927401470649,0.0467332564431446,0.0153911017798656],[0.228207750059024,0.309139228723259,1,0.674435012393028,0.289867779059079,0.139511049837915,0.111706619424875,0.0717052837200335,0.21525485036685],[0.290054507544772,0.438455003080191,0.674435012393028,1,0.423372642665479,0.392411570647056,0.250747539220461,0.088745782444844,0.188903177696919],[0.245283538715237,0.254039846068048,0.289867779059079,0.423372642665479,1,0.376022895734023,0.213631749725495,0.201983893944088,0.227463241540591],[0.187881444696512,0.17849748580211,0.139511049837915,0.392411570647056,0.376022895734023,1,0.59760447385118,0.215119595616772,0.23160337533425],[0.0760070477116733,0.106927401470649,0.111706619424875,0.250747539220461,0.213631749725495,0.59760447385118,1,0.178304737631744,0.0723057450292308],[0,0.0467332564431446,0.0717052837200335,0.088745782444844,0.201983893944088,0.215119595616772,0.178304737631744,1,0.114111044731454],[0.0924405393420417,0.0153911017798656,0.21525485036685,0.188903177696919,0.227463241540591,0.23160337533425,0.0723057450292308,0.114111044731454,1]],"text":[["row: needforcog<br>column: needforcog<br>value:  1.000000","row: needforcog<br>column: mag<br>value:  0.060074","row: needforcog<br>column: grad<br>value:  0.110529","row: needforcog<br>column: books<br>value:  0.181806","row: needforcog<br>column: know<br>value:  0.130208","row: needforcog<br>column: coll<br>value:  0.064054","row: needforcog<br>column: high<br>value: -0.064879","row: needforcog<br>column: ih<br>value: -0.152475","row: needforcog<br>column: subject<br>value: -0.045939"],["row: mag<br>column: needforcog<br>value:  0.060074","row: mag<br>column: mag<br>value:  1.000000","row: mag<br>column: grad<br>value:  0.203800","row: mag<br>column: books<br>value:  0.352833","row: mag<br>column: know<br>value:  0.140300","row: mag<br>column: coll<br>value:  0.053239","row: mag<br>column: high<br>value: -0.029244","row: mag<br>column: ih<br>value: -0.098616","row: mag<br>column: subject<br>value: -0.134737"],["row: grad<br>column: needforcog<br>value:  0.110529","row: grad<br>column: mag<br>value:  0.203800","row: grad<br>column: grad<br>value:  1.000000","row: grad<br>column: books<br>value:  0.624795","row: grad<br>column: know<br>value:  0.181590","row: grad<br>column: coll<br>value:  0.008308","row: grad<br>column: high<br>value: -0.023736","row: grad<br>column: ih<br>value: -0.069836","row: grad<br>column: subject<br>value:  0.095601"],["row: books<br>column: needforcog<br>value:  0.181806","row: books<br>column: mag<br>value:  0.352833","row: books<br>column: grad<br>value:  0.624795","row: books<br>column: books<br>value:  1.000000","row: books<br>column: know<br>value:  0.335451","row: books<br>column: coll<br>value:  0.299770","row: books<br>column: high<br>value:  0.136505","row: books<br>column: ih<br>value: -0.050198","row: books<br>column: subject<br>value:  0.065231"],["row: know<br>column: needforcog<br>value:  0.130208","row: know<br>column: mag<br>value:  0.140300","row: know<br>column: grad<br>value:  0.181590","row: know<br>column: books<br>value:  0.335451","row: know<br>column: know<br>value:  1.000000","row: know<br>column: coll<br>value:  0.280882","row: know<br>column: high<br>value:  0.093730","row: know<br>column: ih<br>value:  0.080306","row: know<br>column: subject<br>value:  0.109671"],["row: coll<br>column: needforcog<br>value:  0.064054","row: coll<br>column: mag<br>value:  0.053239","row: coll<br>column: grad<br>value:  0.008308","row: coll<br>column: books<br>value:  0.299770","row: coll<br>column: know<br>value:  0.280882","row: coll<br>column: coll<br>value:  1.000000","row: coll<br>column: high<br>value:  0.536249","row: coll<br>column: ih<br>value:  0.095445","row: coll<br>column: subject<br>value:  0.114442"],["row: high<br>column: needforcog<br>value: -0.064879","row: high<br>column: mag<br>value: -0.029244","row: high<br>column: grad<br>value: -0.023736","row: high<br>column: books<br>value:  0.136505","row: high<br>column: know<br>value:  0.093730","row: high<br>column: coll<br>value:  0.536249","row: high<br>column: high<br>value:  1.000000","row: high<br>column: ih<br>value:  0.053017","row: high<br>column: subject<br>value: -0.069144"],["row: ih<br>column: needforcog<br>value: -0.152475","row: ih<br>column: mag<br>value: -0.098616","row: ih<br>column: grad<br>value: -0.069836","row: ih<br>column: books<br>value: -0.050198","row: ih<br>column: know<br>value:  0.080306","row: ih<br>column: coll<br>value:  0.095445","row: ih<br>column: high<br>value:  0.053017","row: ih<br>column: ih<br>value:  1.000000","row: ih<br>column: subject<br>value: -0.020965"],["row: subject<br>column: needforcog<br>value: -0.045939","row: subject<br>column: mag<br>value: -0.134737","row: subject<br>column: grad<br>value:  0.095601","row: subject<br>column: books<br>value:  0.065231","row: subject<br>column: know<br>value:  0.109671","row: subject<br>column: coll<br>value:  0.114442","row: subject<br>column: high<br>value: -0.069144","row: subject<br>column: ih<br>value: -0.020965","row: subject<br>column: subject<br>value:  1.000000"]],"colorscale":[[0,"#C8D7F1"],[0.0153911017798656,"#CAD8EF"],[0.0467332564431446,"#D0DAEA"],[0.0717052837200335,"#D4DBE6"],[0.0723057450292308,"#D4DBE6"],[0.0760070477116733,"#D4DBE6"],[0.088745782444844,"#D6DCE4"],[0.0924405393420417,"#D7DCE3"],[0.106927401470649,"#D9DCE1"],[0.111706619424875,"#D9DCE1"],[0.114111044731454,"#DADCE0"],[0.139511049837915,"#DEDCDB"],[0.178304737631744,"#E4D9D3"],[0.17849748580211,"#E4D9D3"],[0.184428468362203,"#E4D9D2"],[0.187881444696512,"#E5D8D1"],[0.188903177696919,"#E5D8D1"],[0.201983893944088,"#E7D7CE"],[0.213631749725495,"#E8D6CC"],[0.215119595616772,"#E9D6CB"],[0.21525485036685,"#E9D6CB"],[0.227463241540591,"#EAD5C9"],[0.228207750059024,"#EBD4C8"],[0.23160337533425,"#EBD4C8"],[0.245283538715237,"#ECD3C5"],[0.250747539220461,"#EDD2C3"],[0.254039846068048,"#EDD2C3"],[0.289867779059079,"#F1CDBB"],[0.290054507544772,"#F1CDBB"],[0.309139228723259,"#F2CBB6"],[0.376022895734023,"#F6C0A7"],[0.392411570647056,"#F6BDA3"],[0.423372642665479,"#F7B89C"],[0.438455003080191,"#F7B598"],[0.59760447385118,"#F29274"],[0.674435012393028,"#EC7F63"],[1,"#B40426"]],"type":"heatmap","showscale":false,"autocolorscale":false,"showlegend":false,"xaxis":"x","yaxis":"y2","hoverinfo":"text","frame":null},{"x":[1],"y":[1],"name":"99_6840b6943320da3d262ba2cde3de12d0","type":"scatter","mode":"markers","opacity":0,"hoverinfo":"skip","showlegend":false,"marker":{"color":[0,1],"colorscale":[[0,"#3B4CC0"],[0.00334448160535117,"#3C4EC2"],[0.00668896321070234,"#3D4FC3"],[0.0100334448160535,"#3E51C4"],[0.0133779264214047,"#3E52C6"],[0.0167224080267558,"#3F54C7"],[0.020066889632107,"#4055C8"],[0.0234113712374582,"#4257CA"],[0.0267558528428093,"#4358CB"],[0.0301003344481605,"#4459CC"],[0.0334448160535117,"#455BCD"],[0.0367892976588629,"#455DCE"],[0.040133779264214,"#465ECF"],[0.0434782608695652,"#485FD1"],[0.0468227424749164,"#4961D2"],[0.0501672240802676,"#4A63D4"],[0.0535117056856187,"#4B64D5"],[0.0568561872909699,"#4C65D5"],[0.0602006688963211,"#4D67D7"],[0.0635451505016723,"#4E68D8"],[0.0668896321070234,"#4F6AD9"],[0.0702341137123746,"#506BDA"],[0.0735785953177258,"#516DDB"],[0.0769230769230769,"#526EDC"],[0.0802675585284281,"#536FDD"],[0.0836120401337793,"#5471DE"],[0.0869565217391304,"#5572DF"],[0.0903010033444816,"#5674E0"],[0.0936454849498328,"#5875E2"],[0.0969899665551839,"#5976E3"],[0.100334448160535,"#5A78E4"],[0.103678929765886,"#5A79E4"],[0.107023411371237,"#5C7BE5"],[0.110367892976589,"#5D7CE6"],[0.11371237458194,"#5E7DE7"],[0.117056856187291,"#5F7FE8"],[0.120401337792642,"#6080E9"],[0.123745819397993,"#6282EA"],[0.127090301003345,"#6283EA"],[0.130434782608696,"#6484EB"],[0.133779264214047,"#6585EC"],[0.137123745819398,"#6687ED"],[0.140468227424749,"#6788EE"],[0.1438127090301,"#6889EF"],[0.147157190635452,"#698BF0"],[0.150501672240803,"#6A8CF0"],[0.153846153846154,"#6B8DF0"],[0.157190635451505,"#6C8FF1"],[0.160535117056856,"#6E90F2"],[0.163879598662207,"#6F92F3"],[0.167224080267559,"#7093F4"],[0.17056856187291,"#7194F4"],[0.173913043478261,"#7295F4"],[0.177257525083612,"#7396F5"],[0.180602006688963,"#7598F6"],[0.183946488294314,"#7699F6"],[0.187290969899666,"#779AF7"],[0.190635451505017,"#789BF8"],[0.193979933110368,"#799CF8"],[0.197324414715719,"#7A9EF8"],[0.20066889632107,"#7B9FF9"],[0.204013377926421,"#7DA0F9"],[0.207357859531773,"#7EA2FA"],[0.210702341137124,"#7FA3FA"],[0.214046822742475,"#81A4FB"],[0.217391304347826,"#81A5FB"],[0.220735785953177,"#83A6FB"],[0.224080267558528,"#84A7FC"],[0.22742474916388,"#85A8FC"],[0.230769230769231,"#86AAFC"],[0.234113712374582,"#87ABFD"],[0.237458193979933,"#89ACFD"],[0.240802675585284,"#8AACFD"],[0.244147157190635,"#8BAEFD"],[0.247491638795987,"#8CAFFE"],[0.250836120401338,"#8DB0FE"],[0.254180602006689,"#8FB1FE"],[0.25752508361204,"#90B2FE"],[0.260869565217391,"#91B3FE"],[0.264214046822742,"#92B4FE"],[0.267558528428094,"#93B5FF"],[0.270903010033445,"#94B6FF"],[0.274247491638796,"#96B7FF"],[0.277591973244147,"#97B8FF"],[0.280936454849498,"#98B9FF"],[0.284280936454849,"#99BAFF"],[0.287625418060201,"#9ABBFF"],[0.290969899665552,"#9BBCFF"],[0.294314381270903,"#9DBDFF"],[0.297658862876254,"#9EBEFF"],[0.301003344481605,"#9FBFFF"],[0.304347826086957,"#A0C0FF"],[0.307692307692308,"#A1C0FF"],[0.311036789297659,"#A2C1FF"],[0.31438127090301,"#A3C2FE"],[0.317725752508361,"#A5C3FE"],[0.321070234113712,"#A6C4FE"],[0.324414715719064,"#A7C5FE"],[0.327759197324415,"#A9C6FE"],[0.331103678929766,"#A9C6FE"],[0.334448160535117,"#ABC7FD"],[0.337792642140468,"#ACC8FD"],[0.341137123745819,"#ADC9FD"],[0.344481605351171,"#AEC9FC"],[0.347826086956522,"#AFCAFC"],[0.351170568561873,"#B1CBFC"],[0.354515050167224,"#B1CBFC"],[0.357859531772575,"#B2CCFB"],[0.361204013377926,"#B3CDFB"],[0.364548494983278,"#B5CEFA"],[0.367892976588629,"#B6CEFA"],[0.37123745819398,"#B7CFF9"],[0.374581939799331,"#B8D0F9"],[0.377926421404682,"#B9D0F9"],[0.381270903010033,"#BAD1F8"],[0.384615384615385,"#BBD1F8"],[0.387959866220736,"#BCD2F7"],[0.391304347826087,"#BED3F6"],[0.394648829431438,"#BFD3F6"],[0.397993311036789,"#BFD3F6"],[0.40133779264214,"#C0D4F5"],[0.404682274247492,"#C1D4F4"],[0.408026755852843,"#C3D5F4"],[0.411371237458194,"#C4D6F3"],[0.414715719063545,"#C5D6F2"],[0.418060200668896,"#C6D7F1"],[0.421404682274247,"#C7D7F1"],[0.424749163879599,"#C8D7F1"],[0.42809364548495,"#C9D8F0"],[0.431438127090301,"#CAD8EF"],[0.434782608695652,"#CBD8EE"],[0.438127090301003,"#CCD9ED"],[0.441471571906354,"#CDD9EC"],[0.444816053511706,"#CDD9EC"],[0.448160535117057,"#CFDAEB"],[0.451505016722408,"#D0DAEA"],[0.454849498327759,"#D1DAE9"],[0.45819397993311,"#D2DBE8"],[0.461538461538462,"#D3DBE7"],[0.464882943143813,"#D4DBE6"],[0.468227424749164,"#D4DBE6"],[0.471571906354515,"#D5DBE5"],[0.474916387959866,"#D6DCE4"],[0.478260869565217,"#D7DCE3"],[0.481605351170569,"#D8DCE2"],[0.48494983277592,"#D9DCE1"],[0.488294314381271,"#DADCE0"],[0.491638795986622,"#DADCDF"],[0.494983277591973,"#DBDDDE"],[0.498327759197324,"#DCDDDD"],[0.501672240802676,"#DDDCDC"],[0.505016722408027,"#DEDCDB"],[0.508361204013378,"#DFDBDA"],[0.511705685618729,"#DFDBD9"],[0.51505016722408,"#E1DBD7"],[0.518394648829431,"#E2DAD6"],[0.521739130434783,"#E3DAD5"],[0.525083612040134,"#E4D9D3"],[0.528428093645485,"#E4D9D2"],[0.531772575250836,"#E5D8D1"],[0.535117056856187,"#E5D8D0"],[0.538461538461538,"#E6D8CF"],[0.54180602006689,"#E7D7CE"],[0.545150501672241,"#E8D6CC"],[0.548494983277592,"#E9D6CB"],[0.551839464882943,"#EAD5CA"],[0.555183946488294,"#EBD4C8"],[0.558528428093645,"#EBD4C7"],[0.561872909698997,"#EBD3C6"],[0.565217391304348,"#ECD3C5"],[0.568561872909699,"#EDD2C3"],[0.57190635451505,"#EED1C2"],[0.575250836120401,"#EED0C1"],[0.578595317725752,"#EFCFBF"],[0.581939799331104,"#EFCFBE"],[0.585284280936455,"#EFCEBD"],[0.588628762541806,"#F0CEBC"],[0.591973244147157,"#F1CDBA"],[0.595317725752508,"#F1CCB8"],[0.598662207357859,"#F2CBB7"],[0.602006688963211,"#F2CAB6"],[0.605351170568562,"#F2CAB5"],[0.608695652173913,"#F3C9B4"],[0.612040133779264,"#F3C8B2"],[0.615384615384615,"#F4C7B1"],[0.618729096989967,"#F4C6AF"],[0.622073578595318,"#F4C5AE"],[0.625418060200669,"#F4C5AD"],[0.62876254180602,"#F5C4AB"],[0.632107023411371,"#F5C3AA"],[0.635451505016722,"#F5C1A9"],[0.638795986622074,"#F6C0A7"],[0.642140468227425,"#F6BFA6"],[0.645484949832776,"#F6BEA5"],[0.648829431438127,"#F6BEA3"],[0.652173913043478,"#F6BDA2"],[0.655518394648829,"#F7BCA1"],[0.658862876254181,"#F7BA9F"],[0.662207357859532,"#F7B99E"],[0.665551839464883,"#F7B89D"],[0.668896321070234,"#F7B79B"],[0.672240802675585,"#F7B69A"],[0.675585284280936,"#F7B598"],[0.678929765886288,"#F7B497"],[0.682274247491639,"#F7B396"],[0.68561872909699,"#F7B194"],[0.688963210702341,"#F7B093"],[0.692307692307692,"#F7AF92"],[0.695652173913043,"#F7AE91"],[0.698996655518395,"#F7AD90"],[0.702341137123746,"#F7AC8E"],[0.705685618729097,"#F7AB8C"],[0.709030100334448,"#F7A98B"],[0.712374581939799,"#F7A88A"],[0.71571906354515,"#F7A788"],[0.719063545150502,"#F7A687"],[0.722408026755853,"#F6A586"],[0.725752508361204,"#F6A385"],[0.729096989966555,"#F6A283"],[0.732441471571906,"#F6A081"],[0.735785953177257,"#F59F80"],[0.739130434782609,"#F59E7F"],[0.74247491638796,"#F59D7E"],[0.745819397993311,"#F59C7D"],[0.749163879598662,"#F49A7B"],[0.752508361204013,"#F4997A"],[0.755852842809364,"#F49879"],[0.759197324414716,"#F39677"],[0.762541806020067,"#F39576"],[0.765886287625418,"#F39375"],[0.769230769230769,"#F29274"],[0.77257525083612,"#F29072"],[0.775919732441472,"#F18F71"],[0.779264214046823,"#F18E70"],[0.782608695652174,"#F08C6E"],[0.785953177257525,"#F08B6D"],[0.789297658862876,"#F0896C"],[0.792642140468227,"#EF886B"],[0.795986622073579,"#EE8669"],[0.79933110367893,"#EE8568"],[0.802675585284281,"#ED8467"],[0.806020066889632,"#EC8265"],[0.809364548494983,"#EC8064"],[0.812709030100334,"#EC7F63"],[0.816053511705686,"#EB7D62"],[0.819397993311037,"#EA7C60"],[0.822742474916388,"#EA7A5F"],[0.826086956521739,"#E9795E"],[0.82943143812709,"#E8775C"],[0.832775919732441,"#E8755C"],[0.836120401337793,"#E7745B"],[0.839464882943144,"#E67259"],[0.842809364548495,"#E57058"],[0.846153846153846,"#E56F56"],[0.849498327759197,"#E46E55"],[0.852842809364548,"#E46C55"],[0.8561872909699,"#E36A53"],[0.859531772575251,"#E26952"],[0.862876254180602,"#E16751"],[0.866220735785953,"#E0654F"],[0.869565217391304,"#DF644E"],[0.872909698996655,"#DE624D"],[0.876254180602007,"#DE604C"],[0.879598662207358,"#DD5E4B"],[0.882943143812709,"#DC5D4A"],[0.88628762541806,"#DB5B49"],[0.889632107023411,"#DA5947"],[0.892976588628763,"#D95746"],[0.896321070234114,"#D75545"],[0.899665551839465,"#D75345"],[0.903010033444816,"#D65143"],[0.906354515050167,"#D55042"],[0.909698996655518,"#D44E41"],[0.91304347826087,"#D34C40"],[0.916387959866221,"#D24A3F"],[0.919732441471572,"#D0483D"],[0.923076923076923,"#D0463D"],[0.926421404682274,"#CF453C"],[0.929765886287625,"#CE433B"],[0.933110367892977,"#CC4039"],[0.936454849498328,"#CB3E38"],[0.939799331103679,"#CA3C37"],[0.94314381270903,"#C93A36"],[0.946488294314381,"#C83836"],[0.949832775919732,"#C73635"],[0.953177257525084,"#C63434"],[0.956521739130435,"#C43132"],[0.959866220735786,"#C32F31"],[0.963210702341137,"#C22C30"],[0.966555183946488,"#C12A30"],[0.969899665551839,"#C0272F"],[0.973244147157191,"#BF242E"],[0.976588628762542,"#BD222D"],[0.979933110367893,"#BC1E2C"],[0.983277591973244,"#BB1B2B"],[0.986622073578595,"#B9182A"],[0.989966555183946,"#B81429"],[0.993311036789298,"#B70F28"],[0.996655518394649,"#B60A27"],[1,"#B40426"]],"colorbar":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"thickness":23.04,"title":null,"titlefont":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"tickmode":"array","ticktext":["-1.0","-0.5","0.0","0.5","1.0"],"tickvals":[0,0.25,0.5,0.75,1],"tickfont":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"ticklen":2,"len":0.5}},"xaxis":"x","yaxis":"y2","frame":null},{"x":[1.76780647995723,1.76780647995723,null,1.76780647995723,1.58132747403021,null,1.58132747403021,1.58132747403021,null,1.58132747403021,1.45843981667919,null,1.45843981667919,1.45843981667919,null,1.45843981667919,0.742811161150506,null,0.742811161150506,0.742811161150506,null,0.742811161150506,0,null,0.742811161150506,0.742811161150506,null,0.742811161150506,0,null,1.45843981667919,1.45843981667919,null,1.45843981667919,0,null,1.58132747403021,1.58132747403021,null,1.58132747403021,0],"y":[5.28125,8.125,null,8.125,8.125,null,8.125,7.25,null,7.25,7.25,null,7.25,6.5,null,6.5,6.5,null,6.5,6,null,6,6,null,6.5,7,null,7,7,null,7.25,8,null,8,8,null,8.125,9,null,9,9],"text":["y: 1.7678065","y: 1.7678065",null,"y: 1.7678065","y: 1.7678065",null,"y: 1.5813275","y: 1.5813275",null,"y: 1.5813275","y: 1.5813275",null,"y: 1.4584398","y: 1.4584398",null,"y: 1.4584398","y: 1.4584398",null,"y: 0.7428112","y: 0.7428112",null,"y: 0.7428112","y: 0.7428112",null,"y: 0.7428112","y: 0.7428112",null,"y: 0.7428112","y: 0.7428112",null,"y: 1.4584398","y: 1.4584398",null,"y: 1.4584398","y: 1.4584398",null,"y: 1.5813275","y: 1.5813275",null,"y: 1.5813275","y: 1.5813275"],"type":"scatter","mode":"lines","line":{"width":2.26771653543307,"color":"rgba(57,190,177,1)","dash":"solid"},"hoveron":"points","name":"(#39BEB1,solid)","legendgroup":"(#39BEB1,solid)","showlegend":true,"xaxis":"x2","yaxis":"y2","hoverinfo":"text","frame":null},{"x":[1.76780647995723,1.76780647995723,null,1.76780647995723,1.36019227347749,null,1.36019227347749,1.36019227347749,null,1.36019227347749,0,null,1.36019227347749,1.36019227347749,null,1.36019227347749,1.2816302027782,null,1.2816302027782,1.2816302027782,null,1.2816302027782,1.18406682755604,null,1.18406682755604,1.18406682755604,null,1.18406682755604,0,null,1.18406682755604,1.18406682755604,null,1.18406682755604,0.666676693090349,null,0.666676693090349,0.666676693090349,null,0.666676693090349,0,null,0.666676693090349,0.666676693090349,null,0.666676693090349,0,null,1.2816302027782,1.2816302027782,null,1.2816302027782,0],"y":[5.28125,2.4375,null,2.4375,2.4375,null,2.4375,1,null,1,1,null,2.4375,3.875,null,3.875,3.875,null,3.875,2.75,null,2.75,2.75,null,2.75,2,null,2,2,null,2.75,3.5,null,3.5,3.5,null,3.5,3,null,3,3,null,3.5,4,null,4,4,null,3.875,5,null,5,5],"text":["y: 1.7678065","y: 1.7678065",null,"y: 1.7678065","y: 1.7678065",null,"y: 1.3601923","y: 1.3601923",null,"y: 1.3601923","y: 1.3601923",null,"y: 1.3601923","y: 1.3601923",null,"y: 1.3601923","y: 1.3601923",null,"y: 1.2816302","y: 1.2816302",null,"y: 1.2816302","y: 1.2816302",null,"y: 1.1840668","y: 1.1840668",null,"y: 1.1840668","y: 1.1840668",null,"y: 1.1840668","y: 1.1840668",null,"y: 1.1840668","y: 1.1840668",null,"y: 0.6666767","y: 0.6666767",null,"y: 0.6666767","y: 0.6666767",null,"y: 0.6666767","y: 0.6666767",null,"y: 0.6666767","y: 0.6666767",null,"y: 1.2816302","y: 1.2816302",null,"y: 1.2816302","y: 1.2816302"],"type":"scatter","mode":"lines","line":{"width":2.26771653543307,"color":"rgba(228,149,165,1)","dash":"solid"},"hoveron":"points","name":"(#E495A5,solid)","legendgroup":"(#E495A5,solid)","showlegend":true,"xaxis":"x2","yaxis":"y2","hoverinfo":"text","frame":null},{"x":[1.76780647995723,1.36019227347749,0,1.2816302027782,1.18406682755604,0,0.666676693090349,0,0,0,1.58132747403021,1.45843981667919,0.742811161150506,0,0,0,0],"y":[5.28125,2.4375,1,3.875,2.75,2,3.5,3,4,5,8.125,7.25,6.5,6,7,8,9],"text":["y: 1.7678065","y: 1.3601923","y: 0.0000000","y: 1.2816302","y: 1.1840668","y: 0.0000000","y: 0.6666767","y: 0.0000000","y: 0.0000000","y: 0.0000000","y: 1.5813275","y: 1.4584398","y: 0.7428112","y: 0.0000000","y: 0.0000000","y: 0.0000000","y: 0.0000000"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"transparent","opacity":1,"size":null,"symbol":null,"line":{"width":1.88976377952756,"color":"transparent"}},"hoveron":"points","name":"(NA,1)","legendgroup":"(NA,1)","showlegend":true,"xaxis":"x2","yaxis":"y2","hoverinfo":"text","frame":null}],"layout":{"xaxis":{"domain":[0,0.8],"automargin":true,"type":"linear","autorange":false,"range":[0.5,9.5],"tickmode":"array","ticktext":["needforcog","mag","grad","books","know","coll","high","ih","subject"],"tickvals":[1,2,3,4,5,6,7,8,9],"categoryorder":"array","categoryarray":["needforcog","mag","grad","books","know","coll","high","ih","subject"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":13.2835201328352},"tickangle":-45,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y2","title":"","hoverformat":".2f"},"xaxis2":{"domain":[0.8,1],"automargin":true,"showticklabels":false,"showgrid":false,"zeroline":false,"anchor":"y2","type":"linear","autorange":false,"range":[0,1.76780647995723],"tickmode":"array","ticktext":["0.0","0.5","1.0","1.5"],"tickvals":[0,0.5,1,1.5],"categoryorder":"array","categoryarray":["0.0","0.5","1.0","1.5"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"tickfont":{"color":null,"family":null,"size":0},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"gridcolor":null,"gridwidth":0,"title":{"text":"","font":{"color":null,"family":null,"size":0}},"hoverformat":".2f"},"yaxis2":{"domain":[0,0.8],"automargin":true,"type":"linear","autorange":false,"range":[0.5,9.5],"tickmode":"array","ticktext":["needforcog","mag","grad","books","know","coll","high","ih","subject"],"tickvals":[1,2,3,4,5,6,7,8,9],"categoryorder":"array","categoryarray":["needforcog","mag","grad","books","know","coll","high","ih","subject"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":13.2835201328352},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":"","hoverformat":".2f"},"yaxis":{"domain":[0.8,1],"automargin":true,"showticklabels":false,"showgrid":false,"zeroline":false,"anchor":"x","type":"linear","autorange":false,"range":[0,1.76780647995723],"tickmode":"array","ticktext":["0.0","0.5","1.0","1.5"],"tickvals":[0,0.5,1,1.5],"categoryorder":"array","categoryarray":["0.0","0.5","1.0","1.5"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"tickfont":{"color":null,"family":null,"size":0},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"gridcolor":null,"gridwidth":0,"title":{"text":"","font":{"color":null,"family":null,"size":0}},"hoverformat":".2f"},"annotations":[],"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":0.8,"y0":0.8,"y1":1},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":0.8,"y0":0,"y1":0.8},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.8,"x1":1,"y0":0,"y1":0.8}],"images":[],"margin":{"t":0,"r":null,"b":79.7011207970112,"l":79.7011207970112},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"y":1,"yanchor":"top"},"hovermode":"closest","barmode":"relative","paper_bgcolor":"rgba(255,255,255,1)","title":""},"attrs":{"2f7d20154620":{"xend":{},"yend":{},"colour":{},"linetype":{},"size":{},"x":{},"y":{},"type":"scatter"},"2f7d54aeef54":{"colour":{},"shape":{},"size":{},"x":{},"y":{}},"2f7d3643ef75":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20]},"2f7d11ab2bc0":{"x":{},"y":{},"fill":{},"text":{},"type":"heatmap"},"2f7d62fcbb0c":{"xend":{},"yend":{},"colour":{},"linetype":{},"size":{},"x":{},"y":{},"type":"scatter"},"2f7d3e5c4399":{"colour":{},"shape":{},"size":{},"x":{},"y":{}}},"source":"A","config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false,"displaylogo":false,"modeBarButtonsToRemove":["sendDataToCloud","select2d","lasso2d","autoScale2d","hoverClosestCartesian","hoverCompareCartesian","sendDataToCloud"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"subplot":true,"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>A regression model for inherence scores</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>expertise.lm<span class="ot">&lt;-</span><span class="fu">lm</span>(ih <span class="sc">~</span> <span class="fu">factor</span>(item)<span class="sc">+</span>high<span class="sc">+</span>coll<span class="sc">+</span>grad<span class="sc">+</span>books<span class="sc">+</span>mag<span class="sc">+</span>know<span class="sc">+</span>needforcog, <span class="at">data =</span> expertise)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(expertise.lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = ih ~ factor(item) + high + coll + grad + books + 
+    mag + know + needforcog, data = expertise)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-4.9768 -1.1633 -0.0215  1.1037  5.5806 
+
+Coefficients:
+                     Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)           5.63224    0.25312  22.251  &lt; 2e-16 ***
+factor(item)CARDS     0.18090    0.17646   1.025  0.30545    
+factor(item)LANGUAGE  1.22864    0.17646   6.963 5.15e-12 ***
+factor(item)SCHOOL    0.56784    0.17646   3.218  0.00132 ** 
+factor(item)TEETH     0.76633    0.17646   4.343 1.51e-05 ***
+factor(item)TRAFFIC   1.66332    0.17646   9.426  &lt; 2e-16 ***
+factor(item)WEDDINGS -0.07035    0.17646  -0.399  0.69019    
+high                  0.02024    0.05289   0.383  0.70195    
+coll                  0.08939    0.05542   1.613  0.10700    
+grad                  0.05006    0.05094   0.983  0.32589    
+books                -0.13683    0.05642  -2.425  0.01543 *  
+mag                  -0.05032    0.05208  -0.966  0.33408    
+know                  0.10723    0.04940   2.171  0.03013 *  
+needforcog           -0.22673    0.03696  -6.134 1.12e-09 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.76 on 1379 degrees of freedom
+  (1735 observations deleted due to missingness)
+Multiple R-squared:  0.1362,    Adjusted R-squared:  0.1281 
+F-statistic: 16.73 on 13 and 1379 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>This is neither a true model nor an appropriate analysis to check whether inherence scores related to expertise areas, perceived expertise (know), experience with formal education (high, coll, grad), experience with books or magazines, and tendency to think or intellectual activities (needforcog -need for cognition scale, Cacioppo &amp; Petty, 1982-). However, this superfacial analysis showed that perceived knowledge, books, and need for cognition are related to inherence significantly adjusting other variables. Interestingly, perceived knowledge is positively related although others are negatively related to inherence scores. Speculatively, it reminds me Dunning–Kruger effect (<a href="https://www.sciencedirect.com/science/article/pii/B9780123855220000056#bb0315">Kruger &amp; Dunning, 1999</a>). People may overestimate their abilities, but judge the explanations with inherence bias. Not suprisingly, people who are seeking for cognitive activities (need for cognition) have lower inherence scores. Those people probably have more motivation to produce and look for detailed explanations. People who read books about the topic have lower inherence scores also. This may tap to the role of recalling in explanation. Although formal education and/or articles (probably including superficial or popular science knowledge) does not guarantee to teach expertise, books may offer more permanent information for long term memory with self-learning.</p>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
