@@ -1,0 +1,11 @@
+---
+title: "Thomas et al. (2008) Diagnostic Hypothesis Generation and Human Judgment"
+author: "MK"
+date: "2022-12-21"
+categories: [articles, notes, new ideas]
+image: "articles.png"
+---
+
+## **Diagnostic Hypothesis Generation and Human Judgment**
+
+The focus of this article is

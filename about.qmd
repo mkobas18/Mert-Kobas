@@ -1,19 +1,18 @@
 ---
 title: "About"
-image: profile.jpg
+image: profile.png
 about:
   template: jolla
   links:
     - icon: twitter
       text: Twitter
-      href: https://twitter.com
+      href: https://twitter.com/mertkobas
     - icon: linkedin
       text: LinkedIn
-      href: https://linkedin.com
+      href: https://linkedin.com/in/mertkobas
     - icon: github
       text: Github
-      href: https://github.com
-
+      href: https://github.com/mkobas18
 ---
 
-About this blog
+This blog includes my notes about articles, example data analysis and other things like a journal, so I call this as learning journal.

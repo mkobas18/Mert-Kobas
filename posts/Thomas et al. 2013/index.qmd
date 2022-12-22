@@ -1,0 +1,69 @@
+---
+title: "Thomas et al. (2014) Memory Constraints on Hypothesis Generation and Decision Making"
+author: "MK"
+date: "2022-12-21"
+categories: [articles, notes, new ideas]
+image: "articles.png"
+---
+
+## **Memory Constraints on Hypothesis Generation and Decision Making**
+
+The focus of this article is hypothesis generation and memory relation. In everyday life, we use hypothesis to produce explanations after we test it. The general idea here is how memory as a cognitive structure constrains hypothesis generation and related decision-making processes.
+
+Three primary processes can explain this idea:
+
+-   Retrieval (Long term memory, retrieving memory traces)
+
+-   Maintenance (Working memory, sustaining these traces in the active thinking process)
+
+-   Judgement (Decision after test these hypotheses)
+
+![Thomas et al. (2013), page 265, Figure 1](/images/Thomas%202013%20Figure%201.png){fig-align="center" width="400"}
+
+Other important term here is **hypothesis-guided search.** I interpreted this as a top-down evidence looking stage between hypothesis generation and decision making. Medical diagnoses are examples for this.
+
+[Comment 1:]{.underline} However, **the first hypothesis must be bottom-up or based on the testimony here. So, a medical doctor may see their patient with holding their arm, so the first hypothesis must be that the arm was broken. After this, X-ray, etc. can be used to prove this hypothesis and make a decision.**
+
+### Memory Processes Constrain Hypothesis Generation
+
+They mention how experts and other people generate only a small number of these hypotheses (probably due to WM restrictions, they mentioned in their other article: People with high WM produce 4 hypothesis in a time window, but low WM produce around 2.)
+
+Most likely hypotheses will be produced first (broken arm). New hypotheses are produced, if they better matches to the data (after X-ray screening, it may be only muscle ache).
+
+[Question 1:]{.underline} They gave an example here about a mental illness: "*Entertaining the hypothesis that the kitchen faucet is communicating with you when the dripping is perfectly consistent with its just being leaky*". **Is this a failure of data-hypothesis match or interpreting data based on prior beliefs? (if this would be another context like believing spirituality) If you believe that non-living things can have spirit/can talk/etc., then you may find this more likely (more match with data hypothesis). So beyond data and hypothesis, do our beliefs play a role to distort our probability judgement process?**
+
+Another interesting point here is related to experience. Experts often recall specific hypothesis (broken bones) because those are activated more often. The article said that these hypotheses have more a priori likelihood. I interpreted this as these hypotheses were seen as more likely in the beginning. So if there are two hypotheses that come to my mind (broken arm vs. shoulder problem in the example of painful arm), I would prioritize broken arm because of my previous experiences.
+
+[Comment 2:]{.underline} Does it mean that experts produce some heuristics for explanations (holding arms mean broken bones without any alternatives -alternatives come after testing-)?
+
+Or expertise still provides more memory space (less cognitive load), so does it mean for more accurate hypothesis generation and testing process? (holding arms may mean broken bone because I see this many times, but alternative hypotheses can be possible but less likely -alternatives bring with the main hypothesis-)
+
+So, do experts produce explanation both with inherent and extrinsic features (because they can use their cognitive resources flexibly to produce hypotheses with inherent and extrinsic features) just like the nonspeed condition group in Hussak & Cimpian (2018)? What if under time limitation and LTM restriction?
+
+### Hypothesis Generation Affects Probability Judgment
+
+They introduce us here another term: *Subadditivity*. It means that the sum of the probabilities of sub-arguments in a hypothesis is more than the probability of hypothesis itself. The probabilities here reflect the evaluation of an individual. The probability of broken bones (25%), muscle problems (20%) and carpal tunnel (15%) \> the probability of arm problem (50%)
+
+### Hypothesis Generation Influences Hypothesis-Testing Behavior
+
+With only one hypothesis, it becomes including *confirmation search* strategy. For example, If a person thought that somebody is married already, they search engagement ring of the other person.
+
+With two or more hypothesis, it becomes *diagnostic search.* For example, if my computer cannot open any Youtube videos, I may think that it is because of my web browser or internet connection or Youtube servers, so I check my connection, I probably try another browser and search internet about servers, so I try to search diagnostically.
+
+In the social cases, diagnostic search may be impossible sometimes? like if my partner is angry, I think that it maybe due to work or something that I say in the morning or an irrelevant thing, but checking all of these diagnostically is only possible to ask my partner, but this may make them more angry, so it is impossible?
+
+### Time-Based Processes Influence Hypothesis Generation
+
+Time pressure led to generation of fewer hypotheses.
+
+[Question 2a:]{.underline} So time pressure both leads to produce inherent biases in explanation and also less alternative explanations. Are those related somehow (people start with inherent explanations then they add extrinsic ones with alternative hypotheses), or separate processes (less alternative explanations + including mostly inherent features)?
+
+[Question 2b:]{.underline} In the education system, we use time pressure to measure expertise (at least the assumption is this) like college entrance exams or language exams. People relate the mistakes in those exams usually with attentional issues (or didn't have the knowledge) rather than memory problems. It reminds me Horne et al. (2019)'s article here. Time pressure may be a distractor due to related stress, so both hypothesis generation and generated explanations -including mostly inherent biases- were affected by attentional proccesses (focusing effects may become more effective).
+
+[Comment 3:]{.underline}Related to question 2b, they also mention here about *primacy bias* and *recency bias*. For the explanations, it may mean that people have difficulties the focus on middle part of the data (or an event). As an example, a person may be near the seaside and sees another person going to the sea. When the person after saw that person B as drowning, they explained it as person B doesn't know swimming (inherent bias) in the first look and try to save them. The recent event is drowning here, however, it may be also waves of sea (extrinsic one). Since there is a time pressure (person b is dying), person A may not care the process of the event.
+
+Another important point here is with slow presentation of data, people have recency bias but with fast rate of presentation, primacy bias emerged. Complexity of task or increased working memory capacity leads to increase in primacy bias during hypothesis generation.
+
+The last point: People produce good hypotheses to explain the data, but they have also systematic biases (?? can inherent bias be an example?) in beliefs and information search due to memory limitations.
+
+[Question 3 (bonus question, theoretical):]{.underline} Does it mean that cognitive biases in explanation generation process are the production of memory constrains? Or do they place in cognitive architecture -due to evoluationary processes, etc.-? Or both of them?

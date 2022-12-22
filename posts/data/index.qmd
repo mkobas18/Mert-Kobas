@@ -1,0 +1,116 @@
+---
+title: "Expertise Data Analysis Trials"
+author: "MK"
+date: "2022-12-21"
+categories: [example data, code, analysis]
+image: "data.png"
+---
+
+This post includes the trial analyses of an example data related to expertise.
+
+Import necessary packages and expertise data
+
+```{r}
+library(tidyverse,quietly = T)
+library(heatmaply,quietly = T)
+
+expertise<-read_csv("~/Desktop/Expertise/NEW/Combined STUDY for R.csv", show_col_types = FALSE)
+```
+
+Descriptive statistics of inherence scores from the 1st and 2nd study
+
+```{r}
+expertise%>%
+  filter(study==1)%>%
+  summary()
+```
+
+```{r}
+expertise%>%
+  filter(study==2)%>%
+  summary()
+```
+
+```{r}
+
+
+```
+
+The boxplot of inherence scores by expertise areas in study 1
+
+```{r}
+plot1<-expertise%>%
+  filter(study==1)%>%
+  ggplot(aes(x=item, y=ih)) + 
+  geom_boxplot(colour = "black"
+  )+
+  ggtitle("Inherence scores by expertise areas in study 1") +
+  ylab("Inherence Scores")+
+  xlab("Expertise areas")+
+  theme(panel.grid.major = element_blank(),
+        panel.background = element_blank(),
+        strip.placement = "outside",              
+        strip.background = element_blank(),
+        legend.position="none",
+        panel.border = element_blank(), 
+        panel.spacing.x = unit(0,"line"))
+plot1+geom_jitter(shape=16, position=position_jitter(0.2))
+
+```
+
+The boxplot of inherence scores by expertise areas in study 2
+
+```{r}
+plot2<-expertise%>%
+  filter(study==2)%>%
+  ggplot(aes(x=item, y=ih)) + 
+  geom_boxplot(colour = "black"
+  )+
+  ggtitle("Inherence scores by expertise areas in study 2") +
+  ylab("Inherence Scores")+
+  xlab("Expertise areas")+
+  theme(panel.grid.major = element_blank(),
+        panel.background = element_blank(),
+        strip.placement = "outside",              
+        strip.background = element_blank(),
+        legend.position="none",
+        panel.border = element_blank(), 
+        panel.spacing.x = unit(0,"line"))
+plot2+geom_jitter(shape=16, position=position_jitter(0.2))
+```
+
+Correlation matrix of language expertise in study 1
+
+```{r}
+expert_sublev_st1<-expertise%>%
+  filter(study==1 & item=='LANGUAGE')%>%
+  select(subject,ih, high, coll, grad, books, mag, know, needforcog)
+
+df <- expert_sublev_st1
+
+heatmaply_cor(x = cor(df),
+              k_col = 2,
+              k_row = 2)
+```
+
+```{r}
+expert_sublev_scho<-expertise%>%
+  filter(study==1 & item=='SCHOOL')%>%
+  select(subject,ih, high, coll, grad, books, mag, know, needforcog)
+
+df <- expert_sublev_scho
+
+heatmaply_cor(x = cor(df),
+              k_col = 2,
+              k_row = 2)
+```
+
+A regression model for inherence scores
+
+```{r}
+expertise.lm<-lm(ih ~ factor(item)+high+coll+grad+books+mag+know+needforcog, data = expertise)
+
+summary(expertise.lm)
+```
+
+This is neither a true model nor an appropriate analysis to check whether inherence scores related to expertise areas, perceived expertise (know), experience with formal education (high, coll, grad), experience with books or magazines, and tendency to think or intellectual activities (needforcog -need for cognition scale, Cacioppo & Petty, 1982-). However, this superfacial analysis showed that perceived knowledge, books, and need for cognition are related to inherence significantly adjusting other variables. Interestingly, perceived knowledge is positively related although others are negatively related to inherence scores. Speculatively, it reminds me Dunning--Kruger effect ([Kruger & Dunning, 1999](https://www.sciencedirect.com/science/article/pii/B9780123855220000056#bb0315)). People may overestimate their abilities, but judge the explanations with inherence bias. Not suprisingly, people who are seeking for cognitive activities (need for cognition) have lower inherence scores. Those people probably have more motivation to produce and look for detailed explanations. People who read books about the topic have lower inherence scores also. This may tap to the role of recalling in explanation. Although formal education and/or articles (probably including superficial or popular science knowledge) does not guarantee to teach expertise, books may offer more permanent information for long term memory with self-learning.
