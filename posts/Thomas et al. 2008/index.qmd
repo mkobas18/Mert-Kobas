@@ -8,4 +8,10 @@ image: "articles.png"
 
 ## **Diagnostic Hypothesis Generation and Human Judgment**
 
-The focus of this article is
+The focus of this article is providing a model of human judgment (Hygene) that describes
+
+-   How hypotheses are generated on the basis of data extracted from the environment
+
+-   How the hypotheses generated from memory are used to make probability judgments
+
+-   How the generated hypotheses frame subsequent information search in hypothesis-testing situations
