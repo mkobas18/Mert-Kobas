@@ -277,8 +277,7 @@ performance::icc(Model.Null)
 ```
 
 ```{r warning = FALSE, message = FALSE}
-# Now add infoavoid as a fixed effect
-# same slope for all sites
+# Now add need for cognition scores as a fixed effect
 Model.1<-lmer(ih ~needforcog+(1|Score_Type)+(1|ID),   
               data=expertise3_ready)
 summary(Model.1)
