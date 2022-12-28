@@ -1,0 +1,25 @@
+---
+title: "Cimpian & Steinberg (2014) The inherence heuristic across development: Systematic differences between children's and adults' explanations for everyday facts "
+author: "MK"
+date: "2022-12-26"
+categories: [articles, notes, new ideas]
+image: "articles.png"
+---
+
+## **The inherence heuristic across development: Systematic differences between children's and adults' explanations for everyday facts** 
+
+Definition of inherence heuristics: Explaining the data with mostly inherent features of the things. For example, the question of why people walk to the places that are close to their home can be answered with because they have legs rather than it's more money saving or it's the environmental friendly way. It's prevalent in adult's thinking, but what about children? Based on this question, they have two research questions:
+
+-   Would children exhibit a tendency to explain observed regularities in inherent terms?
+
+-   Would these inherent explanations in fact be more prevalent in children's than in adults' thinking?
+
+[Comment 1:]{.underline} I found developmental patterns part here interesting. It argued that unlike Piaget's arguments, developmental changes are mostly quantitative rather than qualitative. It explains why inherence bias is still a thing in adulthood, but probably less prevalent than children because they have more knowledge, cognitive capacity and cognitive control.
+
+[Question 1:]{.underline} It is still a curiosity for me that whether structure of the data has an effect on explanation generation. For example, generic language boosts inherence bias like: "When told, say, that boys are good at a game called ''gorp,'' preschoolers tend to explain this fact in terms of the inherent features of boys (e.g., they are smart) rather than factors external to boys (e.g., their parents taught them; Cimpian & Markman, 2011)." But what if the the data/pattern/etc. includes possibilities like boys might be good at a game called gorp, does 'might' have a similar booster effect on inherence bias because it indicates possibilities?
+
+In the five experiments, they asked participants to evaluate the explanations because children have limited capacity for explanations, so comparisons with adults might be difficult in sense of this study's aims.
+
+Besides age and inherence, they used different patterns probably to not favor only one type of explanation (right/wrong answers with inherence). These are conventional and control patterns. Conventional patterns include social conventions, so "why the fire trucks are red" can be better explained with extrinsic factors. Control patterns can be better explained with inherent factors.
+
+They found that children have tendency for inherence bias and they prefer the explanations with inherence biases more than adults.
