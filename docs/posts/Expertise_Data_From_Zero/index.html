@@ -248,43 +248,43 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>my_list <span class="ot">&lt;-</span> <span class="fu">map</span>(row_values, <span class="sc">~</span><span class="fu">paste0</span>(.))</span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>my_list <span class="ot">&lt;-</span> <span class="fu">str_replace</span>(my_list, <span class="st">"(?&lt;! )</span><span class="sc">\\</span><span class="st">n(?! )"</span>, <span class="st">""</span>)</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>my_list <span class="ot">&lt;-</span> <span class="fu">str_replace</span>(my_list, <span class="st">"[^</span><span class="sc">\\</span><span class="st">s]*</span><span class="sc">\\\\</span><span class="st">n[^</span><span class="sc">\\</span><span class="st">s]*"</span>, <span class="st">""</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>my_list <span class="ot">&lt;-</span> <span class="fu">str_replace</span>(my_list, <span class="st">"(?&lt;! )</span><span class="sc">\\</span><span class="st">n(?! )"</span>, <span class="st">" "</span>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>my_list <span class="ot">&lt;-</span> <span class="fu">str_replace</span>(my_list, <span class="st">"[^</span><span class="sc">\\</span><span class="st">s]*</span><span class="sc">\\\\</span><span class="st">n[^</span><span class="sc">\\</span><span class="st">s]*"</span>, <span class="st">" "</span>)</span>
 <span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>list_string <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"* "</span>, <span class="fu">paste</span>(my_list, <span class="at">collapse =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">* "</span>))</span>
 <span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">#Show the survey items</span></span>
 <span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(list_string)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>* Human languages are structured to best convey ourthoughts and feelings. Words and their meanings likely form ideal matches.
-* There are absolutely no good reasons whywe use specific words to represent our thoughts. Any combination of sounds
+<pre><code>* Human languages are structured to best convey our thoughts and feelings. Words and their meanings likely form ideal matches.
+* There are absolutely no good reasons why we use specific words to represent our thoughts. Any combination of sounds
 could in principle refer to any idea.
 * The fact that elementary school stops at 5th grade is probably ideal for children's learning. This is likely the best way to organize K-12 schooling.
 * Middle school (grades 6-8) is separate from elementary school (grades K-5) largely because of decisions made by educators a long time ago. This may not be the most optimal way of organizing early education.
-* It’s not a coincidence thatwe send people cards on holidays. This tradition seems
+* It’s not a coincidence that we send people cards on holidays. This tradition seems
 particularly fitting.
 * The fact that we send people cards on holidays is only a convention. A different way of sending warm wishes could've been implemented just as easily.
-* There are good reasons why orange juiceis typically consumed for breakfast. There are features about it that make it
+* There are good reasons why orange juice is typically consumed for breakfast. There are features about it that make it
 particularly suited for this meal (for example, its refreshing taste).
-* The current popularity of orange juice for breakfast reflectsin part  marketing campaigns that promoted
+* The current popularity of orange juice for breakfast reflects in part  marketing campaigns that promoted
 drinking orange juice in the morning. However, had history taken a different
 turn, orange juice could just as easily have been more popular for lunch or
 dinner.
-* It seems right to use white for wedding dresses. Othercolors, such as red and blue, have features that make them less suited for
+* It seems right to use white for wedding dresses. Other colors, such as red and blue, have features that make them less suited for
 wedding dresses.
-* Even though white is thetraditional color for wedding dresses, this could have easily been different.
+* Even though white is the traditional color for wedding dresses, this could have easily been different.
 When you really think about it, there is no reason why other, brighter, colors couldn’t
 be used for wedding dresses.
-* It seems ideal that toothpaste istypically flavored with mint. Mint is inherently more refreshing than any other
+* It seems ideal that toothpaste is typically flavored with mint. Mint is inherently more refreshing than any other
 flavor that currently exists.
-* When you think about it, toothpaste could have easily beenflavored with something other than mint, such as cinnamon. Many pleasing flavors would work just as
+* When you think about it, toothpaste could have easily been flavored with something other than mint, such as cinnamon. Many pleasing flavors would work just as
 well.
-* Traffic lights, with threedifferent colored lights signaling three speeds, seem like the most efficient
+* Traffic lights, with three different colored lights signaling three speeds, seem like the most efficient
 and effective way to direct traffic. Another process likely would not work as
 well.
-* The current design of traffic lights,with three different colors reflecting three different speeds, is entirely due
+* The current design of traffic lights, with three different colors reflecting three different speeds, is entirely due
 to historical factors. This is probably not the most efficient or effective way
 to manage traffic.
 * Black seems like a good choice for the color of televisions. Other colors just would not work as well.
-* Theonly reason why most TVs are black is
+* The only reason why most TVs are black is
 historical happenstance. TVs could practically be a
 variety of colors.
 * How much do you know about language and linguistics? - Please use the slider to select your answer choice.
@@ -392,7 +392,7 @@ Aside from the ways you may have learned about these topics that were mentioned 
 * 2. What did you think we were studying?
 * 3. Do you think that there may have been more to this study than meets the eye? If so, what do you think this might have been?
 * 4. Do you have any additional thoughts or comments about the study?
-* Thank you for completing this survey! We just have one last question for you. You will not be penalized for your answer to this question. Since you completed the whole survey, you will receive payment no matter what answer you give here.
+* Thank you for completing this survey! We just have one last question for you. You will not be penalized for your answer to this question. Since you completed the whole survey, you will receive payment no matter what answer you give here. 
      
 
     It's very important to the quality and scientific aims of our study that participants pay attention (i.e., read the survey carefully, consider the response options, and avoid distractions).

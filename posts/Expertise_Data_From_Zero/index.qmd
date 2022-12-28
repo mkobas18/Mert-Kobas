@@ -58,8 +58,8 @@ row_values <- unlist(row_values)
 my_list <- map(row_values, ~paste0(.))
 
 library(stringr)
-my_list <- str_replace(my_list, "(?<! )\\n(?! )", "")
-my_list <- str_replace(my_list, "[^\\s]*\\\\n[^\\s]*", "")
+my_list <- str_replace(my_list, "(?<! )\\n(?! )", " ")
+my_list <- str_replace(my_list, "[^\\s]*\\\\n[^\\s]*", " ")
 list_string <- paste0("* ", paste(my_list, collapse = "\n* "))
 #Show the survey items
 cat(list_string)
