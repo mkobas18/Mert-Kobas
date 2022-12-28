@@ -1,0 +1,296 @@
+---
+title: "Expertise3 Data Analysis from the very beginning"
+author: "MK"
+date: "2022-12-26"
+categories: [example data, code, analysis]
+image: "data.png"
+---
+
+This post includes the trial analyses of an example data related to expertise.
+
+Import necessary packages and expertise data
+
+```{r warning = FALSE, message = FALSE}
+library(tidyverse)
+library(readr)
+library(purrr)
+
+Expertise3 <- read_csv("~/Desktop/Expertise3_December 23, 2022_10.53.csv")
+
+```
+
+Creates a new dataframe called expertise3_clean, which is a copy of the original dataframe called Expertise3 and removes the second row of the dataframe
+
+```{r warning = FALSE, message = FALSE}
+
+expertise3_clean<-Expertise3%>% 
+  slice(-2) 
+
+expertise3_clean <- expertise3_clean %>%
+  select(-StartDate, -EndDate, -Status, -IPAddress, -Progress,-ResponseId,-RecordedDate,
+         -RecipientLastName, -RecipientFirstName,-RecipientEmail, -ExternalReference, 
+         -LocationLatitude,-LocationLongitude, -DistributionChannel, -UserLanguage)
+
+```
+
+Create a variable called column_names and assign it the names of the columns in the dataframe and change the column names
+
+```{r warning = FALSE, message = FALSE}
+column_names <- names(expertise3_clean)
+colnames(expertise3_clean) <- c('duration', 'finished', 'stih_lang','r_ih_lang','stih_school','r_ih_school','stih_cards','r_ih_cards','stih_breakfast','r_ih_breakfast','stih_weddings','r_ih_weddings','stih_teeth','r_ih_teeth','stih_traffic','r_ih_traffic','stih_tv','r_ih_tv', 'know_lang','know_school','know_cards','know_breakfast','know_weddings','know_teeth','know_traffic','know_tv', 'course_lang','high_lang', 'colle_lang', 'grad_lang',
+'book_lang','numbook_lang','article_lang','numarticle_lang','course_school','high_school', 'colle_school', 'grad_school','book_school','numbook_school','article_school','numarticle_school','course_cards','high_cards', 'colle_cards', 'grad_cards',
+ 'book_cards','numbook_cards','article_cards','numarticle_cards','course_breakfast','high_breakfast', 'colle_breakfast', 'grad_breakfast','book_breakfast','numbook_breakfast','article_breakfast','numarticle_breakfast','course_weddings','high_weddings', 'colle_weddings', 'grad_weddings','book_weddings','numbook_weddings','article_weddings','numarticle_weddings','course_teeth','high_teeth', 'colle_teeth', 'grad_teeth', 'book_teeth','numbook_teeth','article_teeth','numarticle_teeth','course_traffic','high_traffic', 'colle_traffic', 'grad_traffic','book_traffic','numbook_traffic','article_traffic','numarticle_traffic','course_tv','high_tv', 'colle_tv', 'grad_tv','book_tv','numbook_tv','article_tv','numarticle_tv','needforcog1','needforcog2','needforcog3','needforcog4','needforcog5','needforcog6','needforcog7','needforcog8','needforcog9','needforcog10','needforcog11','needforcog12','needforcog13','needforcog14','needforcog15','needforcog16','needforcog17','needforcog18','otherways','sex','birthdate','education','income','religion','identity','age','political_atti','english_level','proceure_confu','whatwestudied','moretothisstudy','additional_thoughts','attention')
+
+```
+
+The code below shows the survey items:
+
+```{r warning = FALSE, message = FALSE}
+#selects all columns except the ones specified
+row_values <- expertise3_clean %>%
+  select(-duration,-finished)%>%
+  #selects only the first row
+  filter(row_number() == 1)
+
+#unlist the row_values
+row_values <- unlist(row_values)
+
+my_list <- map(row_values, ~paste0(.))
+
+library(stringr)
+my_list <- str_replace(my_list, "(?<! )\\n(?! )", "")
+my_list <- str_replace(my_list, "[^\\s]*\\\\n[^\\s]*", "")
+list_string <- paste0("* ", paste(my_list, collapse = "\n* "))
+#Show the survey items
+cat(list_string)
+
+```
+
+Data preparation for further analyses
+
+```{r warning = FALSE, message = FALSE}
+#Attention check and deletion of cases that didn't attend or finish the study
+expertise3_new<-expertise3_clean%>%
+  filter(attention==1&finished==1)
+
+#Exclude the variables that will not be used in the later analyses
+expertise3_new<-expertise3_new%>%
+  select(-finished,-otherways,-birthdate,-proceure_confu,-whatwestudied,-moretothisstudy,-additional_thoughts,-attention)
+
+#adds a column to the dataframe, with the name "id"
+expertise3_new<-cbind(ID = 1:nrow(expertise3_new), expertise3_new)
+
+# change the data type of the variables to numeric
+expertise3_new <- expertise3_new %>%
+  mutate_at(vars(stih_lang, r_ih_lang, stih_school, r_ih_school, stih_cards, r_ih_cards, stih_breakfast, r_ih_breakfast, 
+                 stih_weddings, r_ih_weddings, stih_teeth, r_ih_teeth, stih_traffic, r_ih_traffic, stih_tv, r_ih_tv), as.numeric)
+
+# Create a list of variable names
+variables <- c("stih_lang", "r_ih_lang", "stih_school", "r_ih_school", "stih_cards", "r_ih_cards", "stih_breakfast", "r_ih_breakfast", "stih_weddings", "r_ih_weddings", "stih_teeth", "r_ih_teeth", "stih_traffic", "r_ih_traffic", "stih_tv", "r_ih_tv")
+
+```
+
+Check the correlations between inherence (the variables starting with st) and reverse inherence (the variables starting with r) scores to check whether it's appropriate for averaging
+
+```{r warning = FALSE, message = FALSE}
+
+# Initialize an empty data frame to store the correlation coefficients
+correlations <- data.frame(variable1 = character(), variable2 = character(), correlation = numeric(), p.value = numeric(), conf.int = character())
+
+# Iterate over the pairs of variables
+for (i in seq(1, length(variables), 2)) {
+  j <- i + 1
+  
+  # Calculate the Pearson correlation coefficient and test the statistical significance
+  correlation_test <- cor.test(expertise3_new[, variables[i]], expertise3_new[, variables[j]], method = "pearson")
+  
+  # Add the correlation coefficient, p-value, and confidence interval to the data frame
+  correlations <- rbind(correlations, data.frame(variable1 = variables[i], variable2 = variables[j], correlation = correlation_test$estimate, p.value = correlation_test$p.value, conf.int = paste(correlation_test$conf.int[1], correlation_test$conf.int[2], sep = " - ")))
+}
+
+# View the correlation coefficients and statistical measures
+correlations
+
+```
+
+It seems that each pairs have negative significant correlation, so we can take the average scores to calculate inherence scores
+
+```{r warning = FALSE, message = FALSE}
+expertise3_new <- expertise3_new %>%
+  mutate(ih_lang = (stih_lang + (10 - r_ih_lang)) / 2,
+    ih_school = (stih_school + (10 - r_ih_school)) / 2,
+    ih_cards = (stih_cards + (10 - r_ih_cards)) / 2,
+    ih_breakfast = (stih_breakfast + (10 - r_ih_breakfast)) / 2,
+    ih_weddings = (stih_weddings + (10 - r_ih_weddings)) / 2,
+    ih_teeth = (stih_teeth + (10 - r_ih_teeth)) / 2,
+    ih_traffic = (stih_traffic + (10-r_ih_traffic)) / 2,
+    ih_tv = (stih_tv + (10-r_ih_tv)) / 2 )
+```
+
+Calculate "Need for cognition" scale scores
+
+```{r warning = FALSE, message = FALSE}
+# change the data type of the variables to numeric
+expertise3_new <- expertise3_new %>%
+  mutate_at(vars(needforcog1,needforcog2,needforcog3,needforcog4,needforcog5,needforcog6
+                 ,needforcog7,needforcog8,needforcog9,needforcog10,needforcog11,needforcog12,
+                   needforcog13,needforcog14,needforcog15,needforcog16,needforcog17,needforcog18), as.numeric)
+
+#add a new variable called needforcog, which is the sum of all the need for cognition items, the items are summed or extracted according to the normal or reverse items
+expertise3_new <- expertise3_new %>%
+  mutate(needforcog=(needforcog1+needforcog2-needforcog3-needforcog4-needforcog5+needforcog6
+         -needforcog7-needforcog8-needforcog9+needforcog10+needforcog11-needforcog12+
+         needforcog13+needforcog14+needforcog15+needforcog16-needforcog17+needforcog18))
+```
+
+Prepare the expertise scores and other scores ready for analyses
+
+```{r warning = FALSE, message = FALSE}
+# Replace all NA values in the expertise columns with 0
+expertise3_new <- apply(expertise3_new, 2, function(x) ifelse(is.na(x), 0, x))
+# Turn the output to a dataframe
+expertise3_new <- data.frame(expertise3_new)
+
+# Create new data frame as analyzable 
+expertise3_new<-expertise3_new%>%
+  select(-stih_lang,-r_ih_lang,-stih_school,-r_ih_school,
+         -stih_cards,-r_ih_cards,-stih_breakfast,-r_ih_breakfast,-stih_weddings,-r_ih_weddings,
+         -stih_teeth,-r_ih_teeth,-stih_traffic,-r_ih_traffic,-stih_tv,-r_ih_tv,
+         -course_lang,
+         -book_lang,-article_lang,
+         -course_school,
+         -book_school,-article_school,
+         -course_cards,
+         -book_cards,-article_cards,
+         -course_breakfast,
+         -book_breakfast,-article_breakfast,
+         -course_weddings,
+         -book_weddings,-article_weddings,
+         -course_teeth,
+         -book_teeth,-article_teeth,
+         -course_traffic,
+         -book_traffic,-article_traffic,
+         -course_tv,
+         -book_tv,-article_tv,
+         -needforcog1,-needforcog2,-needforcog3,-needforcog4,-needforcog5,-needforcog6,
+         -needforcog7,-needforcog8,-needforcog9,-needforcog10,-needforcog11,-needforcog12,
+         -needforcog13,-needforcog14,-needforcog15,-needforcog16,-needforcog17,-needforcog18)
+
+
+
+# change the data type of the variables to numeric
+expertise3_new <- expertise3_new %>%
+  mutate_at(vars('know_lang','know_school','know_cards','know_breakfast',
+                 'know_weddings','know_teeth','know_traffic','know_tv',
+                 'high_lang', 'colle_lang', 'grad_lang',
+                 'numbook_lang','numarticle_lang',
+                 'high_school', 'colle_school', 'grad_school',
+                 'numbook_school','numarticle_school',
+                 'high_cards', 'colle_cards', 'grad_cards',
+                 'numbook_cards','numarticle_cards',
+                 'high_breakfast', 'colle_breakfast', 'grad_breakfast',
+                 'numbook_breakfast','numarticle_breakfast',
+                 'high_weddings', 'colle_weddings', 'grad_weddings',
+                 'numbook_weddings','numarticle_weddings',
+                 'high_teeth', 'colle_teeth', 'grad_teeth',
+                 'numbook_teeth','numarticle_teeth',
+                 'high_traffic', 'colle_traffic', 'grad_traffic',
+                 'numbook_traffic','numarticle_traffic',
+                 'high_tv', 'colle_tv', 'grad_tv',
+                 'numbook_tv','numarticle_tv'), as.numeric)
+
+# Select the variables to standardize
+vars_to_standardize <- c('know_lang','know_school','know_cards','know_breakfast',
+                         'know_weddings','know_teeth','know_traffic','know_tv',
+                         'high_lang', 'colle_lang', 'grad_lang',
+                         'numbook_lang','numarticle_lang',
+                         'high_school', 'colle_school', 'grad_school',
+                         'numbook_school','numarticle_school',
+                         'high_cards', 'colle_cards', 'grad_cards',
+                         'numbook_cards','numarticle_cards',
+                         'high_breakfast', 'colle_breakfast', 'grad_breakfast',
+                         'numbook_breakfast','numarticle_breakfast',
+                         'high_weddings', 'colle_weddings', 'grad_weddings',
+                         'numbook_weddings','numarticle_weddings',
+                         'high_teeth', 'colle_teeth', 'grad_teeth',
+                         'numbook_teeth','numarticle_teeth',
+                         'high_traffic', 'colle_traffic', 'grad_traffic',
+                         'numbook_traffic','numarticle_traffic',
+                         'high_tv', 'colle_tv', 'grad_tv',
+                         'numbook_tv','numarticle_tv')
+
+# Standardize the selected variables
+expertise3_new[, vars_to_standardize] <- scale(expertise3_new[, vars_to_standardize])
+
+# Now we are ready for analysis
+
+head(expertise3_new)
+```
+
+Transform the data to the long format for analyses:
+
+```{r warning = FALSE, message = FALSE}
+library('reshape2')
+
+expertise3_long <- melt(expertise3_new, id.vars = c("ID",'duration',"sex" ,"education" ,"income","religion",'identity','age','political_atti','english_level','needforcog'),
+          measure.vars = c("ih_lang", "ih_school","ih_cards", "ih_breakfast", "ih_weddings", 
+"ih_teeth", "ih_traffic", "ih_tv",'know_lang','know_school','know_cards','know_breakfast',
+'know_weddings','know_teeth','know_traffic','know_tv','high_lang', 'colle_lang', 'grad_lang',
+'numbook_lang','numarticle_lang','high_school', 'colle_school', 'grad_school',
+'numbook_school','numarticle_school','high_cards', 'colle_cards', 'grad_cards',
+'numbook_cards','numarticle_cards', 'high_breakfast', 'colle_breakfast', 'grad_breakfast',
+'numbook_breakfast','numarticle_breakfast','high_weddings', 'colle_weddings', 'grad_weddings','numbook_weddings','numarticle_weddings','high_teeth', 'colle_teeth', 'grad_teeth',
+'numbook_teeth','numarticle_teeth','high_traffic', 'colle_traffic', 'grad_traffic',
+'numbook_traffic','numarticle_traffic','high_tv', 'colle_tv', 'grad_tv','numbook_tv','numarticle_tv'),sep = "_", variable.name = "Category", value.name = "Score")
+
+# Split the Category column into two columns based on the underscore separator
+expertise3_long <- expertise3_long %>% separate(Category, into = c("Category", "Score_Type"), sep = "_")
+
+#spread the data from long to wide format
+expertise3_ready <- expertise3_long %>% spread(Category, Score)
+
+#change the score type to a factor
+expertise3_ready$Score_Type<-as.factor(expertise3_ready$Score_Type)
+
+expertise3_ready$ih<-as.numeric(expertise3_ready$ih)
+
+
+#view the data
+head(expertise3_ready)
+```
+
+We can start to analyze our models with using hlm:
+
+```{r warning = FALSE, message = FALSE}
+
+## Start to analyze
+
+library(lme4) 
+Model.Null<-lmer(ih ~1+(1|Score_Type)+(1|ID),  
+                 data=expertise3_ready)
+summary(Model.Null)
+
+# get pseudo R^2
+performance::icc(Model.Null)
+
+
+```
+
+```{r warning = FALSE, message = FALSE}
+# Now add infoavoid as a fixed effect
+# same slope for all sites
+Model.1<-lmer(ih ~needforcog+(1|Score_Type)+(1|ID),   
+              data=expertise3_ready)
+summary(Model.1)
+
+# get pseudo R^2
+performance::icc(Model.1)
+```
+
+```{r}
+# compare the two models
+
+anova(Model.Null,Model.1)
+```
+
+Other hierarchical stages will be run, based on this comparison, we can say that need for cognition scores are related to inherence significantly.
