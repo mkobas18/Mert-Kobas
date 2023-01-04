@@ -1,0 +1,476 @@
+---
+title: "Expertise3 Data Analysis from the very beginning"
+author: "MK"
+date: "2023-01-04"
+categories: [example data, code, analysis]
+image: "data.png"
+---
+
+This post includes the trial analyses of an example data related to expertise.
+
+Import necessary packages and expertise data
+
+```{r warning = FALSE, message = FALSE}
+#Import library ----
+library(tidyverse)
+library(readr)
+library(purrr)
+
+#Read the csv file ----
+Expertise3 <- read_csv("~/Desktop/Expertise3_December 23, 2022_10.53.csv")
+
+```
+
+Creates a new dataframe called expertise3_clean, which is a copy of the original dataframe called Expertise3 and removes the second row of the dataframe and create a variable called column_names and assign it the names of the columns in the dataframe and change the column names
+
+```{r warning = FALSE, message = FALSE}
+
+#removes the second row of the dataframe
+expertise3_clean<-Expertise3%>% 
+  slice(-2) 
+
+
+#selects all columns except the ones listed 
+expertise3_clean <- expertise3_clean %>%
+  select(-StartDate, -EndDate, -Status, -Progress,-ResponseId,-RecordedDate,-RecipientLastName, -RecipientFirstName,-RecipientEmail, -ExternalReference, -LocationLatitude,-LocationLongitude, -DistributionChannel, -UserLanguage)
+
+#create a variable called column_names and assign it the names of the columns in the dataframe
+column_names <- names(expertise3_clean)
+
+##Change the column names ----
+colnames(expertise3_clean) <- c('ip','duration', 'finished', 'stih_lang','r_ih_lang','stih_school','r_ih_school',
+                                'stih_cards','r_ih_cards','stih_breakfast','r_ih_breakfast','stih_weddings','r_ih_weddings',
+                                'stih_teeth','r_ih_teeth','stih_traffic','r_ih_traffic','stih_tv','r_ih_tv',
+                                'know_lang','know_school','know_cards','know_breakfast','know_weddings','know_teeth',
+                                'know_traffic','know_tv',
+                                'course_lang','high_lang', 'colle_lang', 'grad_lang',
+                                'book_lang','numbook_lang','article_lang','numarticle_lang',
+                                'course_school','high_school', 'colle_school', 'grad_school',
+                                'book_school','numbook_school','article_school','numarticle_school',
+                                'course_cards','high_cards', 'colle_cards', 'grad_cards',
+                                'book_cards','numbook_cards','article_cards','numarticle_cards',
+                                'course_breakfast','high_breakfast', 'colle_breakfast', 'grad_breakfast',
+                                'book_breakfast','numbook_breakfast','article_breakfast','numarticle_breakfast',
+                                'course_weddings','high_weddings', 'colle_weddings', 'grad_weddings',
+                                'book_weddings','numbook_weddings','article_weddings','numarticle_weddings',
+                                'course_teeth','high_teeth', 'colle_teeth', 'grad_teeth',
+                                'book_teeth','numbook_teeth','article_teeth','numarticle_teeth',
+                                'course_traffic','high_traffic', 'colle_traffic', 'grad_traffic',
+                                'book_traffic','numbook_traffic','article_traffic','numarticle_traffic',
+                                'course_tv','high_tv', 'colle_tv', 'grad_tv',
+                                'book_tv','numbook_tv','article_tv','numarticle_tv',
+                                'needforcog1','needforcog2','needforcog3','needforcog4','needforcog5','needforcog6',
+                                'needforcog7','needforcog8','needforcog9','needforcog10','needforcog11','needforcog12',
+                                'needforcog13','needforcog14','needforcog15','needforcog16','needforcog17','needforcog18',
+                                'otherways','sex','birthdate','education','income','religion','identity','age','political_atti',
+                                'english_level','proceure_confu','whatwestudied','moretothisstudy','additional_thoughts','attention')
+
+
+```
+
+The code below shows the survey items:
+
+```{r warning = FALSE, message = FALSE}
+
+#selects all columns except the ones specified
+row_values <- expertise3_clean %>%
+  select(-duration,-finished, -ip)%>%
+  #selects only the first row
+  filter(row_number() == 1)
+
+#Items in the questionnaire ----
+
+#unlist the row_values
+row_values <- unlist(row_values)
+
+my_list <- map(row_values, ~paste0(.))
+
+library(stringr)
+my_list <- str_replace(my_list, "(?<! )\\n(?! )", "")
+my_list <- str_replace(my_list, "[^\\s]*\\\\n[^\\s]*", "")
+list_string <- paste0("* ", paste(my_list, collapse = "\n* "))
+
+##Show the survey items ----
+cat(list_string)
+```
+
+Data preparation for further analyses
+
+```{r warning = FALSE, message = FALSE}
+
+#Attention check and deletion of cases that didn't attend or finish the study ----
+expertise3_new<-expertise3_clean%>%
+  filter(attention==1&finished==1)
+
+
+##Exclude the participants that joined outside of US ----
+
+#view(expertise3_new)
+expertise3_new<-expertise3_new%>%
+  filter(ip!="37.221.172.194")
+
+expertise3_new <- expertise3_new %>%
+  filter(!(ip %in% c("77.198.10.26", "83.233.218.246", "189.172.66.106", "190.167.6.137")))
+
+##selecting the columns that we want to keep ----
+expertise3_new<-expertise3_new%>%
+  select(-finished,-otherways,-birthdate,-proceure_confu,-whatwestudied,-moretothisstudy,-additional_thoughts,-attention)
+
+#adds a column to the dataframe, with the name "id"
+expertise3_new<-cbind(ID = 1:nrow(expertise3_new), expertise3_new)
+
+# Numeric variables ----
+# Change the data type of the variables to numeric 
+expertise3_new <- expertise3_new %>%
+  mutate_at(vars(stih_lang, r_ih_lang, stih_school, r_ih_school, stih_cards, r_ih_cards, stih_breakfast, r_ih_breakfast, 
+                 stih_weddings, r_ih_weddings, stih_teeth, r_ih_teeth, stih_traffic, r_ih_traffic, stih_tv, r_ih_tv), as.numeric)
+
+
+```
+
+Check the correlations between inherence (the variables starting with st) and reverse inherence (the variables starting with r) scores to check whether it's appropriate for averaging
+
+```{r warning = FALSE, message = FALSE}
+
+# Correlations between ih scores ----
+
+# Create a list of variable names
+variables <- c("stih_lang", "r_ih_lang", "stih_school", "r_ih_school", "stih_cards", "r_ih_cards", "stih_breakfast", "r_ih_breakfast", "stih_weddings", "r_ih_weddings", "stih_teeth", "r_ih_teeth", "stih_traffic", "r_ih_traffic", "stih_tv", "r_ih_tv")
+
+# Initialize an empty data frame to store the correlation coefficients
+correlations <- data.frame(variable1 = character(), variable2 = character(), correlation = numeric(), p.value = numeric(), conf.int = character())
+
+# Iterate over the pairs of variables
+for (i in seq(1, length(variables), 2)) {
+  j <- i + 1
+  
+  # Calculate the Pearson correlation coefficient and test the statistical significance
+  correlation_test <- cor.test(expertise3_new[, variables[i]], expertise3_new[, variables[j]], method = "pearson")
+  
+  # Add the correlation coefficient, p-value, and confidence interval to the data frame
+  correlations <- rbind(correlations, data.frame(variable1 = variables[i], variable2 = variables[j], correlation = correlation_test$estimate, p.value = correlation_test$p.value, conf.int = paste(correlation_test$conf.int[1], correlation_test$conf.int[2], sep = " - ")))
+}
+
+## View the correlation coefficients and statistical measures ----
+correlations
+```
+
+It seems that each pairs have negative significant correlation, so we can take the average scores to calculate inherence scores
+
+```{r warning = FALSE, message = FALSE}
+
+## Average of ih scores  ----
+#It seems that each pairs have negative significant correlation, so we can take the average scores to measure inherence scores
+expertise3_new <- expertise3_new %>%
+  mutate(ih_lang = (stih_lang + (10 - r_ih_lang))/2,
+         ih_school = (stih_school + (10 - r_ih_school)) / 2,
+         ih_cards = (stih_cards + (10 - r_ih_cards)) / 2,
+         ih_breakfast = (stih_breakfast + (10 - r_ih_breakfast)) / 2,
+         ih_weddings = (stih_weddings + (10 - r_ih_weddings)) / 2,
+         ih_teeth = (stih_teeth + (10 - r_ih_teeth)) / 2,
+         ih_traffic = (stih_traffic + (10-r_ih_traffic)) / 2,
+         ih_tv = (stih_tv + (10-r_ih_tv)) / 2 )
+
+```
+
+Calculate "Need for cognition" scale scores
+
+```{r warning = FALSE, message = FALSE}
+# Need for cognition scale scores  ----
+
+# change the data type of the variables to numeric
+expertise3_new <- expertise3_new %>%
+  mutate_at(vars(needforcog1,needforcog2,needforcog3,needforcog4,needforcog5,needforcog6
+                 ,needforcog7,needforcog8,needforcog9,needforcog10,needforcog11,needforcog12,
+                 needforcog13,needforcog14,needforcog15,needforcog16,needforcog17,needforcog18), as.numeric)
+
+## Calculate needforcog scores  ----
+#add a new variable called needforcog, which is the sum of all the need for cognition items, the items are weighted according to the scoring key
+expertise3_new <- expertise3_new %>%
+  group_by(ID)%>%
+  mutate(needforcog=(needforcog1+needforcog2+
+                       (10-needforcog3)+(10-needforcog4)+(10-needforcog5)+needforcog6+
+                       (10-needforcog7)+(10-needforcog8)+(10-needforcog9)+
+                       needforcog10+needforcog11+(10-needforcog12)+
+                       needforcog13+needforcog14+needforcog15+
+                       (10-needforcog16)+(10-needforcog17)+needforcog18)/18)
+```
+
+Prepare the expertise scores and other scores ready for analyses
+
+```{r warning = FALSE, message = FALSE}
+
+# Replace expertise variables' NA values in the expertise columns with 0  ----
+variables <- c('high_lang', 'colle_lang', 'grad_lang',
+               'numbook_lang','numarticle_lang',
+               'high_school', 'colle_school', 'grad_school',
+               'numbook_school','numarticle_school',
+               'high_cards', 'colle_cards', 'grad_cards',
+               'numbook_cards','numarticle_cards',
+               'high_breakfast', 'colle_breakfast', 'grad_breakfast',
+               'numbook_breakfast','numarticle_breakfast',
+               'high_weddings', 'colle_weddings', 'grad_weddings',
+               'numbook_weddings','numarticle_weddings',
+               'high_teeth', 'colle_teeth', 'grad_teeth',
+               'numbook_teeth','numarticle_teeth',
+               'high_traffic', 'colle_traffic', 'grad_traffic',
+               'numbook_traffic','numarticle_traffic',
+               'high_tv', 'colle_tv', 'grad_tv',
+               'numbook_tv','numarticle_tv')
+
+expertise3_new[variables] <- lapply(expertise3_new[variables], 
+                                    function(x) ifelse(is.na(x), 0, ifelse(x=='no',0,x)))
+
+# Missing values in the dataframe  ----
+apply(is.na(expertise3_new), 2, sum)
+
+
+# Expertise Ready Df ----
+
+# Create new data frame as analyzable 
+expertise3_new<-expertise3_new%>%
+  select(-stih_lang,-r_ih_lang,-stih_school,-r_ih_school,
+         -stih_cards,-r_ih_cards,-stih_breakfast,-r_ih_breakfast,
+         -stih_weddings,-r_ih_weddings,
+         -stih_teeth,-r_ih_teeth,-stih_traffic,-r_ih_traffic,
+         -stih_tv,-r_ih_tv,
+         -course_lang,
+         -book_lang,-article_lang,
+         -course_school,
+         -book_school,-article_school,
+         -course_cards,
+         -book_cards,-article_cards,
+         -course_breakfast,
+         -book_breakfast,-article_breakfast,
+         -course_weddings,
+         -book_weddings,-article_weddings,
+         -course_teeth,
+         -book_teeth,-article_teeth,
+         -course_traffic,
+         -book_traffic,-article_traffic,
+         -course_tv,
+         -book_tv,-article_tv,
+         -needforcog1,-needforcog2,-needforcog3,-needforcog4,-needforcog5,-needforcog6,
+         -needforcog7,-needforcog8,-needforcog9,-needforcog10,-needforcog11,-needforcog12,
+         -needforcog13,-needforcog14,-needforcog15,-needforcog16,-needforcog17,-needforcog18)
+
+
+# change the data type of the variables to numeric
+expertise3_new <- expertise3_new %>%
+  mutate_at(vars('know_lang','know_school','know_cards','know_breakfast',
+                 'know_weddings','know_teeth','know_traffic','know_tv',
+                 'high_lang', 'colle_lang', 'grad_lang',
+                 'numbook_lang','numarticle_lang',
+                 'high_school', 'colle_school', 'grad_school',
+                 'numbook_school','numarticle_school',
+                 'high_cards', 'colle_cards', 'grad_cards',
+                 'numbook_cards','numarticle_cards',
+                 'high_breakfast', 'colle_breakfast', 'grad_breakfast',
+                 'numbook_breakfast','numarticle_breakfast',
+                 'high_weddings', 'colle_weddings', 'grad_weddings',
+                 'numbook_weddings','numarticle_weddings',
+                 'high_teeth', 'colle_teeth', 'grad_teeth',
+                 'numbook_teeth','numarticle_teeth',
+                 'high_traffic', 'colle_traffic', 'grad_traffic',
+                 'numbook_traffic','numarticle_traffic',
+                 'high_tv', 'colle_tv', 'grad_tv',
+                 'numbook_tv','numarticle_tv'), as.numeric)
+
+```
+
+Long format of expertise dataset for factor analysis before standardization
+
+```{r warning = FALSE, message = FALSE}
+library('reshape2')
+
+expertise3_factor <- melt(expertise3_new, id.vars = c("ID",'duration',"sex" ,"education" ,"income","religion",'identity','age','political_atti','english_level','needforcog'), 
+                        measure.vars = c("ih_lang", "ih_school","ih_cards", "ih_breakfast", "ih_weddings", 
+                                         "ih_teeth", "ih_traffic", "ih_tv",'know_lang','know_school','know_cards','know_breakfast',
+                                         'know_weddings','know_teeth','know_traffic','know_tv',
+                                         'high_lang', 'colle_lang', 'grad_lang',
+                                         'numbook_lang','numarticle_lang',
+                                         'high_school', 'colle_school', 'grad_school',
+                                         'numbook_school','numarticle_school',
+                                         'high_cards', 'colle_cards', 'grad_cards',
+                                         'numbook_cards','numarticle_cards',
+                                         'high_breakfast', 'colle_breakfast', 'grad_breakfast',
+                                         'numbook_breakfast','numarticle_breakfast',
+                                         'high_weddings', 'colle_weddings', 'grad_weddings',
+                                         'numbook_weddings','numarticle_weddings',
+                                         'high_teeth', 'colle_teeth', 'grad_teeth',
+                                         'numbook_teeth','numarticle_teeth',
+                                         'high_traffic', 'colle_traffic', 'grad_traffic',
+                                         'numbook_traffic','numarticle_traffic',
+                                         'high_tv', 'colle_tv', 'grad_tv',
+                                         'numbook_tv','numarticle_tv'),
+                        sep = "_", variable.name = "Category", value.name = "Score")
+
+# Split the Category column into two columns based on the underscore separator
+expertise3_factor <- expertise3_factor %>% separate(Category, into = c("Category", "Score_Type"), sep = "_")
+
+## spread the data from long to wide format  ----
+expertise3_fact <- expertise3_factor %>% spread(Category, Score)
+
+# change the score type to a factor
+expertise3_fact$Score_Type<-as.factor(expertise3_fact$Score_Type)
+
+# convert the column ih to numeric
+expertise3_fact$ih<-as.numeric(expertise3_fact$ih)
+```
+
+Factor analysis for expertise variables with raw scores
+
+```{r warning = FALSE, message = FALSE}
+# Import packages 
+
+library(psych) #PCA/EFA analysis
+library(REdaS) #Produces KMO and Bartletts test
+
+# Create a new dataframe that include only related variables
+factor_exp0<-expertise3_fact%>%
+  select(colle, grad, high, numarticle, numbook)
+
+# Check missing values
+apply(is.na(factor_exp0), 2, sum)
+
+# Since grad classes for TV category is missing (nobody takes any class in the sample), listwise deletion is applied here.
+bart_spher(factor_exp0, use = "complete.obs") ###### produces Bartletts test of spherecity 
+
+KMO(factor_exp0)       ###### Kaiser-Meyer-Olkin measure, which is above .5.
+
+# Let's check all the variables
+fa(factor_exp0, nfactors = 5, rotate =  "oblimin" )  
+
+# We may reduce it to 2 factors like media and classes
+fa(factor_exp0, nfactors = 2, rotate =  "oblimin" )  
+
+factor_dia0<-fa(factor_exp0, nfactors = 2, rotate =  "oblimin" ) ##save the analysis as the object m1
+fa.diagram(factor_dia0,main="Expertise Variables")  
+
+```
+
+It is interesting that grad courses are more related to media category than classes although the correlation strength -r values- were low. It may be related to active participation or effect of history (books/articles can be mostly read during grad courses or the remembered ones at least?). So here, in my sense, we may collect these items under active vs. passive involvement or contemporary (closer) expertise vs. older expertise.
+
+Long format of expertise dataset
+
+```{r warning = FALSE, message = FALSE}
+library('reshape2')
+
+expertise3_long <- melt(expertise3_new, id.vars = c("ID",'duration',"sex" ,"education" ,"income","religion",'identity','age','political_atti','english_level','needforcog'), 
+                        measure.vars = c("ih_lang", "ih_school","ih_cards", "ih_breakfast", "ih_weddings", 
+                                         "ih_teeth", "ih_traffic", "ih_tv",'know_lang','know_school','know_cards','know_breakfast',
+                                         'know_weddings','know_teeth','know_traffic','know_tv',
+                                         'high_lang', 'colle_lang', 'grad_lang',
+                                         'numbook_lang','numarticle_lang',
+                                         'high_school', 'colle_school', 'grad_school',
+                                         'numbook_school','numarticle_school',
+                                         'high_cards', 'colle_cards', 'grad_cards',
+                                         'numbook_cards','numarticle_cards',
+                                         'high_breakfast', 'colle_breakfast', 'grad_breakfast',
+                                         'numbook_breakfast','numarticle_breakfast',
+                                         'high_weddings', 'colle_weddings', 'grad_weddings',
+                                         'numbook_weddings','numarticle_weddings',
+                                         'high_teeth', 'colle_teeth', 'grad_teeth',
+                                         'numbook_teeth','numarticle_teeth',
+                                         'high_traffic', 'colle_traffic', 'grad_traffic',
+                                         'numbook_traffic','numarticle_traffic',
+                                         'high_tv', 'colle_tv', 'grad_tv',
+                                         'numbook_tv','numarticle_tv'),
+                        sep = "_", variable.name = "Category", value.name = "Score")
+
+# Split the Category column into two columns based on the underscore separator
+expertise3_long <- expertise3_long %>% separate(Category, into = c("Category", "Score_Type"), sep = "_")
+
+## spread the data from long to wide format  ----
+expertise3_ready <- expertise3_long %>% spread(Category, Score)
+
+# change the score type to a factor
+expertise3_ready$Score_Type<-as.factor(expertise3_ready$Score_Type)
+
+# convert the column ih to numeric
+expertise3_ready$ih<-as.numeric(expertise3_ready$ih)
+
+```
+
+Factor analysis for expertise variables with standardized scores
+
+```{r}
+# Import packages 
+
+library(psych) #PCA/EFA analysis
+library(REdaS) #Produces KMO and Bartletts test
+
+# Create a new dataframe that include only related variables
+factor_exp<-expertise3_ready%>%
+  select(colle, grad, high, numarticle, numbook)
+
+# Check missing values
+apply(is.na(factor_exp), 2, sum)
+
+# Since grad classes for TV category is missing (nobody takes any class in the sample), listwise deletion is applied here.
+bart_spher(factor_exp, use = "complete.obs") ###### produces Bartletts test of spherecity 
+
+KMO(factor_exp)       ###### Kaiser-Meyer-Olkin measure, which is above .5.
+
+# Let's check all the variables
+fa(factor_exp, nfactors = 5, rotate =  "oblimin" )  
+
+# So we can reduce it to 2 factors
+fa(factor_exp, nfactors = 2, rotate =  "oblimin" )  
+
+```
+
+Figure for the analysis
+
+```{r}
+# Figure for the analysis
+
+factor_dia1<-fa(factor_exp, nfactors = 2, rotate =  "oblimin" ) ##save the analysis as the object m1
+fa.diagram(factor_dia1,main="Expertise Variables")  
+```
+
+We can start to analyze our models with using hlm:
+
+```{r warning = FALSE, message = FALSE}
+
+## Import packages ----
+library(lme4) 
+
+library(lmerTest)
+
+## Model 1 ----
+
+# Need for cognition and perceived expertise as fixed effects
+Model.1<-lmer(ih ~needforcog*know+(1|Score_Type)+(1|ID),   
+              data=expertise3_ready)
+summary(Model.1)
+confint(Model.1)
+
+```
+
+So it seems that the interaction between perceived knowledge and need for cognition are related to inherence significantly. Interestingly, this interaction is negatively related to inherence scores. We may argue that perceived knowledge is misleading, but need for cognition moderates this relation as an individual difference. Therefore, people seek out tasks that challenge their abilities may show less inherent bias contained explanations even if they think they know that area (maybe false, maybe true). It may be related to Dunning--Kruger effect (\[Kruger & Dunning, 1999\](https://www.sciencedirect.com/science/article/pii/B9780123855220000056#bb0315)). People may overestimate their abilities, but judge the explanations with inherence bias. Not suprisingly, people who are seeking for cognitive activities (need for cognition) may also show more effort for the explanations.
+
+```{r warning = FALSE, message = FALSE}
+## Model 2----
+
+# Need for cognition and courses without perceived expertise
+Model.2<-lmer(ih ~colle*grad*high*needforcog+(1|Score_Type)+(1|ID),   
+              data=expertise3_ready)
+summary(Model.2)
+confint(Model.2)
+```
+
+The second model includes what I call true expertise with classes. Here only the interaction between high school courses and need for cognition is significantly related to inherence bias. This may be misleading because after new analyses with a latent variable (only classes), this effect may not be there. However, if we would interpret this result, I would probably say that high school classes may work as perceived knowledge, they are probably superficial and forgotten already in adulthood, so even if they took these courses, they didn't become experts and evaluate the inherent bias included sentences are more satisfactory.
+
+```{r warning = FALSE, message = FALSE}
+## Model 3 ----
+
+# Books and need for cognition as fixed effects
+Model.3<-lmer(ih ~numarticle*numbook*needforcog+(1|Score_Type)+(1|ID),   
+              data=expertise3_ready)
+summary(Model.3)
+confint(Model.3)
+
+```
+
+This is also interesting, books, articles and need for cognition interaction is significantly related to inherence scores and negatively (but the two way interaction between books and need for cognition is positive). Similar to previous model, if we would interpret this, I would say that people who read books about that topic (active participation/experience) may have less tendency for inherent bias and need for cognition moderates this relation, so if you read many books but less seek cognitive activities, you probably still have inherent bias more. Articles are interesting here because their two way interaction is negative and its correlation between books and need for cognition is negative, which is similar to high school classes and perceived expertise. It may be because magazine articles like from popular science area, etc. offers superficial information and sometimes false information. So even if you feel more knowledgeable in that area, it may be misleading here.

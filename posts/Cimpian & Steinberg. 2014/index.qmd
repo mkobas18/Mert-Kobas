@@ -6,7 +6,7 @@ categories: [articles, notes, new ideas]
 image: "articles.png"
 ---
 
-## **The inherence heuristic across development: Systematic differences between children's and adults' explanations for everyday facts** 
+## **The inherence heuristic across development: Systematic differences between children's and adults' explanations for everyday facts**
 
 Definition of inherence heuristics: Explaining the data with mostly inherent features of the things. For example, the question of why people walk to the places that are close to their home can be answered with because they have legs rather than it's more money saving or it's the environmental friendly way. It's prevalent in adult's thinking, but what about children? Based on this question, they have two research questions:
 

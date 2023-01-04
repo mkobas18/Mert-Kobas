@@ -1,0 +1,29 @@
+---
+title: "Cimpian & Salomon (2014) The inherence heuristic: An intuitive means of making sense of the world, and a potential precursor to psychological essentialism "
+author: "MK"
+date: "2023-01-04"
+categories: [articles, notes, new ideas]
+image: "articles.png"
+---
+
+## **The inherence heuristic: An intuitive means of making sense of the world, and a potential precursor to psychological essentialism**
+
+Inherence = in and on itself.
+
+![Cimpian & Salomon (2014), p. 462](Cimpian%20&%20Salomon%202014%20Figure%201.png){fig-align="center" width="400"}
+
+One of the important point in the article is the explanation of a cognitive mechanism for inherence bias. Inspired by Kahneman (2011)'s terms, the article defined this as:
+
+![Cimpian & Salomon (2014), p. 463](Cimpian%20&%20Salomon%202014%20Figure%202.png)
+
+If we go back to Horne et al. (2019), the first part (question or task) is similar to explanandum (the thing that needs to be explained), so it requires attention and WM systems.
+
+The second part (mental shotgun), I think, contains both contrast class part and the difference between explanandum and contrast class parts (this difference part can also be in storytelling and quick intuition part). Therefore, it requires long term memory and WM systems again. Horne et al. (2019)'s cognitive systems approach prioritize to explain explanation generation process, so we may see it more general, I guess. Mental shotgun stage provides usually generation of assortment of facts. Like in the example of coins in Horne et al. (2019), people bring coins are made of metals as a fact to their mind rather than the answer of "why is bitcoin symbol a coin?" (probably to remind money because people probably first think coin when they think about money rather than bank credits?). So mental shotgun stage is the starting point of this heuristic (because thinking about representation of money in history with sociocultural facts and the meaning of money for people produced more cognitive load and not fast, it is related to semantic-associative info).
+
+Storytell part is the combination of fact stage. The most important part here, people used inherent facts when they explain patterns rather than extrinsic information because of their essentialist beliefs. Just like what happened for the generics vs. specific units, patterns are related to essentialist beliefs in the mind, which is also inherent information, but instances (why this bitcoin has coin symbol?) may be explained with more extrinsic fact (because it was sold to a coin producer?). Storytell part is also related working memory systems (updating the information). This part with mental shotgun may be similar to hypothesis generation part
+
+After storytelling part, people have a rule that governs their mind, which is a intuitive mind related rule: "The intuitive mind, however, seems to operate by the principle of "what you see is all there is": Any information that is not activated by the mental shotgun is completely ignored for purposes of making a judgment". This part may be related to metacognitive process and hypothesis evaluation/testing part. Since this is a fast and intuitive process, metacognitive related mental systems work poorly. The last part is the production of all these parts, which taps to difference between explanandum and contrast class totally, quick intuition.
+
+We are capable of avoiding this bias like if mental shotgun activates first external information (I think experience related part is this) or like if we can take a feedback (p.467, first paragraph).
+
+[Question 1:]{.underline} Feedback included data? Like mentioning color suggestions for different genders from the history first, after asking why boys wear blue, girls pink. Or like the visual categorization studies? Feedback means also experience, but well-experienced people must switch between inherent and extrinsic facts appropriately and fast, so they can generate satisfactory explanation quickly?
