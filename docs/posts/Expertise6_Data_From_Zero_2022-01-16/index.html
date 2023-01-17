@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="MK">
+<meta name="dcterms.date" content="2023-01-16">
+
+<title>Mert’s Learning Journal - Expertise6 Data Analysis from the very beginning</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Mert’s Learning Journal</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/mkobas18"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/mertkobas"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Expertise6 Data Analysis from the very beginning</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">example data</div>
+                <div class="quarto-category">code</div>
+                <div class="quarto-category">analysis</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>MK </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">January 16, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p>This post includes the trial analyses of an example data related to expertise.</p>
+<p>Notes: Need for closure scores haven’t been calculated, the reverse items will be checked. Notes: For the long format, internet article, documentaries and podcast series should be added.</p>
+<section id="import-necessary-packages-and-expertise-data" class="level3">
+<h3 class="anchored" data-anchor-id="import-necessary-packages-and-expertise-data">Import necessary packages and expertise data</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Import library ----</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(jmv)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DescTools)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stats)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">#Read the csv file ----</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>Expertise6 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"~/Desktop/Expertise6_5.8.14_December 23, 2022_10.51 2.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Creates a new dataframe called expertise6_clean, which is a copy of the original dataframe called expertise6 and removes the second row of the dataframe and create a variable called column_names and assign it the names of the columns in the dataframe and change the column names</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#removes the second row of the dataframe</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>expertise6_clean<span class="ot">&lt;-</span>Expertise6<span class="sc">%&gt;%</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="sc">-</span><span class="dv">2</span>) </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">#selects all columns except the ones listed </span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>expertise6_clean <span class="ot">&lt;-</span> expertise6_clean <span class="sc">%&gt;%</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>StartDate, <span class="sc">-</span>EndDate, <span class="sc">-</span>Status, <span class="sc">-</span>Progress,<span class="sc">-</span>ResponseId,<span class="sc">-</span>RecordedDate,<span class="sc">-</span>RecipientLastName, <span class="sc">-</span>RecipientFirstName,<span class="sc">-</span>RecipientEmail, <span class="sc">-</span>ExternalReference, <span class="sc">-</span>LocationLatitude,<span class="sc">-</span>LocationLongitude, <span class="sc">-</span>DistributionChannel, <span class="sc">-</span>UserLanguage)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">#create a variable called column_names and assign it the names of the columns in the dataframe</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>column_names <span class="ot">&lt;-</span> <span class="fu">names</span>(expertise6_clean)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>column_names</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] "IPAddress"             "Duration (in seconds)" "Finished"             
+  [4] "Q39"                   "Q40"                   "Q41"                  
+  [7] "Q42"                   "Q43"                   "Q44"                  
+ [10] "Q45"                   "Q46"                   "Q47"                  
+ [13] "Q48"                   "Q49"                   "Q50"                  
+ [16] "Q51"                   "Q52"                   "Q53"                  
+ [19] "Q54"                   "Q147_1"                "Q149_1"               
+ [22] "Q151_1"                "Q153_1"                "Q155_1"               
+ [25] "Q157_1"                "Q159_1"                "Q161_1"               
+ [28] "Q69"                   "Q3_1"                  "Q3_2"                 
+ [31] "Q3_3"                  "Q70"                   "Q4"                   
+ [34] "Q71"                   "Q5"                    "Q204"                 
+ [37] "Q209...51"             "Q206"                  "Q210"                 
+ [40] "Q208"                  "Q211...55"             "Q73"                  
+ [43] "Q74_1"                 "Q74_2"                 "Q74_3"                
+ [46] "Q75"                   "Q76...61"              "Q77"                  
+ [49] "Q78...63"              "Q214...64"             "Q219...65"            
+ [52] "Q216"                  "Q214...67"             "Q218"                 
+ [55] "Q215...69"             "Q80...70"              "Q81_1"                
+ [58] "Q81_2"                 "Q81_3"                 "Q82"                  
+ [61] "Q83"                   "Q84"                   "Q85"                  
+ [64] "Q217...78"             "Q222"                  "Q219...80"            
+ [67] "Q223...81"             "Q221...82"             "Q224"                 
+ [70] "Q87"                   "Q88_1"                 "Q88_2"                
+ [73] "Q88_3"                 "Q89"                   "Q90"                  
+ [76] "Q91"                   "Q92"                   "Q226"                 
+ [79] "Q231...93"             "Q228"                  "Q232"                 
+ [82] "Q230"                  "Q233...97"             "Q94"                  
+ [85] "Q95_1"                 "Q95_2"                 "Q95_3"                
+ [88] "Q96"                   "Q97"                   "Q98"                  
+ [91] "Q99"                   "Q245...106"            "Q246...107"           
+ [94] "Q247...108"            "Q248...109"            "Q249...110"           
+ [97] "Q250...111"            "Q101"                  "Q102_1"               
+[100] "Q102_2"                "Q102_3"                "Q103"                 
+[103] "Q104"                  "Q105"                  "Q106"                 
+[106] "Q235...120"            "Q240"                  "Q237...122"           
+[109] "Q241...123"            "Q239...124"            "Q242"                 
+[112] "Q108"                  "Q109_1"                "Q109_2"               
+[115] "Q109_3"                "Q110"                  "Q111"                 
+[118] "Q112"                  "Q113"                  "Q244"                 
+[121] "Q249...135"            "Q246...136"            "Q250...137"           
+[124] "Q248...138"            "Q251...139"            "Q115"                 
+[127] "Q116_1"                "Q116_2"                "Q116_3"               
+[130] "Q117"                  "Q118"                  "Q119"                 
+[133] "Q120"                  "Q253"                  "Q258"                 
+[136] "Q255"                  "Q259"                  "Q257"                 
+[139] "Q251...153"            "Q167"                  "Q169"                 
+[142] "Q171"                  "Q173"                  "Q175"                 
+[145] "Q177"                  "Q179"                  "Q181"                 
+[148] "Q183"                  "Q185"                  "Q187"                 
+[151] "Q189"                  "Q191"                  "Q193"                 
+[154] "Q195"                  "Q197"                  "Q199"                 
+[157] "Q201"                  "Q203"                  "Q205"                 
+[160] "Q207"                  "Q209...175"            "Q211...176"           
+[163] "Q213"                  "Q215...178"            "Q217...179"           
+[166] "Q219...180"            "Q221...181"            "Q223...182"           
+[169] "Q225"                  "Q227"                  "Q229"                 
+[172] "Q231...186"            "Q233...187"            "Q235...188"           
+[175] "Q237...189"            "Q239...190"            "Q241...191"           
+[178] "Q243"                  "Q245...193"            "Q247...194"           
+[181] "Q249...195"            "Q58"                   "Q60_1"                
+[184] "Q62"                   "Q64_1"                 "Q64_2"                
+[187] "Q64_3"                 "Q64_4"                 "Q66"                  
+[190] "Q68"                   "Q72"                   "Q74"                  
+[193] "Q76...207"             "Q78...208"             "Q80...209"            
+[196] "SurveyOrder"          </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">##Change the column names ----</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(expertise6_clean) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'ip'</span>,<span class="st">'duration'</span>, <span class="st">'finished'</span>, <span class="st">'stih_food'</span>,<span class="st">'r_ih_food'</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'stih_sports'</span>,<span class="st">'r_ih_sports'</span>,<span class="st">'stih_school'</span>,<span class="st">'r_ih_school'</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'stih_architect'</span>,<span class="st">'r_ih_architect'</span>,<span class="st">'stih_product'</span>,<span class="st">'r_ih_product'</span>,                                <span class="st">'stih_langu'</span>,<span class="st">'r_ih_langu'</span>,<span class="st">'stih_network'</span>,<span class="st">'r_ih_network'</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'stih_anthro'</span>,<span class="st">'r_ih_anthro'</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'know_food'</span>,<span class="st">'know_sports'</span>,<span class="st">'know_school'</span>,<span class="st">'know_architect'</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'know_product'</span>,<span class="st">'know_langu'</span>,<span class="st">'know_network'</span>,<span class="st">'know_anthro'</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'course_food'</span>,<span class="st">'high_food'</span>, <span class="st">'colle_food'</span>, <span class="st">'grad_food'</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'book_food'</span>,<span class="st">'numbook_food'</span>,<span class="st">'article_food'</span>,<span class="st">'numarticle_food'</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'in_arti_food'</span>,<span class="st">'numinarti_food'</span>, <span class="st">'docu_food'</span>, <span class="st">'numdocu_food'</span>,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'radio_food'</span>,<span class="st">'numradio_food'</span>,</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'course_sports'</span>,<span class="st">'high_sports'</span>, <span class="st">'colle_sports'</span>, <span class="st">'grad_sports'</span>,</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'book_sports'</span>,<span class="st">'numbook_sports'</span>,<span class="st">'article_sports'</span>,<span class="st">'numarticle_sports'</span>,</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'in_arti_sports'</span>,<span class="st">'numinarti_sports'</span>, <span class="st">'docu_sports'</span>, <span class="st">'numdocu_sports'</span>,</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'radio_sports'</span>,<span class="st">'numradio_sports'</span>,</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'course_school'</span>,<span class="st">'high_school'</span>, <span class="st">'colle_school'</span>, <span class="st">'grad_school'</span>,</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'book_school'</span>,<span class="st">'numbook_school'</span>,<span class="st">'article_school'</span>,<span class="st">'numarticle_school'</span>,</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'in_arti_school'</span>,<span class="st">'numinarti_school'</span>, <span class="st">'docu_school'</span>, <span class="st">'numdocu_school'</span>,</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'radio_school'</span>,<span class="st">'numradio_school'</span>,</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'course_architect'</span>,<span class="st">'high_architect'</span>, <span class="st">'colle_architect'</span>,<span class="st">'grad_architect'</span>,</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'book_architect'</span>,<span class="st">'numbook_architect'</span>,<span class="st">'article_architect'</span>,</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numarticle_architect'</span>,</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'in_arti_architect'</span>,<span class="st">'numinarti_architect'</span>, </span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'docu_architect'</span>, <span class="st">'numdocu_architect'</span>,</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'radio_architect'</span>,<span class="st">'numradio_architect'</span>,</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'course_product'</span>,<span class="st">'high_product'</span>, <span class="st">'colle_product'</span>, <span class="st">'grad_product'</span>,</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'book_product'</span>,<span class="st">'numbook_product'</span>,<span class="st">'article_product'</span>,</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numarticle_product'</span>,</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'in_arti_product'</span>,<span class="st">'numinarti_product'</span>, <span class="st">'docu_product'</span>, <span class="st">'numdocu_product'</span>,</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'radio_product'</span>,<span class="st">'numradio_product'</span>,</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'course_langu'</span>,<span class="st">'high_langu'</span>, <span class="st">'colle_langu'</span>, <span class="st">'grad_langu'</span>,</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'book_langu'</span>,<span class="st">'numbook_langu'</span>,<span class="st">'article_langu'</span>,<span class="st">'numarticle_langu'</span>,</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'in_arti_langu'</span>,<span class="st">'numinarti_langu'</span>, <span class="st">'docu_langu'</span>, <span class="st">'numdocu_langu'</span>,</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'radio_langu'</span>,<span class="st">'numradio_langu'</span>,</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'course_network'</span>,<span class="st">'high_network'</span>, <span class="st">'colle_network'</span>, <span class="st">'grad_network'</span>,</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'book_network'</span>,<span class="st">'numbook_network'</span>,<span class="st">'article_network'</span>,<span class="st">'numarticle_network'</span>,</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'in_arti_network'</span>,<span class="st">'numinarti_network'</span>, <span class="st">'docu_network'</span>, <span class="st">'numdocu_network'</span>,</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'radio_network'</span>,<span class="st">'numradio_network'</span>,</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'course_anthro'</span>,<span class="st">'high_anthro'</span>, <span class="st">'colle_anthro'</span>, <span class="st">'grad_anthro'</span>,</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'book_anthro'</span>,<span class="st">'numbook_anthro'</span>,<span class="st">'article_anthro'</span>,<span class="st">'numarticle_anthro'</span>,</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'in_arti_anthro'</span>,<span class="st">'numinarti_anthro'</span>, <span class="st">'docu_anthro'</span>, <span class="st">'numdocu_anthro'</span>,</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'radio_anthro'</span>,<span class="st">'numradio_anthro'</span>,</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo1'</span>,<span class="st">'needforclo2'</span>,<span class="st">'needforclo3'</span>,<span class="st">'needforclo4'</span>,<span class="st">'needforclo5'</span>,</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo6'</span>,<span class="st">'needforclo7'</span>,<span class="st">'needforclo8'</span>,<span class="st">'needforclo9'</span>,<span class="st">'needforclo10'</span>,</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo11'</span>,<span class="st">'needforclo12'</span>,<span class="st">'needforclo13'</span>,<span class="st">'needforclo14'</span>,</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo15'</span>,<span class="st">'needforclo16'</span>,<span class="st">'needforclo17'</span>,<span class="st">'needforclo18'</span>,</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo19'</span>,<span class="st">'needforclo20'</span>,<span class="st">'needforclo21'</span>,<span class="st">'needforclo22'</span>,</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo23'</span>,<span class="st">'needforclo24'</span>,<span class="st">'needforclo25'</span>,<span class="st">'needforclo26'</span>,</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo27'</span>,<span class="st">'needforclo28'</span>,<span class="st">'needforclo29'</span>,<span class="st">'needforclo30'</span>,</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo31'</span>,<span class="st">'needforclo32'</span>,<span class="st">'needforclo33'</span>,<span class="st">'needforclo34'</span>,</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo35'</span>,<span class="st">'needforclo36'</span>,<span class="st">'needforclo37'</span>,<span class="st">'needforclo38'</span>,</span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo39'</span>,<span class="st">'needforclo40'</span>,<span class="st">'needforclo41'</span>,<span class="st">'needforclo42'</span>,</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'sex'</span>,<span class="st">'birthdate'</span>,<span class="st">'education'</span>,<span class="st">'income'</span>,<span class="st">'religion'</span>,</span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'identity'</span>,<span class="st">'age'</span>,<span class="st">'political_atti'</span>,<span class="st">'english_level'</span>,<span class="st">'proceure_confu'</span>,</span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'whatwestudied'</span>,<span class="st">'moretothisstudy'</span>,<span class="st">'additional_thoughts'</span>,<span class="st">'attention'</span>, </span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'surveyorder'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="questionnaire-items" class="level3">
+<h3 class="anchored" data-anchor-id="questionnaire-items">Questionnaire Items</h3>
+<p>The code below shows the survey items:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#selects all columns except the ones specified</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>row_values <span class="ot">&lt;-</span> expertise6_clean <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>duration,<span class="sc">-</span>finished, <span class="sc">-</span>ip, <span class="sc">-</span>surveyorder)<span class="sc">%&gt;%</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">#selects only the first row</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">row_number</span>() <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Items in the questionnaire ----</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#unlist the row_values</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>row_values <span class="ot">&lt;-</span> <span class="fu">unlist</span>(row_values)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>my_list <span class="ot">&lt;-</span> <span class="fu">map</span>(row_values, <span class="sc">~</span><span class="fu">paste0</span>(.))</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>my_list <span class="ot">&lt;-</span> <span class="fu">str_replace</span>(my_list, <span class="st">"(?&lt;! )</span><span class="sc">\\</span><span class="st">n(?! )"</span>, <span class="st">""</span>)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>my_list <span class="ot">&lt;-</span> <span class="fu">str_replace</span>(my_list, <span class="st">"[^</span><span class="sc">\\</span><span class="st">s]*</span><span class="sc">\\\\</span><span class="st">n[^</span><span class="sc">\\</span><span class="st">s]*"</span>, <span class="st">""</span>)</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>list_string <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"* "</span>, <span class="fu">paste</span>(my_list, <span class="at">collapse =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">* "</span>))</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="do">##Show the survey items ----</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(list_string)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>* There are good reasons why drive-thrus are typically associated with fast-food restaurants. There are things about drive-thrus that make them less suited for fancy or upscale restaurants.
+* Even though we don’t typically see drive-thrus at fancy restaurants, there is no real reason why fancy restaurants don’t have drive-thrus. This practice could have easily been different.
+* It seems natural that we sing the national anthem before sporting events, rather than after. The national anthem just fits better at the beginning of a sports game.
+* When you really think about, singing the national anthem before sporting events is just a convention. If history had unfolded differently, it’s possible that we would be singing it after the events, or maybe even not at all.
+* It seems right that students receive letter grades in school (A, B, C, …) to measure their performance. Another evaluative process would likely not work as well.
+* It’s likely that evaluating students’ performance with letter grades (A, B, C, …) is not the best practice. Another evaluative process may be more effective than letter grading.
+* It probably works best for homes to be painted with neutral or muted colors (e.g., white, gray). Bright or neon-colored homes (e.g., red, purple) would not be practical.
+* Although homes are usually painted with neutral or muted colors (e.g., white, gray), this could have been done differently.  It’s quite possible that homes could have been painted with brighter colors (e.g., red, purple).
+* It seems ideal that forks usually have three or four prongs, rather than more prongs (for example, six or seven). Three or four prongs on forks is probably the best design.
+* There’s no good reason why forks only have three or four prongs. Forks with more prongs (for example, six or seven) would work just as well; in principle, forks could have been designed that way too.
+* It seems natural that the letter “s” at the end of a word is used to indicate plurality (as in "cats" or "trees"). Another way of signaling plurality would not work as well.
+* Had historical events unfolded differently, it’s possible that the English language would indicate plurality in a different way than using the letter “s” (as in "cats" or "trees"). There’s nothing inherently special about the letter “s” for this purpose.
+* There are good reasons why we use digits, rather than letters, to call people on the phone.  Using digits seems like the optimal way to make phone calls.
+* The only reason why we use digits, rather than letters, to call people is historical happenstance.  Phones calls could have just as easily been made with a variety of symbols other than digits (for example, letters).
+* It seems natural that people wear black to funerals. There is something about the color black that indicates mourning.
+* When you think about it, colors other than black could have just as easily become associated with funerals (for example, white). Had history taken a different turn, another color may now signal mourning and sadness.
+* How much do you know about the food industry and restaurant business? - Please use the slider to select your answer choice.
+* How much do you know about sports and sports management? - Please use the slider to select your answer choice.
+* How much do you know about school and education systems? - Please use the slider to select your answer choice.
+* How much do you know about architecture and home design? - Please use the slider to select your answer choice.
+* How much do you know about product design and usability? - Please use the slider to select your answer choice.
+* How much do you know about language and linguistics? - Please use the slider to select your answer choice.
+* How much do you know about telecommunication and network systems? - Please use the slider to select your answer choice.
+* How much do you know about anthropology and funeral rites? - Please use the slider to select your answer choice.
+* Have you ever taken a class that discussed the food industry and restaurant business?
+* If you answered "yes" above, please approximate the number of classes of this sort you took in: - High School
+* If you answered "yes" above, please approximate the number of classes of this sort you took in: - College
+* If you answered "yes" above, please approximate the number of classes of this sort you took in: - Graduate School
+* Have you ever read any books on the food industry and restaurant business?
+* If you answered "yes" above, please approximate the number of books you have read on this topic:
+* Have you ever read any magazine, newspaper, or academic articles on the food industry and restaurant business?
+* If you answered "yes" above, please approximate the number of articles you have read on this topic:
+* Have you ever read any articles while browsing the internet  (e.g., on Reddit, Pinterest, Buzzfeed) on the food industry and restaurant business?
+* If you answered "yes" above, please approximate the number of articles on the internet you have read on this topic:
+* Have you ever seen any documentaries (e,g., on the Discovery channel) on the food industry and restaurant business?
+* If you answered "yes" above, please approximate the number of documentaries you have seen on this topic:
+* Have you ever heard any radio shows or podcasts (e.g., NPR) on the food industry and restaurant business?
+* If you answered "yes" above, please approximate the number of radio shows or podcasts you have heard on this topic:
+* Have you ever taken a class that discussed sports and sports management?
+* If you answered "yes" above, please approximate the number of classes of this sort you took in: - High School
+* If you answered "yes" above, please approximate the number of classes of this sort you took in: - College
+* If you answered "yes" above, please approximate the number of classes of this sort you took in: - Graduate School
+* Have you ever read any books on sports and sports management?
+* If you answered "yes" above, please approximate the number of books you have read on this topic:
+* Have you ever read any magazine, newspaper, or academic articles on sports and sports management?
+* If you answered "yes" above, please approximate the number of articles you have read on this topic:
+* Have you ever read any articles while browsing the internet  (e.g., on Reddit, Pinterest, Buzzfeed) on sports and sports management?
+* If you answered "yes" above, please approximate the number of articles on the internet you have read on this topic:
+* Have you ever watched any documentaries (e,g., on the Discovery channel) on sports and sports management?
+* If you answered "yes" above, please approximate the number of documentaries you have seen on this topic:
+* Have you ever heard any radio shows or podcasts (e.g., NPR) on sports and sports management?
+* If you answered "yes" above, please approximate the number of radio shows or podcasts you have heard on this topic:
+* Have you ever taken a class that discussed school and education systems?
+* If you answered "yes" above, please approximate the number of classes of this sort you took in: - High School
+* If you answered "yes" above, please approximate the number of classes of this sort you took in: - College
+* If you answered "yes" above, please approximate the number of classes of this sort you took in: - Graduate School
+* Have you ever read any books on school and education systems?
+* If you answered "yes" above, please approximate the number of books you have read on this topic:
+* Have you ever read any magazine, newspaper, or academic articles on school and education systems?
+* If you answered "yes" above, please approximate the number of articles you have read on this topic:
+* Have you ever read any articles while browsing the internet  (e.g., on Reddit, Pinterest, Buzzfeed) on school and education systems?
+* If you answered "yes" above, please approximate the number of articles on the internet you have read on this topic:
+* Have you ever watched any documentaries (e,g., on the Discovery channel) on school and education systems?
+* If you answered "yes" above, please approximate the number of documentaries you have seen on this topic:
+* Have you ever heard any radio shows or podcasts (e.g., NPR) have you heard on school and education systems?
+* If you answered "yes" above, please approximate the number of radio shows or podcasts you have seen on this topic:
+* Have you ever taken a class that discussed architecture and home design?
+* If you answered "yes" above, please approximate the number of classes of this sort you took in: - High School
+* If you answered "yes" above, please approximate the number of classes of this sort you took in: - College
+* If you answered "yes" above, please approximate the number of classes of this sort you took in: - Graduate School
+* Have you ever read any books on architecture and home design?
+* If you answered "yes" above, please approximate the number of books you have read on this topic:
+* Have you ever read any magazine, newspaper, or academic articles on architecture and home design?
+* If you answered "yes" above, please approximate the number of articles you have read on this topic:
+* Have you ever read any articles while browsing the internet  (e.g., on Reddit, Pinterest, Buzzfeed) on architecture and home design?
+* If you answered "yes" above, please approximate the number of articles on the internet you have read on this topic:
+* Have you ever seen any documentaries (e,g., on the Discovery channel) on architecture and home design?
+* If you answered "yes" above, please approximate the number of documentaries you have seen on this topic:
+* Have you ever heard any radio shows or podcasts (e.g., NPR) on architecture and home design?
+* If you answered "yes" above, please approximate the number of radio shows or podcasts you have heard on this topic:
+* Have you ever taken a class that discussed product design and usability?
+* If you answered "yes" above, please approximate the number of classes of this sort you took in: - High School
+* If you answered "yes" above, please approximate the number of classes of this sort you took in: - College
+* If you answered "yes" above, please approximate the number of classes of this sort you took in: - Graduate School
+* Have you ever read any books on product design and usability?
+* If you answered "yes" above, please approximate the number of books you have read on this topic:
+* Have you ever read any magazine, newspaper, or academic articles on product design and usabilityt?
+* If you answered "yes" above, please approximate the number of articles you have read on this topic:
+* Have you ever read any articles while browsing the internet  (e.g., on Reddit, Pinterest, Buzzfeed) on product design and usability?
+* If you answered "yes" above, please approximate the number of articles on the internet you have read on this topic:
+* Have you ever seen any documentaries (e,g., on the Discovery channel) on product design and usability?
+* If you answered "yes" above, please approximate the number of documentaries you have seen on this topic:
+* Have you ever heard any radio shows or podcasts (e.g., on Reddit, Pinterest, Buzzfeed) on product design and usability?
+* If you answered "yes" above, please approximate the number of radio shows or podcasts you have heard on this topic:
+* Have you ever taken a class that discussed language and linguistics?
+* If you answered "yes" above, please approximate the number of classes of this sort you took in: - High School
+* If you answered "yes" above, please approximate the number of classes of this sort you took in: - College
+* If you answered "yes" above, please approximate the number of classes of this sort you took in: - Graduate School
+* Have you ever read any books on language and linguistics?
+* If you answered "yes" above, please approximate the number of books you have read on this topic:
+* Have you ever read any magazine, newspaper, or academic articles on language and linguistics?
+* If you answered "yes" above, please approximate the number of articles you have read on this topic:
+* Have you ever read any articles while browsing the internet  (e.g., on Reddit, Pinterest, Buzzfeed) on language and linguistics?
+* If you answered "yes" above, please approximate the number of articles on the internet you have read on this topic:
+* Have you ever seen any documentaries (e,g., on the Discovery channel) on language and linguistics?
+* If you answered "yes" above, please approximate the number of documentaries you have seen on this topic:
+* Have you ever heard any radio shows or podcasts (e.g., NPR) on language and linguistics?
+* If you answered "yes" above, please approximate the number of radio shows or podcasts you have heard on this topic:
+* Have you ever taken a class that discussed telecommunication and network systems?
+* If you answered "yes" above, please approximate the number of classes of this sort you took in: - High School
+* If you answered "yes" above, please approximate the number of classes of this sort you took in: - College
+* If you answered "yes" above, please approximate the number of classes of this sort you took in: - Graduate School
+* Have you ever read any books on telecommunication and network systems?
+* If you answered "yes" above, please approximate the number of books you have read on this topic:
+* Have you ever read any magazine, newspaper, or academic articles on telecommunication and network systems?
+* If you answered "yes" above, please approximate the number of articles you have read on this topic:
+* Have you ever read any articles while browsing the internet  (e.g., on Reddit, Pinterest, Buzzfeed) on telecommunication and network systems?
+* If you answered "yes" above, please approximate the number of articles on the internet you have read on this topic:
+* Have you ever seen any documentaries (e,g., on the Discovery channel) on telecommunication and network systems?
+* If you answered "yes" above, please approximate the number of documentaries you have seen on this topic:
+* Have you ever heard any radio shows or podcasts (e.g., NPR) on telecommunication and network systems?
+* If you answered "yes" above, please approximate the number of radio shows or podcasts you have heard on this topic:
+* Have you ever taken a class that discussed anthropology and funeral rites?
+* If you answered "yes" above, please approximate the number of classes of this sort you took in: - High School
+* If you answered "yes" above, please approximate the number of classes of this sort you took in: - College
+* If you answered "yes" above, please approximate the number of classes of this sort you took in: - Graduate School
+* Have you ever read any books on anthropology and funeral rites?
+* If you answered "yes" above, please approximate the number of books you have read on this topic:
+* Have you ever read any magazine, newspaper, or academic articles on anthropology and funeral rites?
+* If you answered "yes" above, please approximate the number of articles you have read on this topic:
+* Have you ever read any articles while browsing the internet  (e.g., on Reddit, Pinterest, Buzzfeed) on anthropology and funeral rites?
+* If you answered "yes" above, please approximate the number of articles on the internet you have read on this topic:
+* Have you ever seen any documentaries (e,g., on the Discovery channel) on anthropology and funeral rites?
+* If you answered "yes" above, please approximate the number of documentaries you have seen on this topic:
+* Have you ever heard any radio shows or podcasts (e.g., NPR) on anthropology and funeral rites?
+* If you answered "yes" above, please approximate the number of radio shows or podcasts you have heard on this topic:
+* I enjoy having a clear and structured mode of life.
+* I like to have a place for everything and everything in its place.
+* I find that establishing a consistent routine enables me to enjoy life more
+* I find that a well ordered life with regular hours suits my temperament.
+* My personal space is usually messy and disorganized.
+* I believe that orderliness and organization are among the most important characteristics of a good student.
+* I think that having clear rules and order at work is essential for success.
+* I think that I would learn best in a class that lacks clearly stated objectives and requirements.
+* I dislike the routine aspects of my work (studies).
+* I hate to change my plans at the last minute.
+* I dislike it when a person's statement could mean many different things.
+* I feel uncomfortable when someone's meaning or intention is unclear to me.
+* I feel uncomfortable when I don't understand the reason why an event occurred in my life.
+* It's annoying to listen to someone who cannot seem to make up his or her mind.
+* When I am confused about an important issue, I feel very upset.
+* I like to know what people are thinking all the time.
+* In most social conflicts, I can easily see which side is right and which is wrong.
+* I'd rather know bad news than stay in a state of uncertainty.
+* I don't like situations that are uncertain.
+* When thinking about a problem, I consider as many different opinions on the issue as possible.
+* When considering most conflict situations, I can usually see how both sides could be right.
+* I always see many possible solutions to problems I face.
+* I do not usually consult many different opinions before forming own view.
+* Even after I've made up my mind about something, I am always eager to consider a different opinion.
+* I prefer interacting with people whose opinions are very different from my own.
+* I dislike questions which could be answered in many different ways.
+* I feel irritated when one person disagrees with what everyone else in a group believes.
+* I like to have friends who are unpredictable.
+* When dining out, I like to go to places where I have been before so that I know what to expect.
+* I don't like to go into a situation without knowing what I can expect from it
+* I think it is fun to change my plans at the last moment.
+* I enjoy the uncertainty of going into a new situation without knowing what might happen.
+* I don't like to be with people who are capable of unexpected actions.
+* I prefer to socialize with familiar friends because I know what to expect from them.
+* I dislike unpredictable situations.
+* When I go shopping, I have difficulty deciding exactly what it is that I want.
+* When faced with a problem I usually see the one best solution very quickly.
+* I tend to put off making important decisions until the last possible moment.
+* I usually make important decisions quickly and confidently.
+* I would describe myself as indecisive.
+* I tend to struggle with most decisions.
+* When trying to solve a problem I often see so many possible options that it's confusing.
+* Are you male or female?
+* Q60 - What is your date of birth? (mm/dd/yyyy)
+* What is the highest level of education you have completed?
+* Q64 - What is your yearly household income?
+* Q64 - What is your religious affiliation?
+* Q64 - What is your racial or ethnic identity?
+* Q64 - What is your age in years?
+* How would you describe your political attitudes? Please select one of the points on the scale below.
+* Please rate your overall ability in the English language:
+* 1. Did you find any aspect of the procedure odd or confusing?
+* 2. What did you think we were studying?
+* 3. Do you think that there may have been more to this study than meets the eye? If so, what do you think this might have been?
+* 4. Do you have any additional thoughts or comments about the study?
+* Thank you for completing this survey! We just have one last question for you. You will not be penalized for your answer to this question. Since you completed the whole survey, you will receive payment no matter what answer you give here.
+     
+
+    It's very important to the quality and scientific aims of our study that participants pay attention (i.e., read the survey carefully, consider the response options, and avoid distractions).
+
+    
+
+    Were you paying attention while completing this survey?</code></pre>
+</div>
+</div>
+</section>
+<section id="exclusion-criterias" class="level3">
+<h3 class="anchored" data-anchor-id="exclusion-criterias">Exclusion Criterias</h3>
+<p>Data preparation for further analyses</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Attention check and deletion of cases that didn't attend or finish the study ----</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>expertise6_new<span class="ot">&lt;-</span>expertise6_clean<span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(attention<span class="sc">==</span><span class="dv">1</span><span class="sc">&amp;</span>finished<span class="sc">==</span><span class="dv">1</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="do">##Exclude the participants that joined outside of US ----</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#view(expertise6_new)</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>expertise6_new<span class="ot">&lt;-</span>expertise6_new<span class="sc">%&gt;%</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(ip<span class="sc">!=</span><span class="st">"66.42.251.231"</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>expertise6_new <span class="ot">&lt;-</span> expertise6_new <span class="sc">%&gt;%</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>(ip <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"74.219.142.226"</span>, <span class="st">"24.12.92.17"</span>, <span class="st">"184.88.52.194"</span>, </span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"97.103.220.145"</span>, <span class="st">"76.250.238.38"</span>)))</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="do">##selecting the columns that we want to keep ----</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>expertise6_new<span class="ot">&lt;-</span>expertise6_new<span class="sc">%&gt;%</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>finished,<span class="sc">-</span>birthdate,<span class="sc">-</span>proceure_confu,<span class="sc">-</span>whatwestudied,<span class="sc">-</span>moretothisstudy,<span class="sc">-</span>additional_thoughts,<span class="sc">-</span>attention, <span class="sc">-</span>surveyorder)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="co">#adds a column to the dataframe, with the name "id"</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>expertise6_new<span class="ot">&lt;-</span><span class="fu">cbind</span>(<span class="at">ID =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(expertise6_new), expertise6_new)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Numeric variables ----</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Change the data type of the variables to numeric </span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>expertise6_new <span class="ot">&lt;-</span> expertise6_new <span class="sc">%&gt;%</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="fu">vars</span>(stih_food, r_ih_food, stih_sports, r_ih_sports, stih_school, r_ih_school, stih_architect, r_ih_architect, </span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>                 stih_product, r_ih_product, stih_langu, r_ih_langu, stih_network, r_ih_network, stih_anthro, r_ih_anthro), as.numeric)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="correlation-for-ih-scores" class="level2">
+<h2 class="anchored" data-anchor-id="correlation-for-ih-scores">Correlation for ih scores</h2>
+<p>Check the correlations between inherence (the variables starting with st) and reverse inherence (the variables starting with r) scores to check whether it’s appropriate for averaging</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Correlations between ih scores ----</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a list of variable names</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>variables <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"stih_food"</span>, <span class="st">"r_ih_food"</span>, <span class="st">"stih_sports"</span>, <span class="st">"r_ih_sports"</span>, <span class="st">"stih_school"</span>, <span class="st">"r_ih_school"</span>, <span class="st">"stih_architect"</span>, <span class="st">"r_ih_architect"</span>, <span class="st">"stih_product"</span>, <span class="st">"r_ih_product"</span>, <span class="st">"stih_langu"</span>, <span class="st">"r_ih_langu"</span>, <span class="st">"stih_network"</span>, <span class="st">"r_ih_network"</span>, <span class="st">"stih_anthro"</span>, <span class="st">"r_ih_anthro"</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize an empty data frame to store the correlation coefficients</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>correlations <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">variable1 =</span> <span class="fu">character</span>(), <span class="at">variable2 =</span> <span class="fu">character</span>(), <span class="at">correlation =</span> <span class="fu">numeric</span>(), <span class="at">p.value =</span> <span class="fu">numeric</span>(), <span class="at">conf.int =</span> <span class="fu">character</span>())</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterate over the pairs of variables</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="fu">length</span>(variables), <span class="dv">2</span>)) {</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  j <span class="ot">&lt;-</span> i <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate the Pearson correlation coefficient and test the statistical significance</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  correlation_test <span class="ot">&lt;-</span> <span class="fu">cor.test</span>(expertise6_new[, variables[i]], expertise6_new[, variables[j]], <span class="at">method =</span> <span class="st">"pearson"</span>)</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add the correlation coefficient, p-value, and confidence interval to the data frame</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  correlations <span class="ot">&lt;-</span> <span class="fu">rbind</span>(correlations, <span class="fu">data.frame</span>(<span class="at">variable1 =</span> variables[i], <span class="at">variable2 =</span> variables[j], <span class="at">correlation =</span> correlation_test<span class="sc">$</span>estimate, <span class="at">p.value =</span> correlation_test<span class="sc">$</span>p.value, <span class="at">conf.int =</span> <span class="fu">paste</span>(correlation_test<span class="sc">$</span>conf.int[<span class="dv">1</span>], correlation_test<span class="sc">$</span>conf.int[<span class="dv">2</span>], <span class="at">sep =</span> <span class="st">" - "</span>)))}</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="do">## View the correlation coefficients and statistical measures ----</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>correlations</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          variable1      variable2 correlation      p.value
+cor       stih_food      r_ih_food  -0.4463858 8.615861e-11
+cor1    stih_sports    r_ih_sports  -0.5753914 2.560996e-18
+cor2    stih_school    r_ih_school  -0.7267533 8.094747e-33
+cor3 stih_architect r_ih_architect  -0.6411731 1.275191e-23
+cor4   stih_product   r_ih_product  -0.6038601 1.834983e-20
+cor5     stih_langu     r_ih_langu  -0.5635496 1.740797e-17
+cor6   stih_network   r_ih_network  -0.5898848 2.202312e-19
+cor7    stih_anthro    r_ih_anthro  -0.5442449 3.376865e-16
+                                    conf.int
+cor  -0.553035668300546 - -0.325343101426943
+cor1 -0.662979980870432 - -0.472263234194049
+cor2  -0.787333698376605 - -0.65227324221234
+cor3 -0.717624383417027 - -0.549452592494561
+cor4 -0.686743816747194 - -0.505475832894281
+cor5 -0.653042937790108 - -0.458533845459347
+cor6  -0.675100225685499 - -0.48913522712539
+cor7 -0.636777009250974 - -0.436258848944745</code></pre>
+</div>
+</div>
+</section>
+<section id="ih-scores-calculation" class="level2">
+<h2 class="anchored" data-anchor-id="ih-scores-calculation">IH scores calculation</h2>
+<p>It seems that each pairs have negative significant correlation, so we can take the average scores to calculate inherence scores</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Average of ih scores  ----</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#It seems that each pairs have negative significant correlation, so we can take the average scores to measure inherence scores</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>expertise6_new <span class="ot">&lt;-</span> expertise6_new <span class="sc">%&gt;%</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ih_food =</span> (stih_food <span class="sc">+</span> (<span class="dv">10</span> <span class="sc">-</span> r_ih_food))<span class="sc">/</span><span class="dv">2</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">ih_sports =</span> (stih_sports <span class="sc">+</span> (<span class="dv">10</span> <span class="sc">-</span> r_ih_sports)) <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">ih_school =</span> (stih_school <span class="sc">+</span> (<span class="dv">10</span> <span class="sc">-</span> r_ih_school)) <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">ih_architect =</span> (stih_architect <span class="sc">+</span> (<span class="dv">10</span> <span class="sc">-</span> r_ih_architect)) <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">ih_product =</span> (stih_product <span class="sc">+</span> (<span class="dv">10</span> <span class="sc">-</span> r_ih_product)) <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">ih_langu =</span> (stih_langu <span class="sc">+</span> (<span class="dv">10</span> <span class="sc">-</span> r_ih_langu)) <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">ih_network =</span> (stih_network <span class="sc">+</span> (<span class="dv">10</span><span class="sc">-</span>r_ih_network)) <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">ih_anthro =</span> (stih_anthro <span class="sc">+</span> (<span class="dv">10</span><span class="sc">-</span>r_ih_anthro)) <span class="sc">/</span> <span class="dv">2</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="need-for-cognition-scores-calculation" class="level2">
+<h2 class="anchored" data-anchor-id="need-for-cognition-scores-calculation">Need for Cognition scores calculation</h2>
+<p>Calculate “Need for cognition” scale scores</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Need for cognition scale scores  ----</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># change the data type of the variables to numeric</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>expertise6_new <span class="ot">&lt;-</span> expertise6_new <span class="sc">%&gt;%</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="fu">vars</span>( <span class="st">'needforclo1'</span>,<span class="st">'needforclo2'</span>,<span class="st">'needforclo3'</span>,<span class="st">'needforclo4'</span>,<span class="st">'needforclo5'</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo6'</span>,<span class="st">'needforclo7'</span>,<span class="st">'needforclo8'</span>,<span class="st">'needforclo9'</span>,<span class="st">'needforclo10'</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo11'</span>,<span class="st">'needforclo12'</span>,<span class="st">'needforclo13'</span>,<span class="st">'needforclo14'</span>,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo15'</span>,<span class="st">'needforclo16'</span>,<span class="st">'needforclo17'</span>,<span class="st">'needforclo18'</span>,</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo19'</span>,<span class="st">'needforclo20'</span>,<span class="st">'needforclo21'</span>,<span class="st">'needforclo22'</span>,</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo23'</span>,<span class="st">'needforclo24'</span>,<span class="st">'needforclo25'</span>,<span class="st">'needforclo26'</span>,</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo27'</span>,<span class="st">'needforclo28'</span>,<span class="st">'needforclo29'</span>,<span class="st">'needforclo30'</span>,</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo31'</span>,<span class="st">'needforclo32'</span>,<span class="st">'needforclo33'</span>,<span class="st">'needforclo34'</span>,</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo35'</span>,<span class="st">'needforclo36'</span>,<span class="st">'needforclo37'</span>,<span class="st">'needforclo38'</span>,</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo39'</span>,<span class="st">'needforclo40'</span>,<span class="st">'needforclo41'</span>,<span class="st">'needforclo42'</span>), as.numeric)</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="do">## Calculate needforcog scores  ----</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="co">#add a new variable called needforcog, which is the sum of all the need for cognition items, the items are weighted according to the scoring key</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>expertise6_new <span class="ot">&lt;-</span> expertise6_new <span class="sc">%&gt;%</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ID)<span class="sc">%&gt;%</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">needforcog=</span>(needforclo1<span class="sc">+</span>needforclo2<span class="sc">+</span>needforclo3<span class="sc">+</span>needforclo4<span class="sc">+</span>(<span class="dv">10</span><span class="sc">-</span>needforclo5)<span class="sc">+</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>                        needforclo6<span class="sc">+</span>needforclo7<span class="sc">+</span>(<span class="dv">10</span><span class="sc">-</span>needforclo8)<span class="sc">+</span>(<span class="dv">10</span><span class="sc">-</span>needforclo9)<span class="sc">+</span>needforclo10<span class="sc">+</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>                        needforclo11<span class="sc">+</span>needforclo12<span class="sc">+</span>needforclo13<span class="sc">+</span>needforclo14<span class="sc">+</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>                        needforclo15<span class="sc">+</span>needforclo16<span class="sc">+</span>needforclo17<span class="sc">+</span>needforclo18<span class="sc">+</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>                        needforclo19<span class="sc">+</span>needforclo20<span class="sc">+</span>needforclo21<span class="sc">+</span>needforclo22<span class="sc">+</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>                        needforclo23<span class="sc">+</span>needforclo24<span class="sc">+</span>needforclo25<span class="sc">+</span>needforclo26<span class="sc">+</span></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>                        needforclo27<span class="sc">+</span>needforclo28<span class="sc">+</span>needforclo29<span class="sc">+</span>needforclo30<span class="sc">+</span></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>                        needforclo31<span class="sc">+</span>needforclo32<span class="sc">+</span>needforclo33<span class="sc">+</span>needforclo34<span class="sc">+</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>                        needforclo35<span class="sc">+</span>needforclo36<span class="sc">+</span>needforclo37<span class="sc">+</span>needforclo38<span class="sc">+</span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>                        needforclo39<span class="sc">+</span>needforclo40<span class="sc">+</span>needforclo41<span class="sc">+</span>needforclo42)<span class="sc">/</span><span class="dv">42</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="data-preparation" class="level2">
+<h2 class="anchored" data-anchor-id="data-preparation">Data preparation</h2>
+<p>Prepare the expertise scores and other scores ready for analyses</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace expertise variables' NA values in the expertise columns with 0  ----</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>variables <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'know_food'</span>,<span class="st">'know_sports'</span>,<span class="st">'know_school'</span>,<span class="st">'know_architect'</span>,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'know_product'</span>,<span class="st">'know_langu'</span>,<span class="st">'know_network'</span>,<span class="st">'know_anthro'</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_food'</span>, <span class="st">'colle_food'</span>, <span class="st">'grad_food'</span>,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_food'</span>,<span class="st">'numarticle_food'</span>,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_food'</span>, <span class="st">'numdocu_food'</span>,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_food'</span>,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_sports'</span>, <span class="st">'colle_sports'</span>, <span class="st">'grad_sports'</span>,</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_sports'</span>,<span class="st">'numarticle_sports'</span>,</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_sports'</span>, <span class="st">'numdocu_sports'</span>,</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_sports'</span>,</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_school'</span>, <span class="st">'colle_school'</span>, <span class="st">'grad_school'</span>,</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_school'</span>,<span class="st">'numarticle_school'</span>,</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_school'</span>,<span class="st">'numdocu_school'</span>,</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_school'</span>,</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_architect'</span>, <span class="st">'colle_architect'</span>,<span class="st">'grad_architect'</span>,</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_architect'</span>,</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numarticle_architect'</span>,</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_architect'</span>, </span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numdocu_architect'</span>,</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_architect'</span>,</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_product'</span>, <span class="st">'colle_product'</span>, <span class="st">'grad_product'</span>,</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_product'</span>,</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numarticle_product'</span>,</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>                       <span class="st">'numinarti_product'</span>,<span class="st">'numdocu_product'</span>,</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_product'</span>,</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_langu'</span>, <span class="st">'colle_langu'</span>, <span class="st">'grad_langu'</span>,</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_langu'</span>,<span class="st">'numarticle_langu'</span>,</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_langu'</span>, <span class="st">'numdocu_langu'</span>,</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_langu'</span>,</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_network'</span>, <span class="st">'colle_network'</span>, <span class="st">'grad_network'</span>,</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_network'</span>,<span class="st">'numarticle_network'</span>,</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_network'</span>, <span class="st">'numdocu_network'</span>,</span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_network'</span>,</span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_anthro'</span>, <span class="st">'colle_anthro'</span>,<span class="st">'grad_anthro'</span>,</span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_anthro'</span>,<span class="st">'numarticle_anthro'</span>,</span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_anthro'</span>, <span class="st">'numdocu_anthro'</span>,</span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_anthro'</span>)</span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>expertise6_new[variables] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(expertise6_new[variables], </span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>                                    <span class="cf">function</span>(x) <span class="fu">ifelse</span>(<span class="fu">is.na</span>(x), <span class="dv">0</span>, <span class="fu">ifelse</span>(x<span class="sc">==</span><span class="st">'no'</span>,<span class="dv">0</span>,x)))</span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Missing values in the dataframe  ----</span></span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(<span class="fu">is.na</span>(expertise6_new), <span class="dv">2</span>, sum)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                  ID                   ip             duration 
+                   0                    0                    0 
+           stih_food            r_ih_food          stih_sports 
+                   0                    0                    0 
+         r_ih_sports          stih_school          r_ih_school 
+                   0                    0                    0 
+      stih_architect       r_ih_architect         stih_product 
+                   0                    0                    0 
+        r_ih_product           stih_langu           r_ih_langu 
+                   0                    0                    0 
+        stih_network         r_ih_network          stih_anthro 
+                   0                    0                    0 
+         r_ih_anthro            know_food          know_sports 
+                   0                    0                    0 
+         know_school       know_architect         know_product 
+                   0                    0                    0 
+          know_langu         know_network          know_anthro 
+                   0                    0                    0 
+         course_food            high_food           colle_food 
+                   1                    0                    0 
+           grad_food            book_food         numbook_food 
+                   0                    0                    0 
+        article_food      numarticle_food         in_arti_food 
+                   0                    0                    0 
+      numinarti_food            docu_food         numdocu_food 
+                   0                    0                    0 
+          radio_food        numradio_food        course_sports 
+                   0                    0                    0 
+         high_sports         colle_sports          grad_sports 
+                   0                    0                    0 
+         book_sports       numbook_sports       article_sports 
+                   1                    0                    0 
+   numarticle_sports       in_arti_sports     numinarti_sports 
+                   0                    0                    0 
+         docu_sports       numdocu_sports         radio_sports 
+                   0                    0                    0 
+     numradio_sports        course_school          high_school 
+                   0                    0                    0 
+        colle_school          grad_school          book_school 
+                   0                    0                    0 
+      numbook_school       article_school    numarticle_school 
+                   0                    0                    0 
+      in_arti_school     numinarti_school          docu_school 
+                   0                    0                    0 
+      numdocu_school         radio_school      numradio_school 
+                   0                    0                    0 
+    course_architect       high_architect      colle_architect 
+                   1                    0                    0 
+      grad_architect       book_architect    numbook_architect 
+                   0                    0                    0 
+   article_architect numarticle_architect    in_arti_architect 
+                   0                    0                    0 
+ numinarti_architect       docu_architect    numdocu_architect 
+                   0                    0                    0 
+     radio_architect   numradio_architect       course_product 
+                   0                    0                    0 
+        high_product        colle_product         grad_product 
+                   0                    0                    0 
+        book_product      numbook_product      article_product 
+                   0                    0                    1 
+  numarticle_product      in_arti_product    numinarti_product 
+                   0                    0                    0 
+        docu_product      numdocu_product        radio_product 
+                   2                    0                    1 
+    numradio_product         course_langu           high_langu 
+                   0                    0                    0 
+         colle_langu           grad_langu           book_langu 
+                   0                    0                    1 
+       numbook_langu        article_langu     numarticle_langu 
+                   0                    1                    0 
+       in_arti_langu      numinarti_langu           docu_langu 
+                   0                    0                    1 
+       numdocu_langu          radio_langu       numradio_langu 
+                   0                    0                    0 
+      course_network         high_network        colle_network 
+                   1                    0                    0 
+        grad_network         book_network      numbook_network 
+                   0                    0                    0 
+     article_network   numarticle_network      in_arti_network 
+                   1                    0                    1 
+   numinarti_network         docu_network      numdocu_network 
+                   0                    0                    0 
+       radio_network     numradio_network        course_anthro 
+                   1                    0                    0 
+         high_anthro         colle_anthro          grad_anthro 
+                   0                    0                    0 
+         book_anthro       numbook_anthro       article_anthro 
+                   2                    0                    1 
+   numarticle_anthro       in_arti_anthro     numinarti_anthro 
+                   0                    1                    0 
+         docu_anthro       numdocu_anthro         radio_anthro 
+                   1                    0                    2 
+     numradio_anthro          needforclo1          needforclo2 
+                   0                    0                    0 
+         needforclo3          needforclo4          needforclo5 
+                   0                    0                    0 
+         needforclo6          needforclo7          needforclo8 
+                   0                    0                    0 
+         needforclo9         needforclo10         needforclo11 
+                   0                    0                    1 
+        needforclo12         needforclo13         needforclo14 
+                   0                    0                    0 
+        needforclo15         needforclo16         needforclo17 
+                   0                    0                    0 
+        needforclo18         needforclo19         needforclo20 
+                   0                    0                    0 
+        needforclo21         needforclo22         needforclo23 
+                   0                    0                    0 
+        needforclo24         needforclo25         needforclo26 
+                   0                    0                    0 
+        needforclo27         needforclo28         needforclo29 
+                   0                    0                    0 
+        needforclo30         needforclo31         needforclo32 
+                   0                    0                    0 
+        needforclo33         needforclo34         needforclo35 
+                   0                    0                    0 
+        needforclo36         needforclo37         needforclo38 
+                   0                    0                    0 
+        needforclo39         needforclo40         needforclo41 
+                   0                    0                    0 
+        needforclo42                  sex            education 
+                   0                    0                    0 
+              income             religion             identity 
+                   3                    0                    1 
+                 age       political_atti        english_level 
+                   1                    0                    0 
+             ih_food            ih_sports            ih_school 
+                   0                    0                    0 
+        ih_architect           ih_product             ih_langu 
+                   0                    0                    0 
+          ih_network            ih_anthro           needforcog 
+                   0                    0                    1 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Expertise Ready Df ----</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create new data frame as analyzable </span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>expertise6_new<span class="ot">&lt;-</span>expertise6_new<span class="sc">%&gt;%</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>stih_food,<span class="sc">-</span>r_ih_food,<span class="sc">-</span>stih_sports,<span class="sc">-</span>r_ih_sports,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>stih_school,<span class="sc">-</span>r_ih_school,<span class="sc">-</span>stih_architect,<span class="sc">-</span>r_ih_architect,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>stih_product,<span class="sc">-</span>r_ih_product,</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>stih_langu,<span class="sc">-</span>r_ih_langu,<span class="sc">-</span>stih_network,<span class="sc">-</span>r_ih_network,</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>stih_anthro,<span class="sc">-</span>r_ih_anthro,</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>course_food,</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>book_food,<span class="sc">-</span>article_food,</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>course_sports,</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>book_sports,<span class="sc">-</span>article_sports,</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>course_school,</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>book_school,<span class="sc">-</span>article_school,</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>course_architect,</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>book_architect,<span class="sc">-</span>article_architect,</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>course_product,</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>book_product,<span class="sc">-</span>article_product,</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>course_langu,</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>book_langu,<span class="sc">-</span>article_langu,</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>course_network,</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>book_network,<span class="sc">-</span>article_network,</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>course_anthro,</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>book_anthro,<span class="sc">-</span>article_anthro,</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>        <span class="sc">-</span>needforclo1,<span class="sc">-</span>needforclo2,<span class="sc">-</span>needforclo3,<span class="sc">-</span>needforclo4,<span class="sc">-</span>needforclo5,</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>        <span class="sc">-</span>needforclo6,<span class="sc">-</span>needforclo7,<span class="sc">-</span>needforclo8,<span class="sc">-</span>needforclo9,<span class="sc">-</span>needforclo10,</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>        <span class="sc">-</span>needforclo11,<span class="sc">-</span>needforclo12,<span class="sc">-</span>needforclo13,<span class="sc">-</span>needforclo14,<span class="sc">-</span>needforclo15,</span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>        <span class="sc">-</span>needforclo16,<span class="sc">-</span>needforclo17,<span class="sc">-</span>needforclo18,<span class="sc">-</span>needforclo19,<span class="sc">-</span>needforclo20,</span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>        <span class="sc">-</span>needforclo21,<span class="sc">-</span>needforclo22,<span class="sc">-</span>needforclo23,<span class="sc">-</span>needforclo24,<span class="sc">-</span>needforclo25,</span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>        <span class="sc">-</span>needforclo26,<span class="sc">-</span> needforclo27,<span class="sc">-</span>needforclo28,<span class="sc">-</span>needforclo29,<span class="sc">-</span>needforclo30,</span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>        <span class="sc">-</span>needforclo31,<span class="sc">-</span>needforclo32,<span class="sc">-</span>needforclo33,<span class="sc">-</span>needforclo34,<span class="sc">-</span>needforclo35,</span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>        <span class="sc">-</span>needforclo36,<span class="sc">-</span>needforclo37,<span class="sc">-</span>needforclo38,<span class="sc">-</span>needforclo39,<span class="sc">-</span>needforclo40,</span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>        <span class="sc">-</span>needforclo41,<span class="sc">-</span>needforclo42)</span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a><span class="co"># change the data type of the variables to numeric</span></span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>expertise6_new <span class="ot">&lt;-</span> expertise6_new <span class="sc">%&gt;%</span></span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="fu">vars</span>(<span class="st">'know_food'</span>,<span class="st">'know_sports'</span>,<span class="st">'know_school'</span>,<span class="st">'know_architect'</span>,</span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'know_product'</span>,<span class="st">'know_langu'</span>,<span class="st">'know_network'</span>,<span class="st">'know_anthro'</span>,</span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_food'</span>, <span class="st">'colle_food'</span>, <span class="st">'grad_food'</span>,</span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_food'</span>,<span class="st">'numarticle_food'</span>,</span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_food'</span>, <span class="st">'numdocu_food'</span>,</span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_food'</span>,</span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_sports'</span>, <span class="st">'colle_sports'</span>, <span class="st">'grad_sports'</span>,</span>
+<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_sports'</span>,<span class="st">'numarticle_sports'</span>,</span>
+<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_sports'</span>, <span class="st">'numdocu_sports'</span>,</span>
+<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_sports'</span>,</span>
+<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_school'</span>, <span class="st">'colle_school'</span>, <span class="st">'grad_school'</span>,</span>
+<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_school'</span>,<span class="st">'numarticle_school'</span>,</span>
+<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_school'</span>,<span class="st">'numdocu_school'</span>,</span>
+<span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_school'</span>,</span>
+<span id="cb14-53"><a href="#cb14-53" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_architect'</span>, <span class="st">'colle_architect'</span>,<span class="st">'grad_architect'</span>,</span>
+<span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_architect'</span>,</span>
+<span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numarticle_architect'</span>,</span>
+<span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_architect'</span>, </span>
+<span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numdocu_architect'</span>,</span>
+<span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_architect'</span>,</span>
+<span id="cb14-59"><a href="#cb14-59" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_product'</span>, <span class="st">'colle_product'</span>, <span class="st">'grad_product'</span>,</span>
+<span id="cb14-60"><a href="#cb14-60" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_product'</span>,</span>
+<span id="cb14-61"><a href="#cb14-61" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numarticle_product'</span>,</span>
+<span id="cb14-62"><a href="#cb14-62" aria-hidden="true" tabindex="-1"></a>                       <span class="st">'numinarti_product'</span>,<span class="st">'numdocu_product'</span>,</span>
+<span id="cb14-63"><a href="#cb14-63" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_product'</span>,</span>
+<span id="cb14-64"><a href="#cb14-64" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_langu'</span>, <span class="st">'colle_langu'</span>, <span class="st">'grad_langu'</span>,</span>
+<span id="cb14-65"><a href="#cb14-65" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_langu'</span>,<span class="st">'numarticle_langu'</span>,</span>
+<span id="cb14-66"><a href="#cb14-66" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_langu'</span>, <span class="st">'numdocu_langu'</span>,</span>
+<span id="cb14-67"><a href="#cb14-67" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_langu'</span>,</span>
+<span id="cb14-68"><a href="#cb14-68" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_network'</span>, <span class="st">'colle_network'</span>, <span class="st">'grad_network'</span>,</span>
+<span id="cb14-69"><a href="#cb14-69" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_network'</span>,<span class="st">'numarticle_network'</span>,</span>
+<span id="cb14-70"><a href="#cb14-70" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_network'</span>, <span class="st">'numdocu_network'</span>,</span>
+<span id="cb14-71"><a href="#cb14-71" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_network'</span>,</span>
+<span id="cb14-72"><a href="#cb14-72" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_anthro'</span>, <span class="st">'colle_anthro'</span>,<span class="st">'grad_anthro'</span>,</span>
+<span id="cb14-73"><a href="#cb14-73" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_anthro'</span>,<span class="st">'numarticle_anthro'</span>,</span>
+<span id="cb14-74"><a href="#cb14-74" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_anthro'</span>, <span class="st">'numdocu_anthro'</span>,</span>
+<span id="cb14-75"><a href="#cb14-75" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_anthro'</span>), as.numeric)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="long-format" class="level2">
+<h2 class="anchored" data-anchor-id="long-format">Long format</h2>
+<p>Long format of expertise dataset for factor analysis</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">'reshape2'</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>expertise6_factor <span class="ot">&lt;-</span> <span class="fu">melt</span>(expertise6_new, <span class="at">id.vars =</span> <span class="fu">c</span>(<span class="st">"ID"</span>,<span class="st">'duration'</span>,<span class="st">"sex"</span> ,<span class="st">"education"</span> ,<span class="st">"income"</span>,<span class="st">"religion"</span>,<span class="st">'identity'</span>,<span class="st">'age'</span>,<span class="st">'political_atti'</span>,<span class="st">'english_level'</span>,<span class="st">'needforcog'</span>), </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">measure.vars =</span> <span class="fu">c</span>(<span class="st">"ih_food"</span>, <span class="st">"ih_sports"</span>,<span class="st">"ih_school"</span>,                                <span class="st">"ih_architect"</span>,<span class="st">"ih_product"</span>,<span class="st">"ih_langu"</span>,<span class="st">"ih_network"</span>,<span class="st">"ih_anthro"</span>,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>                       <span class="st">'know_food'</span>,<span class="st">'know_sports'</span>,<span class="st">'know_school'</span>,<span class="st">'know_architect'</span>,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'know_product'</span>,<span class="st">'know_langu'</span>,<span class="st">'know_network'</span>,<span class="st">'know_anthro'</span>,</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_food'</span>, <span class="st">'colle_food'</span>, <span class="st">'grad_food'</span>,</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_food'</span>,<span class="st">'numarticle_food'</span>,</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_food'</span>, <span class="st">'numdocu_food'</span>,</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_food'</span>,</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_sports'</span>, <span class="st">'colle_sports'</span>, <span class="st">'grad_sports'</span>,</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_sports'</span>,<span class="st">'numarticle_sports'</span>,</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_sports'</span>, <span class="st">'numdocu_sports'</span>,</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_sports'</span>,</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_school'</span>, <span class="st">'colle_school'</span>, <span class="st">'grad_school'</span>,</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_school'</span>,<span class="st">'numarticle_school'</span>,</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_school'</span>,<span class="st">'numdocu_school'</span>,</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_school'</span>,</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_architect'</span>, <span class="st">'colle_architect'</span>,<span class="st">'grad_architect'</span>,</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_architect'</span>,</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numarticle_architect'</span>,</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_architect'</span>, </span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numdocu_architect'</span>,</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_architect'</span>,</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_product'</span>, <span class="st">'colle_product'</span>, <span class="st">'grad_product'</span>,</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_product'</span>,</span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numarticle_product'</span>,</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>                       <span class="st">'numinarti_product'</span>,<span class="st">'numdocu_product'</span>,</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_product'</span>,</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_langu'</span>, <span class="st">'colle_langu'</span>, <span class="st">'grad_langu'</span>,</span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_langu'</span>,<span class="st">'numarticle_langu'</span>,</span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_langu'</span>, <span class="st">'numdocu_langu'</span>,</span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_langu'</span>,</span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_network'</span>, <span class="st">'colle_network'</span>, <span class="st">'grad_network'</span>,</span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_network'</span>,<span class="st">'numarticle_network'</span>,</span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_network'</span>, <span class="st">'numdocu_network'</span>,</span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_network'</span>,</span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_anthro'</span>, <span class="st">'colle_anthro'</span>,<span class="st">'grad_anthro'</span>,</span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_anthro'</span>,<span class="st">'numarticle_anthro'</span>,</span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_anthro'</span>, <span class="st">'numdocu_anthro'</span>,</span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_anthro'</span>),</span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sep =</span> <span class="st">"_"</span>, <span class="at">variable.name =</span> <span class="st">"Category"</span>, <span class="at">value.name =</span> <span class="st">"Score"</span>)</span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Split the Category column into two columns based on the underscore separator</span></span>
+<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a>expertise6_factor <span class="ot">&lt;-</span> expertise6_factor <span class="sc">%&gt;%</span> <span class="fu">separate</span>(Category, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"Category"</span>, <span class="st">"Score_Type"</span>), <span class="at">sep =</span> <span class="st">"_"</span>)</span>
+<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a><span class="do">## spread the data from long to wide format  ----</span></span>
+<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a>expertise6_fact <span class="ot">&lt;-</span> expertise6_factor <span class="sc">%&gt;%</span> <span class="fu">spread</span>(Category, Score)</span>
+<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a><span class="co"># change the score type to a factor</span></span>
+<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a>expertise6_fact<span class="sc">$</span>Score_Type<span class="ot">&lt;-</span><span class="fu">as.factor</span>(expertise6_fact<span class="sc">$</span>Score_Type)</span>
+<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a><span class="co"># convert the column ih to numeric</span></span>
+<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a>expertise6_fact<span class="sc">$</span>ih<span class="ot">&lt;-</span><span class="fu">as.numeric</span>(expertise6_fact<span class="sc">$</span>ih)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>###Create another data frame to winsorize expertise variables before factor analysis</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>expertise6_wins_fact<span class="ot">&lt;-</span>expertise6_fact</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

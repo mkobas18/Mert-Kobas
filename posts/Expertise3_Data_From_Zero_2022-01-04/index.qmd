@@ -1,20 +1,25 @@
 ---
 title: "Expertise3 Data Analysis from the very beginning"
 author: "MK"
-date: "2023-01-04"
+date: "2023-01-16"
 categories: [example data, code, analysis]
-image: "data.png"
+image: "newdata.png"
 ---
 
 This post includes the trial analyses of an example data related to expertise.
 
-Import necessary packages and expertise data
+### Import necessary packages and expertise data
 
 ```{r warning = FALSE, message = FALSE}
 #Import library ----
 library(tidyverse)
 library(readr)
 library(purrr)
+library(jmv)
+library(psych)
+library(DescTools)
+library(stats)
+library(factoextra)
 
 #Read the csv file ----
 Expertise3 <- read_csv("~/Desktop/Expertise3_December 23, 2022_10.53.csv")
@@ -24,6 +29,7 @@ Expertise3 <- read_csv("~/Desktop/Expertise3_December 23, 2022_10.53.csv")
 Creates a new dataframe called expertise3_clean, which is a copy of the original dataframe called Expertise3 and removes the second row of the dataframe and create a variable called column_names and assign it the names of the columns in the dataframe and change the column names
 
 ```{r warning = FALSE, message = FALSE}
+
 
 #removes the second row of the dataframe
 expertise3_clean<-Expertise3%>% 
@@ -68,6 +74,8 @@ colnames(expertise3_clean) <- c('ip','duration', 'finished', 'stih_lang','r_ih_l
 
 ```
 
+### Questionnaire Items
+
 The code below shows the survey items:
 
 ```{r warning = FALSE, message = FALSE}
@@ -93,6 +101,8 @@ list_string <- paste0("* ", paste(my_list, collapse = "\n* "))
 ##Show the survey items ----
 cat(list_string)
 ```
+
+### Exclusion Criterias
 
 Data preparation for further analyses
 
@@ -128,6 +138,8 @@ expertise3_new <- expertise3_new %>%
 
 ```
 
+## Correlation for ih scores
+
 Check the correlations between inherence (the variables starting with st) and reverse inherence (the variables starting with r) scores to check whether it's appropriate for averaging
 
 ```{r warning = FALSE, message = FALSE}
@@ -148,12 +160,13 @@ for (i in seq(1, length(variables), 2)) {
   correlation_test <- cor.test(expertise3_new[, variables[i]], expertise3_new[, variables[j]], method = "pearson")
   
   # Add the correlation coefficient, p-value, and confidence interval to the data frame
-  correlations <- rbind(correlations, data.frame(variable1 = variables[i], variable2 = variables[j], correlation = correlation_test$estimate, p.value = correlation_test$p.value, conf.int = paste(correlation_test$conf.int[1], correlation_test$conf.int[2], sep = " - ")))
-}
+  correlations <- rbind(correlations, data.frame(variable1 = variables[i], variable2 = variables[j], correlation = correlation_test$estimate, p.value = correlation_test$p.value, conf.int = paste(correlation_test$conf.int[1], correlation_test$conf.int[2], sep = " - ")))}
 
 ## View the correlation coefficients and statistical measures ----
 correlations
 ```
+
+## IH scores calculation
 
 It seems that each pairs have negative significant correlation, so we can take the average scores to calculate inherence scores
 
@@ -172,6 +185,8 @@ expertise3_new <- expertise3_new %>%
          ih_tv = (stih_tv + (10-r_ih_tv)) / 2 )
 
 ```
+
+## Need for Cognition scores calculation
 
 Calculate "Need for cognition" scale scores
 
@@ -195,6 +210,8 @@ expertise3_new <- expertise3_new %>%
                        needforcog13+needforcog14+needforcog15+
                        (10-needforcog16)+(10-needforcog17)+needforcog18)/18)
 ```
+
+## Data preparation
 
 Prepare the expertise scores and other scores ready for analyses
 
@@ -278,7 +295,9 @@ expertise3_new <- expertise3_new %>%
 
 ```
 
-Long format of expertise dataset for factor analysis before standardization
+## Long format
+
+Long format of expertise dataset for factor analysis
 
 ```{r warning = FALSE, message = FALSE}
 library('reshape2')
@@ -318,42 +337,123 @@ expertise3_fact$Score_Type<-as.factor(expertise3_fact$Score_Type)
 expertise3_fact$ih<-as.numeric(expertise3_fact$ih)
 ```
 
+###Create another data frame to winsorize expertise variables before factor analysis
+```{r}
+expertise3_wins_fact<-expertise3_fact
+```
+
+
+## Factor analysis
+
 Factor analysis for expertise variables with raw scores
 
 ```{r warning = FALSE, message = FALSE}
+# Factor analysis for expertise variables with raw scores ----
+
 # Import packages 
 
 library(psych) #PCA/EFA analysis
 library(REdaS) #Produces KMO and Bartletts test
+library(GPArotation)
+
 
 # Create a new dataframe that include only related variables
-factor_exp0<-expertise3_fact%>%
+factor_exp<-expertise3_fact%>%
   select(colle, grad, high, numarticle, numbook)
 
 # Check missing values
-apply(is.na(factor_exp0), 2, sum)
+apply(is.na(factor_exp), 2, sum)
 
 # Since grad classes for TV category is missing (nobody takes any class in the sample), listwise deletion is applied here.
-bart_spher(factor_exp0, use = "complete.obs") ###### produces Bartletts test of spherecity 
+bart_spher(factor_exp, use = "complete.obs") ###### produces Bartletts test of spherecity 
 
-KMO(factor_exp0)       ###### Kaiser-Meyer-Olkin measure, which is above .5.
+KMO(factor_exp)       ###### Kaiser-Meyer-Olkin measure, which is above .5.
 
 # Let's check all the variables
-fa(factor_exp0, nfactors = 5, rotate =  "oblimin" )  
+fa(factor_exp, nfactors = 5, rotate =  "oblimin" )  
 
-# We may reduce it to 2 factors like media and classes
-fa(factor_exp0, nfactors = 2, rotate =  "oblimin" )  
+# So we can reduce it to 2 factors
+fa(factor_exp, nfactors = 2, rotate =  "oblimin" )  
 
-factor_dia0<-fa(factor_exp0, nfactors = 2, rotate =  "oblimin" ) ##save the analysis as the object m1
-fa.diagram(factor_dia0,main="Expertise Variables")  
+# Figure for the analysis
+
+M1<-fa(factor_exp, nfactors = 2, rotate =  "oblimin" ) ##save the analysis as the object m1
+fa.diagram(M1,main="Expertise Variables")  
 
 ```
 
-It is interesting that grad courses are more related to media category than classes although the correlation strength -r values- were low. It may be related to active participation or effect of history (books/articles can be mostly read during grad courses or the remembered ones at least?). So here, in my sense, we may collect these items under active vs. passive involvement or contemporary (closer) expertise vs. older expertise.
+### Eigenvalues
+
+```{r}
+#Check eigenvalues
+
+fa.parallel(factor_exp)
+```
+
+### Extracting factor values
+
+```{r warning = FALSE, message = FALSE}
+factor_exp_score <- factanal(factor_exp, factors=2, scores="regression", rotation = "oblimin")
+
+head(factor_exp_score$scores)
+
+factor_exp_comb <- bind_cols(factor_exp, data.frame(factor_exp_score$scores))
+
+factor_exp_comb$class<-factor_exp_comb$Factor1
+
+factor_exp_comb$media_grad<-factor_exp_comb$Factor2
+
+```
+
+### Histogram and descriptives for factor scores
+
+```{r warning = FALSE, message = FALSE}
+descriptives(dat=factor_exp_comb, vars(Factor1, Factor2),
+             sd=T)
+
+```
+
+```{r warning = FALSE, message = FALSE}
+hist(factor_exp_comb$Factor1)
+
+```
+
+```{r warning = FALSE, message = FALSE}
+hist(factor_exp_comb$Factor2)
+```
+
+```{r}
+
+# Standardize the Selected variables  ----
+vars_to_standardize <- c('know_lang','know_school','know_cards','know_breakfast',
+                         'know_weddings','know_teeth','know_traffic','know_tv',
+                         'high_lang', 'colle_lang', 'grad_lang',
+                         'numbook_lang','numarticle_lang',
+                         'high_school', 'colle_school', 'grad_school',
+                         'numbook_school','numarticle_school',
+                         'high_cards', 'colle_cards', 'grad_cards',
+                         'numbook_cards','numarticle_cards',
+                         'high_breakfast', 'colle_breakfast', 'grad_breakfast',
+                         'numbook_breakfast','numarticle_breakfast',
+                         'high_weddings', 'colle_weddings', 'grad_weddings',
+                         'numbook_weddings','numarticle_weddings',
+                         'high_teeth', 'colle_teeth', 'grad_teeth',
+                         'numbook_teeth','numarticle_teeth',
+                         'high_traffic', 'colle_traffic', 'grad_traffic',
+                         'numbook_traffic','numarticle_traffic',
+                         'high_tv', 'colle_tv', 'grad_tv',
+                         'numbook_tv','numarticle_tv')
+
+expertise3_new[, vars_to_standardize] <- scale(expertise3_new[, vars_to_standardize])
+
+```
+
+## Long format (with factor scores)
 
 Long format of expertise dataset
 
-```{r warning = FALSE, message = FALSE}
+```{r}
+
 library('reshape2')
 
 expertise3_long <- melt(expertise3_new, id.vars = c("ID",'duration',"sex" ,"education" ,"income","religion",'identity','age','political_atti','english_level','needforcog'), 
@@ -390,44 +490,17 @@ expertise3_ready$Score_Type<-as.factor(expertise3_ready$Score_Type)
 # convert the column ih to numeric
 expertise3_ready$ih<-as.numeric(expertise3_ready$ih)
 
-```
+# Combine factor scores with the final data ----
+expertise3_ready<-bind_cols(expertise3_ready,factor_exp_comb$Factor1,factor_exp_comb$Factor2)
 
-Factor analysis for expertise variables with standardized scores
+#Rename the combined factor variables
+expertise3_ready<-rename(expertise3_ready, classroom=...20)
+expertise3_ready<-rename(expertise3_ready, media_grad=...21)
 
-```{r}
-# Import packages 
-
-library(psych) #PCA/EFA analysis
-library(REdaS) #Produces KMO and Bartletts test
-
-# Create a new dataframe that include only related variables
-factor_exp<-expertise3_ready%>%
-  select(colle, grad, high, numarticle, numbook)
-
-# Check missing values
-apply(is.na(factor_exp), 2, sum)
-
-# Since grad classes for TV category is missing (nobody takes any class in the sample), listwise deletion is applied here.
-bart_spher(factor_exp, use = "complete.obs") ###### produces Bartletts test of spherecity 
-
-KMO(factor_exp)       ###### Kaiser-Meyer-Olkin measure, which is above .5.
-
-# Let's check all the variables
-fa(factor_exp, nfactors = 5, rotate =  "oblimin" )  
-
-# So we can reduce it to 2 factors
-fa(factor_exp, nfactors = 2, rotate =  "oblimin" )  
 
 ```
 
-Figure for the analysis
-
-```{r}
-# Figure for the analysis
-
-factor_dia1<-fa(factor_exp, nfactors = 2, rotate =  "oblimin" ) ##save the analysis as the object m1
-fa.diagram(factor_dia1,main="Expertise Variables")  
-```
+## Models
 
 We can start to analyze our models with using hlm:
 
@@ -438,39 +511,417 @@ library(lme4)
 
 library(lmerTest)
 
+# Center variables: need for cognition and know 
+
+expertise3_ready$know_cent <- scale(expertise3_ready$know, center = TRUE, scale = FALSE)
+
+expertise3_ready$needforcog_cent <- scale(expertise3_ready$needforcog, center = TRUE, scale = FALSE)
+
+expertise3_ready$class_cent <- scale(expertise3_ready$classroom, center = TRUE, scale = FALSE)
+
+expertise3_ready$media_cent <- scale(expertise3_ready$media_grad, center = TRUE, scale = FALSE)
+
+# Check descriptives
+
+describe(expertise3_ready)
+```
+
+### Model of objective expertise, perceived expertise and need for cognition without interaction
+
+```{r warning = FALSE, message = FALSE}
+
 ## Model 1 ----
 
 # Need for cognition and perceived expertise as fixed effects
-Model.1<-lmer(ih ~needforcog*know+(1|Score_Type)+(1|ID),   
+Model.1<-lmer(ih ~class_cent + media_cent + know_cent + needforcog_cent +(1|Score_Type)+(1|ID),   
               data=expertise3_ready)
 summary(Model.1)
 confint(Model.1)
 
 ```
 
-So it seems that the interaction between perceived knowledge and need for cognition are related to inherence significantly. Interestingly, this interaction is negatively related to inherence scores. We may argue that perceived knowledge is misleading, but need for cognition moderates this relation as an individual difference. Therefore, people seek out tasks that challenge their abilities may show less inherent bias contained explanations even if they think they know that area (maybe false, maybe true). It may be related to Dunning--Kruger effect (\[Kruger & Dunning, 1999\](https://www.sciencedirect.com/science/article/pii/B9780123855220000056#bb0315)). People may overestimate their abilities, but judge the explanations with inherence bias. Not suprisingly, people who are seeking for cognitive activities (need for cognition) may also show more effort for the explanations.
+So it seems that perceived knowledge and need for cognition are related to inherence significantly. Interestingly, need for cognition interaction is negatively related to inherence scores.People seek out tasks that challenge their abilities may show less inherent bias contained explanations and if they think they know that area, they agree with inherence bias included sentences more. IPeople may overestimate their abilities and they produce/comprehend the explanations with inherence bias more likely. Not suprisingly, people who are seeking for cognitive activities (need for cognition) may also show more effort for the explanations.
+
+### Model of objective expertise, perceived expertise and need for cognition with interaction
 
 ```{r warning = FALSE, message = FALSE}
-## Model 2----
 
-# Need for cognition and courses without perceived expertise
-Model.2<-lmer(ih ~colle*grad*high*needforcog+(1|Score_Type)+(1|ID),   
-              data=expertise3_ready)
+## Model 2 ----
+
+Model.2<-lmer(ih ~class_cent + media_cent + know_cent + needforcog_cent + 
+                needforcog*class_cent + needforcog*media_cent + needforcog*know +
+                (1|Score_Type)+(1|ID), data=expertise3_ready)
 summary(Model.2)
 confint(Model.2)
+
 ```
 
-The second model includes what I call true expertise with classes. Here only the interaction between high school courses and need for cognition is significantly related to inherence bias. This may be misleading because after new analyses with a latent variable (only classes), this effect may not be there. However, if we would interpret this result, I would probably say that high school classes may work as perceived knowledge, they are probably superficial and forgotten already in adulthood, so even if they took these courses, they didn't become experts and evaluate the inherent bias included sentences are more satisfactory.
+## Histograms for Factors
 
 ```{r warning = FALSE, message = FALSE}
-## Model 3 ----
-
-# Books and need for cognition as fixed effects
-Model.3<-lmer(ih ~numarticle*numbook*needforcog+(1|Score_Type)+(1|ID),   
-              data=expertise3_ready)
-summary(Model.3)
-confint(Model.3)
+##Histogram, descriptives and correlation matrix for new factors ----
+descriptives(dat=factor_exp_comb, vars(Factor1, Factor2),
+             sd=T, skew =T)
 
 ```
 
-This is also interesting, books, articles and need for cognition interaction is significantly related to inherence scores and negatively (but the two way interaction between books and need for cognition is positive). Similar to previous model, if we would interpret this, I would say that people who read books about that topic (active participation/experience) may have less tendency for inherent bias and need for cognition moderates this relation, so if you read many books but less seek cognitive activities, you probably still have inherent bias more. Articles are interesting here because their two way interaction is negative and its correlation between books and need for cognition is negative, which is similar to high school classes and perceived expertise. It may be because magazine articles like from popular science area, etc. offers superficial information and sometimes false information. So even if you feel more knowledgeable in that area, it may be misleading here.
+```{r}
+
+hist(factor_exp_comb$Factor1)
+
+```
+
+```{r}
+hist(factor_exp_comb$Factor2)
+```
+
+So our descriptive stats and graphs showed there is an extreme skewness due to extreme values in our factors.
+
+
+## Winsorize the variables at 1%
+
+```{r warning = FALSE, message = FALSE}
+# winsorize the variables (at 1%)
+expertise3_ready <- expertise3_ready%>%
+  mutate(numarticle_wins_1=Winsorize(numarticle, probs = c(0,0.99)), 
+         numbook_wins_1=Winsorize(numbook, probs = c(0,0.99)),
+         high_wins_1=Winsorize(high, probs = c(0,0.99)),
+         colle_wins_1=Winsorize(colle, probs = c(0,0.99)),
+         grad_wins_1=Winsorize(grad,na.rm=TRUE, probs = c(0,0.99)),
+         classroom_wins_1=Winsorize(classroom,na.rm=TRUE, probs = c(0,0.99)),
+         media_wins_1=Winsorize(media_grad,na.rm=TRUE, probs = c(0,0.99)))
+
+#check descriptives
+descriptives(dat=expertise3_ready, vars(classroom_wins_1,media_wins_1), median=F, n=F, missing=F, sd=T, skew =T)
+
+descriptives(dat=expertise3_ready, vars(high_wins_1, colle_wins_1), median=F, n=F, missing=F, sd=T)
+
+descriptives(dat=expertise3_ready, vars(numarticle_wins_1, numbook_wins_1, grad_wins_1), median=F, n=F, missing=F, sd=T)
+
+```
+
+```{r warning = FALSE, message = FALSE}
+hist(expertise3_ready$classroom_wins_1)
+
+```
+
+Our first factor is negatively skewed
+
+```{r warning = FALSE, message = FALSE}
+hist(expertise3_ready$media_wins_1)
+
+```
+
+```{r}
+# Center variables: 
+
+expertise3_ready$classroom_wins_1_cent <- scale(expertise3_ready$classroom_wins_1, center = TRUE, scale = FALSE)
+
+expertise3_ready$media_wins_1_cent <- scale(expertise3_ready$media_wins_1, center = TRUE, scale = FALSE)
+
+```
+
+## HLM Models
+
+Since expertise can be objective (based on the experience like problem solving in that area or productions, year of education or spending more time about that topic) and subjective (how much people perceived themselves as knowledgeable about that topic), objective expertise or real expertise will be negatively related to inherence scores, which means that real experts, which spend more time to learn that subject through courses or pressed materials -books, magazines, articles-, will not satisfy with heuristic explanations. Experts produced more features in diagnostic categories like to describe depression, they listed more attributes for this category (Murphy & Wright, 1984). Therefore, it can be argued that they will evaluate the cases with both intrinsic and extrinsic factors, so they have less scores for inherency.
+
+Besides this, our expertise variables and engaging in cognitive activities may be interact because expertise sources such as books or magazines also contain products of heuristic thinking. People who have low scores in need for cognition trusted these kind of external sources besides cognitive heuristics:
+
+"Research relating need for cognition to other individual-differences variables provides evidence that individuals high in need for cognition naturally tend to seek, acquire, think about, and reflect back on information to make sense of stimuli, relationships, and events in their world; individuals low in need for cognition, in contrast, are more likely to rely on others (e.g., experts), cognitive heuristics, or social comparison processes to provide this structure." (Cacioppo et al., 1996, p.243)
+
+As a result of this, even if people who read more books, magazines or take more grad courses, they would probably satisfy with sentences that include inherence bias more or less depend on their need for cognition score, so the assumption is the interaction between need for cognition and this expertise factor will be significantly related to inherence scores.
+
+### Model objective expertise with grad courses, books and magazines
+
+```{r warning = FALSE, message = FALSE}
+## Model objective expertise ----
+
+Model_obj<-lmer(ih ~media_wins_1_cent*needforcog_cent+media_wins_1_cent+needforcog_cent+
+                (1|Score_Type)+(1|ID), data=expertise3_ready)
+summary(Model_obj)
+
+
+```
+
+The results showed that not the interaction but main effects significantly related to inherence scores. It's maybe because of low power to detect interaction or because people with high need for cognition scores also take these courses and read these books due to their tendencies, so there is not an interaction. Media and grad courses expertise is related to inherence scores negatively, adjusting for need for cognition scores. I think these results may tap to the role of memory limitations in heuristic thinking. If experts can produce more hypotheses with using their long term memory, the recent memory traces would be remembered probably better. Especially grad courses and also books and magazines seem to related this. Furthermore, especially grad courses again, can be more challenging for the related area. For example, a course related to language may be challenging or understanding books required more attention to details and different backgrounds about these topics so these people already have an expanded mental shotgun area/stage. Inherence bias occurs as a result of memory limitations, so having active memory traces (and broad mental shotgun representations) may provide these people to think beyond heuristic thinking with inherence bias.
+
+I would expect the same result with high school and college courses, the relation may be more weak because these courses may not be recent, so let's check the model:
+
+### Model objective expertise with high school and college courses
+```{r}
+Model_obj2<-lmer(ih ~classroom_wins_1_cent * needforcog_cent +classroom_wins_1_cent + needforcog_cent+(1|Score_Type)+(1|ID), data=expertise3_ready)
+summary(Model_obj2)
+
+```
+These results showed that the interaction is significant, so the relation between class and inherence scores is depend on need for cognition scores. However, since the trend of the relation between class and inherence scores is positive, this interaction seems negative, so need for cognition mitigated this relation. Commenting this counter intuitive result may be a better way to understand this interaction:
+
+Main effect of class is not significant (the relation between high school and undergraduate courses and inherence scores). This may be as a result of not challenging nature of these courses or they may not be remembered very well, if these people didn't interest in them later. The positive trend may be a product of perceived expertise, so people who take these courses think themselves as experts but they are not. However if they have tendency to engage in cognitive activities, they still trust cognitive heuristics less, so need for cognition interact with this relation.
+
+What about perceived expertise? I think perceived expertise may be misleading for people because especially for daily topics like breakfast, they may think that they know enough but their knowledge is limited (and they produce less diverse facts during mental shotgun stage). However, the need for cognition also moderates this relation. Let's check:
+
+### Model of perceived expertise and need for cognition
+```{r}
+Model_perc<-lmer(ih ~know_cent*needforcog_cent+ know_cent + needforcog_cent +
+                (1|Score_Type)+(1|ID), data=expertise3_ready)
+summary(Model_perc)
+```
+
+These results are similar to previous one and the relation between perceived knowledge and inherence scores moderated by need for cognition, which means people may overinterpret their knowledge and tend to think heuristically more due to this, but their tendency to engage in cognitive activities change this relation, if they like to engage in cognitive activities more, they satisfy with inherent explanations less even if they overestimate their knowledge about that area. This result partially support and partially conflict with Pennycook et al. (2017). Partially supported because just like that research, we found that people are unaware of their own inherence bias and this may be one of the reason behind inherence bias. However, they also found that Dunning-Kruger effects influence their need for cognition scores, so they also overestimate their need for cognition scores. Unlike my assumption here (the mitigating factor in engaging cognitive activities), their finding taps that perceived knowledge should be positively related to need for cognition:
+
+
+```{r}
+corrMatrix(expertise3_ready,
+           vars = vars(know_cent,needforcog_cent), flag = TRUE)
+```
+
+However our scores showed that they are not related significantly.
+After all of these let's check our first model 1 and model 2 to adjust other variables:
+
+### Model of objective expertise, perceived expertise and need for cognition without interaction
+
+```{r}
+Model.1.1<-lmer(ih ~classroom_wins_1_cent + media_wins_1_cent + know_cent +needforcog_cent +(1|Score_Type)+(1|ID),   
+              data=expertise3_ready)
+summary(Model.1.1)
+```
+
+The same comments can be done also here, our results are not different than single models. This model may be better because it also adjusts perceived expertise and need for cognition, when the objective expertise variables are explained and vice versa. Therefore, our media and grad class related factor is still negatively related to inherence score when it was adjusted for perceived knowledge, class and need for cognition. Let's check the model with interaction:
+
+### Model of objective expertise, perceived expertise and need for cognition with interaction
+
+```{r}
+Model.2.1<-lmer(ih ~classroom_wins_1_cent + media_wins_1_cent + know_cent+needforcog_cent + classroom_wins_1_cent*needforcog_cent + media_wins_1_cent*needforcog_cent + know_cent*needforcog_cent+(1|Score_Type)+(1|ID),   
+              data=expertise3_ready)
+summary(Model.2.1)
+
+```
+
+This total model is still similar to the single models unlike the interactions between objective expertise and need for cognition. Maybe we don't have enough power to detect these interactions due to sample size. We can still make the similar comments above I guess.
+
+
+#Winsorize at 1% the raw variables before factor analysis
+We can see that there are extreme values for our factor 1 (high+colle) and factor 2 (media+grad). We can deal these values with winsorization:
+
+
+```{r warning = FALSE, message = FALSE}
+# winsorize the variables (at 1%)
+expertise3_wins_fact <- expertise3_wins_fact%>%
+  mutate(numarticle_w1=Winsorize(numarticle, probs = c(0,0.99)), 
+         numbook_w1=Winsorize(numbook, probs = c(0,0.99)),
+         high_w1=Winsorize(high, probs = c(0,0.99)),
+         colle_w1=Winsorize(colle, probs = c(0,0.99)),
+         grad_w1=Winsorize(grad,na.rm=TRUE, probs = c(0,0.99)))
+
+#check descriptives
+descriptives(dat=expertise3_wins_fact, vars(high_w1, colle_w1), median=F, n=F, missing=F, sd=T)
+
+descriptives(dat=expertise3_wins_fact, vars(numarticle_w1, numbook_w1, grad_w1), median=F, n=F, missing=F, sd=T)
+
+```
+
+Our minimum and maximum values seems better, let's check histograms:
+
+## Factor analysis with winsorized variables
+
+Factor analysis for expertise variables with raw scores
+
+```{r warning = FALSE, message = FALSE}
+# Factor analysis for expertise variables with raw scores ----
+
+# Import packages 
+
+library(psych) #PCA/EFA analysis
+library(REdaS) #Produces KMO and Bartletts test
+library(GPArotation)
+
+
+# Create a new dataframe that include only related variables
+factor_exp1<-expertise3_wins_fact%>%
+  select(colle_w1, grad_w1, high_w1, numarticle_w1, numbook_w1)
+
+
+# Since grad classes for TV category is missing (nobody takes any class in the sample), listwise deletion is applied here.
+bart_spher(factor_exp1, use = "complete.obs") ###### produces Bartletts test of spherecity 
+
+#Check eigenvalues
+
+fa.parallel(factor_exp1)
+
+```
+
+```{r}
+
+# So we can reduce it to 2 factors
+fa(factor_exp1, nfactors = 3, rotate =  "oblimin" )  
+
+# Figure for the analysis
+
+M2<-fa(factor_exp1, nfactors = 3, rotate =  "oblimin" ) ##save the analysis as the object m1
+fa.diagram(M2,main="Expert Variables")  
+```
+
+Eigenvalues suggest 2 components here
+
+### Extracting components
+```{r warning = FALSE, message = FALSE}
+PrC_expert<- principal(factor_exp1, scores =TRUE, rotate= "varimax", nfactors=2, method="regression")
+
+loadings (PrC_expert)
+
+```
+
+
+```{r}
+#Combining data frames
+
+expertise3_wins_fact1 <- cbind(expertise3_wins_fact, PrC_expert$scores)
+
+```
+
+Check the correlation matrix again, it's the same above:
+
+```{r}
+corrMatrix(data = expertise3_wins_fact1, vars = vars(colle_w1, grad_w1, high_w1, numarticle_w1, numbook_w1, RC1, RC2))
+```
+
+## Histograms of these components
+
+```{r warning = FALSE, message = FALSE}
+##Histogram, descriptives and correlation matrix for new factors ----
+descriptives(dat=expertise3_wins_fact1, vars(RC1, RC2),
+             sd=T, skew =T)
+
+```
+
+```{r}
+
+hist(expertise3_wins_fact1$RC1)
+
+```
+
+```{r}
+hist(expertise3_wins_fact1$RC2)
+```
+
+
+## Long format (with component scores)
+
+Long format of expertise dataset
+
+```{r warning=FALSE, message=FALSE}
+
+library('reshape2')
+
+expertise3_wins_comp <- melt(expertise3_new, id.vars = c("ID",'duration',"sex" ,"education" ,"income","religion",'identity','age','political_atti','english_level','needforcog'), 
+                        measure.vars = c("ih_lang", "ih_school","ih_cards", "ih_breakfast", "ih_weddings", 
+                                         "ih_teeth", "ih_traffic", "ih_tv",'know_lang','know_school','know_cards','know_breakfast',
+                                         'know_weddings','know_teeth','know_traffic','know_tv',
+                                         'high_lang', 'colle_lang', 'grad_lang',
+                                         'numbook_lang','numarticle_lang',
+                                         'high_school', 'colle_school', 'grad_school',
+                                         'numbook_school','numarticle_school',
+                                         'high_cards', 'colle_cards', 'grad_cards',
+                                         'numbook_cards','numarticle_cards',
+                                         'high_breakfast', 'colle_breakfast', 'grad_breakfast',
+                                         'numbook_breakfast','numarticle_breakfast',
+                                         'high_weddings', 'colle_weddings', 'grad_weddings',
+                                         'numbook_weddings','numarticle_weddings',
+                                         'high_teeth', 'colle_teeth', 'grad_teeth',
+                                         'numbook_teeth','numarticle_teeth',
+                                         'high_traffic', 'colle_traffic', 'grad_traffic',
+                                         'numbook_traffic','numarticle_traffic',
+                                         'high_tv', 'colle_tv', 'grad_tv',
+                                         'numbook_tv','numarticle_tv'),
+                        sep = "_", variable.name = "Category", value.name = "Score")
+
+# Split the Category column into two columns based on the underscore separator
+expertise3_wins_comp <- expertise3_wins_comp %>% separate(Category, into = c("Category", "Score_Type"), sep = "_")
+
+## spread the data from long to wide format  ----
+expertise3_win1_comp <- expertise3_wins_comp %>% spread(Category, Score)
+
+# change the score type to a factor
+expertise3_win1_comp$Score_Type<-as.factor(expertise3_win1_comp$Score_Type)
+
+# convert the column ih to numeric
+expertise3_win1_comp$ih<-as.numeric(expertise3_win1_comp$ih)
+
+# Combine factor scores with the final data ----
+expertise3_win1_comp<-bind_cols(expertise3_win1_comp,expertise3_wins_fact1$RC1,expertise3_wins_fact1$RC2)
+
+#Rename the combined factor variables
+expertise3_win1_comp<-rename(expertise3_win1_comp, PC1=...20)
+expertise3_win1_comp<-rename(expertise3_win1_comp, PC2=...21)
+
+```
+
+```{r warning=FALSE, message=FALSE}
+
+# Center variables: 
+
+expertise3_win1_comp$know_cent <- scale(expertise3_win1_comp$know, center = TRUE, scale = FALSE)
+
+expertise3_win1_comp$needforcog_cent <- scale(expertise3_win1_comp$needforcog, center = TRUE, scale = FALSE)
+
+expertise3_win1_comp$PC1_w1_cent <- scale(expertise3_win1_comp$PC1, center = TRUE, scale = FALSE)
+
+expertise3_win1_comp$PC2_w2_cent <- scale(expertise3_win1_comp$PC2, center = TRUE, scale = FALSE)
+
+```
+
+
+## HLM Models
+
+### Model objective expertise with grad courses, books and magazines
+
+```{r warning = FALSE, message = FALSE}
+## Model objective expertise ----
+
+Model_obj<-lmer(ih ~PC1_w1_cent*needforcog_cent+PC1_w1_cent+needforcog_cent+
+                (1|Score_Type)+(1|ID), data=expertise3_win1_comp)
+summary(Model_obj)
+
+
+```
+
+### Model objective expertise with high school and college courses
+
+
+```{r}
+Model_obj2<-lmer(ih ~PC2_w2_cent * needforcog_cent +PC2_w2_cent + needforcog_cent+(1|Score_Type)+(1|ID), data=expertise3_win1_comp)
+summary(Model_obj2)
+
+```
+
+### Model of perceived expertise and need for cognition
+
+
+```{r}
+Model_perc<-lmer(ih ~know_cent*needforcog_cent+ know_cent + needforcog_cent +
+                (1|Score_Type)+(1|ID), data=expertise3_win1_comp)
+summary(Model_perc)
+```
+
+```{r}
+corrMatrix(expertise3_win1_comp,
+           vars = vars(know_cent,needforcog_cent), flag = TRUE)
+```
+
+### Model of objective expertise, perceived expertise and need for cognition without interaction
+
+```{r}
+Model.1.1<-lmer(ih ~PC1_w1_cent + PC2_w2_cent + know_cent +needforcog_cent +(1|Score_Type)+(1|ID),   
+              data=expertise3_win1_comp)
+summary(Model.1.1)
+```
+
+### Model of objective expertise, perceived expertise and need for cognition with interaction
+
+```{r}
+Model.2.1<-lmer(ih ~PC1_w1_cent + PC2_w2_cent  + know_cent+needforcog_cent + PC1_w1_cent*needforcog_cent + PC2_w2_cent*needforcog_cent + know_cent*needforcog_cent+(1|Score_Type)+(1|ID),   
+              data=expertise3_win1_comp)
+summary(Model.2.1)
+
+```
+
+

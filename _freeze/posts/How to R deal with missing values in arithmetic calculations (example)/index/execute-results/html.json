@@ -1,0 +1,14 @@
+{
+  "hash": "a0fcf413b14693d78d844f30d0cb2566",
+  "result": {
+    "markdown": "---\ntitle: \"How to R deal with missing values in arithmetic calculations\"\nauthor: \"MK\"\ndate: \"2023-01-16\"\ncategories: [example data, code, analysis]\nimage: \"data.png\"\n---\n\n\nThis post includes an example for R codes or to test how R deal with different calculations.\n\n### Import made-up data\n\n\n::: {.cell}\n\n```{.r .cell-code}\n#Import library ----\nlibrary(tidyverse)\nlibrary(readr)\nlibrary(jmv)\n\n\n#Read the csv file ----\nice<-read_csv(\"~/Desktop/ice cream data.csv\")\n\nhead(ice)\n```\n\n::: {.cell-output .cell-output-stdout}\n```\n# A tibble: 6 × 5\n     ID   Age Height `Ice Cream` Weight\n  <dbl> <dbl>  <dbl>       <dbl>  <dbl>\n1     1    23    176           3     78\n2     2    26     NA           4     65\n3     3    23    168           5     69\n4     4    34    187           2     NA\n5     5    65     NA           4     NA\n6     6    27    154           3     56\n```\n:::\n:::\n\n## Operations with missing values \n\nParticipant 2, 4 and 5 have missing values, let's calculate Bmi and a summing operation with mutate function:\n\n\n::: {.cell}\n\n```{.r .cell-code}\n#Transform height to meter\nice<-ice%>%\n  mutate(Height1=Height/100)\n\nice<-ice%>%\n  mutate(bmi=Weight/(Height1*Height1),\n         sum=Weight+(10-Height1))\n\nhead(ice)\n```\n\n::: {.cell-output .cell-output-stdout}\n```\n# A tibble: 6 × 8\n     ID   Age Height `Ice Cream` Weight Height1   bmi   sum\n  <dbl> <dbl>  <dbl>       <dbl>  <dbl>   <dbl> <dbl> <dbl>\n1     1    23    176           3     78    1.76  25.2  86.2\n2     2    26     NA           4     65   NA     NA    NA  \n3     3    23    168           5     69    1.68  24.4  77.3\n4     4    34    187           2     NA    1.87  NA    NA  \n5     5    65     NA           4     NA   NA     NA    NA  \n6     6    27    154           3     56    1.54  23.6  64.5\n```\n:::\n:::\n\n\nR handled missing values in arithmetic operations, it didn't omit them or replaced them with 0, that's great news!",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

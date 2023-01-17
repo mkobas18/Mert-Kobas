@@ -1,0 +1,43 @@
+---
+title: "How to R deal with missing values in arithmetic calculations"
+author: "MK"
+date: "2023-01-16"
+categories: [example data, code, analysis]
+image: "newdata.png"
+---
+
+This post includes an example for R codes or to test how R deal with different calculations.
+
+### Import made-up data
+
+```{r warning = FALSE, message = FALSE}
+#Import library ----
+library(tidyverse)
+library(readr)
+library(jmv)
+
+
+#Read the csv file ----
+ice<-read_csv("~/Desktop/ice cream data.csv")
+
+head(ice)
+
+```
+
+## Operations with missing values
+
+Participant 2, 4 and 5 have missing values, let's calculate Bmi and a summing operation with mutate function:
+
+```{r warning = FALSE, message = FALSE}
+#Transform height to meter
+ice<-ice%>%
+  mutate(Height1=Height/100)
+
+ice<-ice%>%
+  mutate(bmi=Weight/(Height1*Height1),
+         sum=Weight+(10-Height1))
+
+head(ice)
+```
+
+R handled missing values in arithmetic operations, it didn't omit them or replaced them with 0, that's great news!

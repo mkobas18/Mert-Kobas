@@ -1,0 +1,35 @@
+---
+title: "Cimpian (2012) Generic Statements, Causal Attributions, and Children’s Naive Theories "
+author: "MK"
+date: "2023-01-14"
+categories: [articles, notes, new ideas]
+image: "articles.png"
+---
+
+## Generic Statements, Causal Attributions, and Children's Naive Theories
+
+Categorization is a strong feature of our cognition because it reduces informational complexity of our environments, we can disregard individual differences and infer generalizations across individuals in a category.
+
+The development of generic generalization shapes and is shaped by the children's interaction with the environment. Generics are common in child directed speech and even 2 or 3 years old children can comprehend. Generic statements also include information sources for causal attributions beside communication and learning of generic facts.
+
+How we understand the category feature (friendliness) depends on how this feature is integrated into the causal relational networks (essential and central: friendliness is in the DNA of dogs vs. superficial and peripheral: they are raised by humans like that). Children understand generic statements mostly a must feature but non-generic statements as an accidental case. However, this is flexible and context sensitive, if they know the sentence must be generic (apples have seeds vs. this apple has seeds, it doesn't matter because we already know that every apple has seeds), this division became not important. However, this distinction is important for novel cases.
+
+Comment 1: This may be a bold comment but generic statements at first may work as a causal sources rather than informing about category features. I wonder whether some people argue that learning category features is also starting form causal or semi-causal relations like people argue about learning is based on learning with frequentist or bayesian probabilities (statistical learning or theory theory) as well as perceptual learning -associations among things-. So this process also work with these mechanisms:
+
+1-Learning 'dogs are friendly' with different dogs physical features (common sound, shape, etc.)
+
+2-When the person see a dog is not friendly, the first causal attribution was damaged, which is every dog until that time was not hostile because dogs are friendly (sometimes the person misattributed even silence as being friendly)
+
+3-At that moment, there is an explanandum, so contrast class occurs (this hostile dog-every friendly dog) and explanation can be found: because this dog ate raw meat and raw meat makes dogs hostile (attributing the extrinsic features)
+
+4-If these examples get more and more, the first generic statement may be placed as 'some dogs are friendly', 'dogs are wild creatures', or it may be reduced to specific breeds ('goldens are friendly but german sheaperds are hostile').
+
+5-Sometimes this argument may change without any physical event:
+
+-   interaction with experts or authority such as learning with formal education (strong argument or relying on these sources or inferring the opposite based on their arguments like someone may learn that dogs are evolutionarily close to wolfs in biology course, so they may infer that dogs must be hostile -essentialist ideas-) or
+
+-   interaction with many different sources who claim the contrast (maybe weak but high number of contrast arguments) or
+
+-   Social pressure (friends like conformist behaviors) / echo chambers / cultural beliefs (these may be even some kind of preassumptions 'dogs are not clean, so they are not friendly')
+
+[Question 1:]{.underline}

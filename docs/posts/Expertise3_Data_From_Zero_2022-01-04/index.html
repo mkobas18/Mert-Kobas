@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="MK">
-<meta name="dcterms.date" content="2023-01-04">
+<meta name="dcterms.date" content="2023-01-16">
 
 <title>Mert’s Learning Journal - Expertise3 Data Analysis from the very beginning</title>
 <style>
@@ -190,7 +190,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">January 4, 2023</p>
+        <p class="date">January 16, 2023</p>
       </div>
     </div>
     
@@ -209,15 +209,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 <p>This post includes the trial analyses of an example data related to expertise.</p>
-<p>Import necessary packages and expertise data</p>
+<section id="import-necessary-packages-and-expertise-data" class="level3">
+<h3 class="anchored" data-anchor-id="import-necessary-packages-and-expertise-data">Import necessary packages and expertise data</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Import library ----</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Read the csv file ----</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>Expertise3 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"~/Desktop/Expertise3_December 23, 2022_10.53.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(jmv)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DescTools)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stats)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">#Read the csv file ----</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>Expertise3 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"~/Desktop/Expertise3_December 23, 2022_10.53.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Creates a new dataframe called expertise3_clean, which is a copy of the original dataframe called Expertise3 and removes the second row of the dataframe and create a variable called column_names and assign it the names of the columns in the dataframe and change the column names</p>
 <div class="cell">
@@ -261,6 +267,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>                                <span class="st">'otherways'</span>,<span class="st">'sex'</span>,<span class="st">'birthdate'</span>,<span class="st">'education'</span>,<span class="st">'income'</span>,<span class="st">'religion'</span>,<span class="st">'identity'</span>,<span class="st">'age'</span>,<span class="st">'political_atti'</span>,</span>
 <span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>                                <span class="st">'english_level'</span>,<span class="st">'proceure_confu'</span>,<span class="st">'whatwestudied'</span>,<span class="st">'moretothisstudy'</span>,<span class="st">'additional_thoughts'</span>,<span class="st">'attention'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+<section id="questionnaire-items" class="level3">
+<h3 class="anchored" data-anchor-id="questionnaire-items">Questionnaire Items</h3>
 <p>The code below shows the survey items:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#selects all columns except the ones specified</span></span>
@@ -432,6 +441,9 @@ Aside from the ways you may have learned about these topics that were mentioned 
     Were you paying attention while completing this survey?</code></pre>
 </div>
 </div>
+</section>
+<section id="exclusion-criterias" class="level3">
+<h3 class="anchored" data-anchor-id="exclusion-criterias">Exclusion Criterias</h3>
 <p>Data preparation for further analyses</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Attention check and deletion of cases that didn't attend or finish the study ----</span></span>
@@ -461,6 +473,9 @@ Aside from the ways you may have learned about these topics that were mentioned 
 <span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="fu">vars</span>(stih_lang, r_ih_lang, stih_school, r_ih_school, stih_cards, r_ih_cards, stih_breakfast, r_ih_breakfast, </span>
 <span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>                 stih_weddings, r_ih_weddings, stih_teeth, r_ih_teeth, stih_traffic, r_ih_traffic, stih_tv, r_ih_tv), as.numeric)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+<section id="correlation-for-ih-scores" class="level2">
+<h2 class="anchored" data-anchor-id="correlation-for-ih-scores">Correlation for ih scores</h2>
 <p>Check the correlations between inherence (the variables starting with st) and reverse inherence (the variables starting with r) scores to check whether it’s appropriate for averaging</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Correlations between ih scores ----</span></span>
@@ -479,11 +494,10 @@ Aside from the ways you may have learned about these topics that were mentioned 
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  correlation_test <span class="ot">&lt;-</span> <span class="fu">cor.test</span>(expertise3_new[, variables[i]], expertise3_new[, variables[j]], <span class="at">method =</span> <span class="st">"pearson"</span>)</span>
 <span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add the correlation coefficient, p-value, and confidence interval to the data frame</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  correlations <span class="ot">&lt;-</span> <span class="fu">rbind</span>(correlations, <span class="fu">data.frame</span>(<span class="at">variable1 =</span> variables[i], <span class="at">variable2 =</span> variables[j], <span class="at">correlation =</span> correlation_test<span class="sc">$</span>estimate, <span class="at">p.value =</span> correlation_test<span class="sc">$</span>p.value, <span class="at">conf.int =</span> <span class="fu">paste</span>(correlation_test<span class="sc">$</span>conf.int[<span class="dv">1</span>], correlation_test<span class="sc">$</span>conf.int[<span class="dv">2</span>], <span class="at">sep =</span> <span class="st">" - "</span>)))</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="do">## View the correlation coefficients and statistical measures ----</span></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>correlations</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  correlations <span class="ot">&lt;-</span> <span class="fu">rbind</span>(correlations, <span class="fu">data.frame</span>(<span class="at">variable1 =</span> variables[i], <span class="at">variable2 =</span> variables[j], <span class="at">correlation =</span> correlation_test<span class="sc">$</span>estimate, <span class="at">p.value =</span> correlation_test<span class="sc">$</span>p.value, <span class="at">conf.int =</span> <span class="fu">paste</span>(correlation_test<span class="sc">$</span>conf.int[<span class="dv">1</span>], correlation_test<span class="sc">$</span>conf.int[<span class="dv">2</span>], <span class="at">sep =</span> <span class="st">" - "</span>)))}</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="do">## View the correlation coefficients and statistical measures ----</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>correlations</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          variable1      variable2 correlation      p.value
 cor       stih_lang      r_ih_lang  -0.6112615 8.942654e-22
@@ -505,6 +519,9 @@ cor6  -0.583183953827757 - -0.36901235203396
 cor7 -0.457126840023376 - -0.210484471909784</code></pre>
 </div>
 </div>
+</section>
+<section id="ih-scores-calculation" class="level2">
+<h2 class="anchored" data-anchor-id="ih-scores-calculation">IH scores calculation</h2>
 <p>It seems that each pairs have negative significant correlation, so we can take the average scores to calculate inherence scores</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Average of ih scores  ----</span></span>
@@ -519,6 +536,9 @@ cor7 -0.457126840023376 - -0.210484471909784</code></pre>
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">ih_traffic =</span> (stih_traffic <span class="sc">+</span> (<span class="dv">10</span><span class="sc">-</span>r_ih_traffic)) <span class="sc">/</span> <span class="dv">2</span>,</span>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">ih_tv =</span> (stih_tv <span class="sc">+</span> (<span class="dv">10</span><span class="sc">-</span>r_ih_tv)) <span class="sc">/</span> <span class="dv">2</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+<section id="need-for-cognition-scores-calculation" class="level2">
+<h2 class="anchored" data-anchor-id="need-for-cognition-scores-calculation">Need for Cognition scores calculation</h2>
 <p>Calculate “Need for cognition” scale scores</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Need for cognition scale scores  ----</span></span>
@@ -540,6 +560,9 @@ cor7 -0.457126840023376 - -0.210484471909784</code></pre>
 <span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>                       needforcog13<span class="sc">+</span>needforcog14<span class="sc">+</span>needforcog15<span class="sc">+</span></span>
 <span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>                       (<span class="dv">10</span><span class="sc">-</span>needforcog16)<span class="sc">+</span>(<span class="dv">10</span><span class="sc">-</span>needforcog17)<span class="sc">+</span>needforcog18)<span class="sc">/</span><span class="dv">18</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+<section id="data-preparation" class="level2">
+<h2 class="anchored" data-anchor-id="data-preparation">Data preparation</h2>
 <p>Prepare the expertise scores and other scores ready for analyses</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace expertise variables' NA values in the expertise columns with 0  ----</span></span>
@@ -702,7 +725,10 @@ cor7 -0.457126840023376 - -0.210484471909784</code></pre>
 <span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a>                 <span class="st">'high_tv'</span>, <span class="st">'colle_tv'</span>, <span class="st">'grad_tv'</span>,</span>
 <span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a>                 <span class="st">'numbook_tv'</span>,<span class="st">'numarticle_tv'</span>), as.numeric)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Long format of expertise dataset for factor analysis before standardization</p>
+</section>
+<section id="long-format" class="level2">
+<h2 class="anchored" data-anchor-id="long-format">Long format</h2>
+<p>Long format of expertise dataset for factor analysis</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">'reshape2'</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -740,202 +766,36 @@ cor7 -0.457126840023376 - -0.210484471909784</code></pre>
 <span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a><span class="co"># convert the column ih to numeric</span></span>
 <span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>expertise3_fact<span class="sc">$</span>ih<span class="ot">&lt;-</span><span class="fu">as.numeric</span>(expertise3_fact<span class="sc">$</span>ih)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>###Create another data frame to winsorize expertise variables before factor analysis</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>expertise3_wins_fact<span class="ot">&lt;-</span>expertise3_fact</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="factor-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="factor-analysis">Factor analysis</h2>
 <p>Factor analysis for expertise variables with raw scores</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import packages </span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych) <span class="co">#PCA/EFA analysis</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(REdaS) <span class="co">#Produces KMO and Bartletts test</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a new dataframe that include only related variables</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>factor_exp0<span class="ot">&lt;-</span>expertise3_fact<span class="sc">%&gt;%</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(colle, grad, high, numarticle, numbook)</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Check missing values</span></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(<span class="fu">is.na</span>(factor_exp0), <span class="dv">2</span>, sum)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Factor analysis for expertise variables with raw scores ----</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Import packages </span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych) <span class="co">#PCA/EFA analysis</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(REdaS) <span class="co">#Produces KMO and Bartletts test</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GPArotation)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a new dataframe that include only related variables</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>factor_exp<span class="ot">&lt;-</span>expertise3_fact<span class="sc">%&gt;%</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(colle, grad, high, numarticle, numbook)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Check missing values</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(<span class="fu">is.na</span>(factor_exp), <span class="dv">2</span>, sum)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     colle       grad       high numarticle    numbook 
          0          0          0          0          0 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Since grad classes for TV category is missing (nobody takes any class in the sample), listwise deletion is applied here.</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bart_spher</span>(factor_exp0, <span class="at">use =</span> <span class="st">"complete.obs"</span>) <span class="do">###### produces Bartletts test of spherecity </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>    Bartlett's Test of Sphericity
-
-Call: bart_spher(x = factor_exp0, use = "complete.obs")
-
-     X2 = 1028.145
-     df = 10
-p-value &lt; 2.22e-16</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">KMO</span>(factor_exp0)       <span class="do">###### Kaiser-Meyer-Olkin measure, which is above .5.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Kaiser-Meyer-Olkin factor adequacy
-Call: KMO(r = factor_exp0)
-Overall MSA =  0.58
-MSA for each item = 
-     colle       grad       high numarticle    numbook 
-      0.57       0.59       0.56       0.56       0.60 </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's check all the variables</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fa</span>(factor_exp0, <span class="at">nfactors =</span> <span class="dv">5</span>, <span class="at">rotate =</span>  <span class="st">"oblimin"</span> )  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Factor Analysis using method =  minres
-Call: fa(r = factor_exp0, nfactors = 5, rotate = "oblimin")
-Standardized loadings (pattern matrix) based upon correlation matrix
-             MR1   MR2   MR3   MR4 MR5   h2   u2 com
-colle       0.73  0.01 -0.01  0.07   0 0.56 0.44 1.0
-grad       -0.05  0.54 -0.05  0.08   0 0.31 0.69 1.1
-high        0.73 -0.03  0.00 -0.06   0 0.51 0.49 1.0
-numarticle -0.05 -0.05  0.56  0.01   0 0.28 0.72 1.0
-numbook     0.14  0.37  0.38  0.06   0 0.57 0.43 2.3
-
-                       MR1  MR2  MR3  MR4  MR5
-SS loadings           1.11 0.53 0.52 0.08 0.00
-Proportion Var        0.22 0.11 0.10 0.02 0.00
-Cumulative Var        0.22 0.33 0.43 0.45 0.45
-Proportion Explained  0.50 0.24 0.23 0.03 0.00
-Cumulative Proportion 0.50 0.73 0.97 1.00 1.00
-
- With factor correlations of 
-     MR1  MR2  MR3  MR4 MR5
-MR1 1.00 0.32 0.24 0.15   0
-MR2 0.32 1.00 0.52 0.72   0
-MR3 0.24 0.52 1.00 0.30   0
-MR4 0.15 0.72 0.30 1.00   0
-MR5 0.00 0.00 0.00 0.00   1
-
-Mean item complexity =  1.3
-Test of the hypothesis that 5 factors are sufficient.
-
-The degrees of freedom for the null model are  10  and the objective function was  0.65 with Chi Square of  1028.15
-The degrees of freedom for the model are -5  and the objective function was  0 
-
-The root mean square of the residuals (RMSR) is  0 
-The df corrected root mean square of the residuals is  NA 
-
-The harmonic number of observations is  1592 with the empirical chi square  0  with prob &lt;  NA 
-The total number of observations was  1592  with Likelihood Chi Square =  0  with prob &lt;  NA 
-
-Tucker Lewis Index of factoring reliability =  1.01
-Fit based upon off diagonal values = 1
-Measures of factor score adequacy             
-                                                   MR1  MR2  MR3   MR4 MR5
-Correlation of (regression) scores with factors   0.84 0.75 0.72  0.57   0
-Multiple R square of scores with factors          0.71 0.57 0.52  0.32   0
-Minimum correlation of possible factor scores     0.42 0.14 0.04 -0.36  -1</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We may reduce it to 2 factors like media and classes</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fa</span>(factor_exp0, <span class="at">nfactors =</span> <span class="dv">2</span>, <span class="at">rotate =</span>  <span class="st">"oblimin"</span> )  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Factor Analysis using method =  minres
-Call: fa(r = factor_exp0, nfactors = 2, rotate = "oblimin")
-Standardized loadings (pattern matrix) based upon correlation matrix
-             MR1   MR2   h2    u2 com
-colle       0.06  0.72 0.55 0.455 1.0
-grad        0.36 -0.01 0.13 0.875 1.0
-high       -0.05  0.73 0.51 0.488 1.0
-numarticle  0.33 -0.06 0.10 0.900 1.1
-numbook     0.97  0.00 0.95 0.052 1.0
-
-                       MR1  MR2
-SS loadings           1.18 1.05
-Proportion Var        0.24 0.21
-Cumulative Var        0.24 0.45
-Proportion Explained  0.53 0.47
-Cumulative Proportion 0.53 1.00
-
- With factor correlations of 
-     MR1  MR2
-MR1 1.00 0.35
-MR2 0.35 1.00
-
-Mean item complexity =  1
-Test of the hypothesis that 2 factors are sufficient.
-
-The degrees of freedom for the null model are  10  and the objective function was  0.65 with Chi Square of  1028.15
-The degrees of freedom for the model are 1  and the objective function was  0 
-
-The root mean square of the residuals (RMSR) is  0.01 
-The df corrected root mean square of the residuals is  0.03 
-
-The harmonic number of observations is  1592 with the empirical chi square  3.66  with prob &lt;  0.056 
-The total number of observations was  1592  with Likelihood Chi Square =  5.04  with prob &lt;  0.025 
-
-Tucker Lewis Index of factoring reliability =  0.96
-RMSEA index =  0.05  and the 90 % confidence intervals are  0.014 0.098
-BIC =  -2.34
-Fit based upon off diagonal values = 1
-Measures of factor score adequacy             
-                                                   MR1  MR2
-Correlation of (regression) scores with factors   0.97 0.84
-Multiple R square of scores with factors          0.95 0.70
-Minimum correlation of possible factor scores     0.90 0.41</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>factor_dia0<span class="ot">&lt;-</span><span class="fu">fa</span>(factor_exp0, <span class="at">nfactors =</span> <span class="dv">2</span>, <span class="at">rotate =</span>  <span class="st">"oblimin"</span> ) <span class="do">##save the analysis as the object m1</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fa.diagram</span>(factor_dia0,<span class="at">main=</span><span class="st">"Expertise Variables"</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>It is interesting that grad courses are more related to media category than classes although the correlation strength -r values- were low. It may be related to active participation or effect of history (books/articles can be mostly read during grad courses or the remembered ones at least?). So here, in my sense, we may collect these items under active vs.&nbsp;passive involvement or contemporary (closer) expertise vs.&nbsp;older expertise.</p>
-<p>Long format of expertise dataset</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">'reshape2'</span>)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>expertise3_long <span class="ot">&lt;-</span> <span class="fu">melt</span>(expertise3_new, <span class="at">id.vars =</span> <span class="fu">c</span>(<span class="st">"ID"</span>,<span class="st">'duration'</span>,<span class="st">"sex"</span> ,<span class="st">"education"</span> ,<span class="st">"income"</span>,<span class="st">"religion"</span>,<span class="st">'identity'</span>,<span class="st">'age'</span>,<span class="st">'political_atti'</span>,<span class="st">'english_level'</span>,<span class="st">'needforcog'</span>), </span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">measure.vars =</span> <span class="fu">c</span>(<span class="st">"ih_lang"</span>, <span class="st">"ih_school"</span>,<span class="st">"ih_cards"</span>, <span class="st">"ih_breakfast"</span>, <span class="st">"ih_weddings"</span>, </span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">"ih_teeth"</span>, <span class="st">"ih_traffic"</span>, <span class="st">"ih_tv"</span>,<span class="st">'know_lang'</span>,<span class="st">'know_school'</span>,<span class="st">'know_cards'</span>,<span class="st">'know_breakfast'</span>,</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'know_weddings'</span>,<span class="st">'know_teeth'</span>,<span class="st">'know_traffic'</span>,<span class="st">'know_tv'</span>,</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'high_lang'</span>, <span class="st">'colle_lang'</span>, <span class="st">'grad_lang'</span>,</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'numbook_lang'</span>,<span class="st">'numarticle_lang'</span>,</span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'high_school'</span>, <span class="st">'colle_school'</span>, <span class="st">'grad_school'</span>,</span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'numbook_school'</span>,<span class="st">'numarticle_school'</span>,</span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'high_cards'</span>, <span class="st">'colle_cards'</span>, <span class="st">'grad_cards'</span>,</span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'numbook_cards'</span>,<span class="st">'numarticle_cards'</span>,</span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'high_breakfast'</span>, <span class="st">'colle_breakfast'</span>, <span class="st">'grad_breakfast'</span>,</span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'numbook_breakfast'</span>,<span class="st">'numarticle_breakfast'</span>,</span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'high_weddings'</span>, <span class="st">'colle_weddings'</span>, <span class="st">'grad_weddings'</span>,</span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'numbook_weddings'</span>,<span class="st">'numarticle_weddings'</span>,</span>
-<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'high_teeth'</span>, <span class="st">'colle_teeth'</span>, <span class="st">'grad_teeth'</span>,</span>
-<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'numbook_teeth'</span>,<span class="st">'numarticle_teeth'</span>,</span>
-<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'high_traffic'</span>, <span class="st">'colle_traffic'</span>, <span class="st">'grad_traffic'</span>,</span>
-<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'numbook_traffic'</span>,<span class="st">'numarticle_traffic'</span>,</span>
-<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'high_tv'</span>, <span class="st">'colle_tv'</span>, <span class="st">'grad_tv'</span>,</span>
-<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'numbook_tv'</span>,<span class="st">'numarticle_tv'</span>),</span>
-<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sep =</span> <span class="st">"_"</span>, <span class="at">variable.name =</span> <span class="st">"Category"</span>, <span class="at">value.name =</span> <span class="st">"Score"</span>)</span>
-<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Split the Category column into two columns based on the underscore separator</span></span>
-<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>expertise3_long <span class="ot">&lt;-</span> expertise3_long <span class="sc">%&gt;%</span> <span class="fu">separate</span>(Category, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"Category"</span>, <span class="st">"Score_Type"</span>), <span class="at">sep =</span> <span class="st">"_"</span>)</span>
-<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a><span class="do">## spread the data from long to wide format  ----</span></span>
-<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>expertise3_ready <span class="ot">&lt;-</span> expertise3_long <span class="sc">%&gt;%</span> <span class="fu">spread</span>(Category, Score)</span>
-<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a><span class="co"># change the score type to a factor</span></span>
-<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>expertise3_ready<span class="sc">$</span>Score_Type<span class="ot">&lt;-</span><span class="fu">as.factor</span>(expertise3_ready<span class="sc">$</span>Score_Type)</span>
-<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a><span class="co"># convert the column ih to numeric</span></span>
-<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a>expertise3_ready<span class="sc">$</span>ih<span class="ot">&lt;-</span><span class="fu">as.numeric</span>(expertise3_ready<span class="sc">$</span>ih)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Factor analysis for expertise variables with standardized scores</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import packages </span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych) <span class="co">#PCA/EFA analysis</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(REdaS) <span class="co">#Produces KMO and Bartletts test</span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a new dataframe that include only related variables</span></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>factor_exp<span class="ot">&lt;-</span>expertise3_ready<span class="sc">%&gt;%</span></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(colle, grad, high, numarticle, numbook)</span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Check missing values</span></span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(<span class="fu">is.na</span>(factor_exp), <span class="dv">2</span>, sum)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>     colle       grad       high numarticle    numbook 
-         0          0          0          0          0 </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Since grad classes for TV category is missing (nobody takes any class in the sample), listwise deletion is applied here.</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bart_spher</span>(factor_exp, <span class="at">use =</span> <span class="st">"complete.obs"</span>) <span class="do">###### produces Bartletts test of spherecity </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Since grad classes for TV category is missing (nobody takes any class in the sample), listwise deletion is applied here.</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bart_spher</span>(factor_exp, <span class="at">use =</span> <span class="st">"complete.obs"</span>) <span class="do">###### produces Bartletts test of spherecity </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    Bartlett's Test of Sphericity
 
@@ -945,7 +805,7 @@ Call: bart_spher(x = factor_exp, use = "complete.obs")
      df = 10
 p-value &lt; 2.22e-16</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">KMO</span>(factor_exp)       <span class="do">###### Kaiser-Meyer-Olkin measure, which is above .5.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">KMO</span>(factor_exp)       <span class="do">###### Kaiser-Meyer-Olkin measure, which is above .5.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Kaiser-Meyer-Olkin factor adequacy
 Call: KMO(r = factor_exp)
@@ -954,8 +814,8 @@ MSA for each item =
      colle       grad       high numarticle    numbook 
       0.57       0.59       0.56       0.56       0.60 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's check all the variables</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fa</span>(factor_exp, <span class="at">nfactors =</span> <span class="dv">5</span>, <span class="at">rotate =</span>  <span class="st">"oblimin"</span> )  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's check all the variables</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fa</span>(factor_exp, <span class="at">nfactors =</span> <span class="dv">5</span>, <span class="at">rotate =</span>  <span class="st">"oblimin"</span> )  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Factor Analysis using method =  minres
 Call: fa(r = factor_exp, nfactors = 5, rotate = "oblimin")
@@ -1002,8 +862,8 @@ Correlation of (regression) scores with factors   0.84 0.75 0.72  0.57   0
 Multiple R square of scores with factors          0.71 0.57 0.52  0.32   0
 Minimum correlation of possible factor scores     0.42 0.14 0.04 -0.36  -1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># So we can reduce it to 2 factors</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fa</span>(factor_exp, <span class="at">nfactors =</span> <span class="dv">2</span>, <span class="at">rotate =</span>  <span class="st">"oblimin"</span> )  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># So we can reduce it to 2 factors</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fa</span>(factor_exp, <span class="at">nfactors =</span> <span class="dv">2</span>, <span class="at">rotate =</span>  <span class="st">"oblimin"</span> )  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Factor Analysis using method =  minres
 Call: fa(r = factor_exp, nfactors = 2, rotate = "oblimin")
@@ -1049,247 +909,1350 @@ Correlation of (regression) scores with factors   0.97 0.84
 Multiple R square of scores with factors          0.95 0.70
 Minimum correlation of possible factor scores     0.90 0.41</code></pre>
 </div>
-</div>
-<p>Figure for the analysis</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Figure for the analysis</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>factor_dia1<span class="ot">&lt;-</span><span class="fu">fa</span>(factor_exp, <span class="at">nfactors =</span> <span class="dv">2</span>, <span class="at">rotate =</span>  <span class="st">"oblimin"</span> ) <span class="do">##save the analysis as the object m1</span></span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="fu">fa.diagram</span>(factor_dia1,<span class="at">main=</span><span class="st">"Expertise Variables"</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Figure for the analysis</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>M1<span class="ot">&lt;-</span><span class="fu">fa</span>(factor_exp, <span class="at">nfactors =</span> <span class="dv">2</span>, <span class="at">rotate =</span>  <span class="st">"oblimin"</span> ) <span class="do">##save the analysis as the object m1</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="fu">fa.diagram</span>(M1,<span class="at">main=</span><span class="st">"Expertise Variables"</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<section id="eigenvalues" class="level3">
+<h3 class="anchored" data-anchor-id="eigenvalues">Eigenvalues</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Check eigenvalues</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">fa.parallel</span>(factor_exp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Parallel analysis suggests that the number of factors =  2  and the number of components =  2 </code></pre>
+</div>
+</div>
+</section>
+<section id="extracting-factor-values" class="level3">
+<h3 class="anchored" data-anchor-id="extracting-factor-values">Extracting factor values</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>factor_exp_score <span class="ot">&lt;-</span> <span class="fu">factanal</span>(factor_exp, <span class="at">factors=</span><span class="dv">2</span>, <span class="at">scores=</span><span class="st">"regression"</span>, <span class="at">rotation =</span> <span class="st">"oblimin"</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(factor_exp_score<span class="sc">$</span>scores)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        Factor1      Factor2
+[1,] -0.2661121 -0.201277588
+[2,] -0.2661121 -0.201277588
+[3,] -0.2661121 -0.201277588
+[4,] -0.2661121 -0.201277588
+[5,]  0.5989102 -0.002729162
+[6,] -0.2661121 -0.201277588</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>factor_exp_comb <span class="ot">&lt;-</span> <span class="fu">bind_cols</span>(factor_exp, <span class="fu">data.frame</span>(factor_exp_score<span class="sc">$</span>scores))</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>factor_exp_comb<span class="sc">$</span>class<span class="ot">&lt;-</span>factor_exp_comb<span class="sc">$</span>Factor1</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>factor_exp_comb<span class="sc">$</span>media_grad<span class="ot">&lt;-</span>factor_exp_comb<span class="sc">$</span>Factor2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="histogram-and-descriptives-for-factor-scores" class="level3">
+<h3 class="anchored" data-anchor-id="histogram-and-descriptives-for-factor-scores">Histogram and descriptives for factor scores</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">descriptives</span>(<span class="at">dat=</span>factor_exp_comb, <span class="fu">vars</span>(Factor1, Factor2),</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">sd=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ DESCRIPTIVES
+
+ Descriptives                                            
+ ─────────────────────────────────────────────────────── 
+                         Factor1         Factor2         
+ ─────────────────────────────────────────────────────── 
+   N                             1592             1592   
+   Missing                          0                0   
+   Mean                  8.761835e-16    -5.523220e-16   
+   Median                  -0.2661121       -0.2012776   
+   Standard deviation        1.025264        0.9950548   
+   Minimum                  -4.893420        -2.856758   
+   Maximum                   11.22177         20.89972   
+ ─────────────────────────────────────────────────────── </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(factor_exp_comb<span class="sc">$</span>Factor1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(factor_exp_comb<span class="sc">$</span>Factor2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Standardize the Selected variables  ----</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>vars_to_standardize <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'know_lang'</span>,<span class="st">'know_school'</span>,<span class="st">'know_cards'</span>,<span class="st">'know_breakfast'</span>,</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>                         <span class="st">'know_weddings'</span>,<span class="st">'know_teeth'</span>,<span class="st">'know_traffic'</span>,<span class="st">'know_tv'</span>,</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>                         <span class="st">'high_lang'</span>, <span class="st">'colle_lang'</span>, <span class="st">'grad_lang'</span>,</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>                         <span class="st">'numbook_lang'</span>,<span class="st">'numarticle_lang'</span>,</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>                         <span class="st">'high_school'</span>, <span class="st">'colle_school'</span>, <span class="st">'grad_school'</span>,</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>                         <span class="st">'numbook_school'</span>,<span class="st">'numarticle_school'</span>,</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>                         <span class="st">'high_cards'</span>, <span class="st">'colle_cards'</span>, <span class="st">'grad_cards'</span>,</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>                         <span class="st">'numbook_cards'</span>,<span class="st">'numarticle_cards'</span>,</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>                         <span class="st">'high_breakfast'</span>, <span class="st">'colle_breakfast'</span>, <span class="st">'grad_breakfast'</span>,</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>                         <span class="st">'numbook_breakfast'</span>,<span class="st">'numarticle_breakfast'</span>,</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>                         <span class="st">'high_weddings'</span>, <span class="st">'colle_weddings'</span>, <span class="st">'grad_weddings'</span>,</span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>                         <span class="st">'numbook_weddings'</span>,<span class="st">'numarticle_weddings'</span>,</span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>                         <span class="st">'high_teeth'</span>, <span class="st">'colle_teeth'</span>, <span class="st">'grad_teeth'</span>,</span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>                         <span class="st">'numbook_teeth'</span>,<span class="st">'numarticle_teeth'</span>,</span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>                         <span class="st">'high_traffic'</span>, <span class="st">'colle_traffic'</span>, <span class="st">'grad_traffic'</span>,</span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>                         <span class="st">'numbook_traffic'</span>,<span class="st">'numarticle_traffic'</span>,</span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>                         <span class="st">'high_tv'</span>, <span class="st">'colle_tv'</span>, <span class="st">'grad_tv'</span>,</span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a>                         <span class="st">'numbook_tv'</span>,<span class="st">'numarticle_tv'</span>)</span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a>expertise3_new[, vars_to_standardize] <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise3_new[, vars_to_standardize])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="long-format-with-factor-scores" class="level2">
+<h2 class="anchored" data-anchor-id="long-format-with-factor-scores">Long format (with factor scores)</h2>
+<p>Long format of expertise dataset</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">'reshape2'</span>)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>expertise3_long <span class="ot">&lt;-</span> <span class="fu">melt</span>(expertise3_new, <span class="at">id.vars =</span> <span class="fu">c</span>(<span class="st">"ID"</span>,<span class="st">'duration'</span>,<span class="st">"sex"</span> ,<span class="st">"education"</span> ,<span class="st">"income"</span>,<span class="st">"religion"</span>,<span class="st">'identity'</span>,<span class="st">'age'</span>,<span class="st">'political_atti'</span>,<span class="st">'english_level'</span>,<span class="st">'needforcog'</span>), </span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">measure.vars =</span> <span class="fu">c</span>(<span class="st">"ih_lang"</span>, <span class="st">"ih_school"</span>,<span class="st">"ih_cards"</span>, <span class="st">"ih_breakfast"</span>, <span class="st">"ih_weddings"</span>, </span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">"ih_teeth"</span>, <span class="st">"ih_traffic"</span>, <span class="st">"ih_tv"</span>,<span class="st">'know_lang'</span>,<span class="st">'know_school'</span>,<span class="st">'know_cards'</span>,<span class="st">'know_breakfast'</span>,</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'know_weddings'</span>,<span class="st">'know_teeth'</span>,<span class="st">'know_traffic'</span>,<span class="st">'know_tv'</span>,</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'high_lang'</span>, <span class="st">'colle_lang'</span>, <span class="st">'grad_lang'</span>,</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'numbook_lang'</span>,<span class="st">'numarticle_lang'</span>,</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'high_school'</span>, <span class="st">'colle_school'</span>, <span class="st">'grad_school'</span>,</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'numbook_school'</span>,<span class="st">'numarticle_school'</span>,</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'high_cards'</span>, <span class="st">'colle_cards'</span>, <span class="st">'grad_cards'</span>,</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'numbook_cards'</span>,<span class="st">'numarticle_cards'</span>,</span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'high_breakfast'</span>, <span class="st">'colle_breakfast'</span>, <span class="st">'grad_breakfast'</span>,</span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'numbook_breakfast'</span>,<span class="st">'numarticle_breakfast'</span>,</span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'high_weddings'</span>, <span class="st">'colle_weddings'</span>, <span class="st">'grad_weddings'</span>,</span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'numbook_weddings'</span>,<span class="st">'numarticle_weddings'</span>,</span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'high_teeth'</span>, <span class="st">'colle_teeth'</span>, <span class="st">'grad_teeth'</span>,</span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'numbook_teeth'</span>,<span class="st">'numarticle_teeth'</span>,</span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'high_traffic'</span>, <span class="st">'colle_traffic'</span>, <span class="st">'grad_traffic'</span>,</span>
+<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'numbook_traffic'</span>,<span class="st">'numarticle_traffic'</span>,</span>
+<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'high_tv'</span>, <span class="st">'colle_tv'</span>, <span class="st">'grad_tv'</span>,</span>
+<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'numbook_tv'</span>,<span class="st">'numarticle_tv'</span>),</span>
+<span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sep =</span> <span class="st">"_"</span>, <span class="at">variable.name =</span> <span class="st">"Category"</span>, <span class="at">value.name =</span> <span class="st">"Score"</span>)</span>
+<span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-25"><a href="#cb36-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Split the Category column into two columns based on the underscore separator</span></span>
+<span id="cb36-26"><a href="#cb36-26" aria-hidden="true" tabindex="-1"></a>expertise3_long <span class="ot">&lt;-</span> expertise3_long <span class="sc">%&gt;%</span> <span class="fu">separate</span>(Category, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"Category"</span>, <span class="st">"Score_Type"</span>), <span class="at">sep =</span> <span class="st">"_"</span>)</span>
+<span id="cb36-27"><a href="#cb36-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-28"><a href="#cb36-28" aria-hidden="true" tabindex="-1"></a><span class="do">## spread the data from long to wide format  ----</span></span>
+<span id="cb36-29"><a href="#cb36-29" aria-hidden="true" tabindex="-1"></a>expertise3_ready <span class="ot">&lt;-</span> expertise3_long <span class="sc">%&gt;%</span> <span class="fu">spread</span>(Category, Score)</span>
+<span id="cb36-30"><a href="#cb36-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-31"><a href="#cb36-31" aria-hidden="true" tabindex="-1"></a><span class="co"># change the score type to a factor</span></span>
+<span id="cb36-32"><a href="#cb36-32" aria-hidden="true" tabindex="-1"></a>expertise3_ready<span class="sc">$</span>Score_Type<span class="ot">&lt;-</span><span class="fu">as.factor</span>(expertise3_ready<span class="sc">$</span>Score_Type)</span>
+<span id="cb36-33"><a href="#cb36-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-34"><a href="#cb36-34" aria-hidden="true" tabindex="-1"></a><span class="co"># convert the column ih to numeric</span></span>
+<span id="cb36-35"><a href="#cb36-35" aria-hidden="true" tabindex="-1"></a>expertise3_ready<span class="sc">$</span>ih<span class="ot">&lt;-</span><span class="fu">as.numeric</span>(expertise3_ready<span class="sc">$</span>ih)</span>
+<span id="cb36-36"><a href="#cb36-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-37"><a href="#cb36-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine factor scores with the final data ----</span></span>
+<span id="cb36-38"><a href="#cb36-38" aria-hidden="true" tabindex="-1"></a>expertise3_ready<span class="ot">&lt;-</span><span class="fu">bind_cols</span>(expertise3_ready,factor_exp_comb<span class="sc">$</span>Factor1,factor_exp_comb<span class="sc">$</span>Factor2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>New names:
+• `` -&gt; `...20`
+• `` -&gt; `...21`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Rename the combined factor variables</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>expertise3_ready<span class="ot">&lt;-</span><span class="fu">rename</span>(expertise3_ready, <span class="at">classroom=</span>...<span class="dv">20</span>)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>expertise3_ready<span class="ot">&lt;-</span><span class="fu">rename</span>(expertise3_ready, <span class="at">media_grad=</span>...<span class="dv">21</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="models" class="level2">
+<h2 class="anchored" data-anchor-id="models">Models</h2>
 <p>We can start to analyze our models with using hlm:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Import packages ----</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4) </span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmerTest)</span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Model 1 ----</span></span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Need for cognition and perceived expertise as fixed effects</span></span>
-<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>Model<span class="fl">.1</span><span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>needforcog<span class="sc">*</span>know<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID),   </span>
-<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">data=</span>expertise3_ready)</span>
-<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model<span class="fl">.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Import packages ----</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4) </span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmerTest)</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Center variables: need for cognition and know </span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>expertise3_ready<span class="sc">$</span>know_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise3_ready<span class="sc">$</span>know, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>expertise3_ready<span class="sc">$</span>needforcog_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise3_ready<span class="sc">$</span>needforcog, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>expertise3_ready<span class="sc">$</span>class_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise3_ready<span class="sc">$</span>classroom, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>expertise3_ready<span class="sc">$</span>media_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise3_ready<span class="sc">$</span>media_grad, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Check descriptives</span></span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(expertise3_ready)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                vars    n   mean    sd median trimmed   mad   min    max  range
+ID                 1 1592 100.00 57.46 100.00  100.00 74.13  1.00 199.00 198.00
+duration*          2 1592  91.63 50.67  92.00   91.91 63.75  1.00 180.00 179.00
+sex*               3 1592   1.51  0.50   2.00    1.52  0.00  1.00   2.00   1.00
+education*         4 1592   3.42  0.95   3.00    3.40  1.48  1.00   6.00   5.00
+income*            5 1576  47.16 27.29  46.00   47.15 31.13  1.00  98.00  97.00
+religion*          6 1576  25.15 15.95  19.00   25.11 19.27  1.00  55.00  54.00
+identity*          7 1592  22.85  8.81  29.00   24.10  1.48  1.00  31.00  30.00
+age*               8 1592  16.17 10.30  13.00   15.21  8.90  1.00  43.00  42.00
+political_atti*    9 1592   3.93  2.15   4.00    3.81  2.97  1.00   9.00   8.00
+english_level*    10 1592   1.03  0.22   1.00    1.00  0.00  1.00   3.00   2.00
+needforcog        11 1592   5.96  1.29   5.89    5.96  1.32  2.11   8.78   6.67
+Score_Type*       12 1592   4.50  2.29   4.50    4.50  2.97  1.00   8.00   7.00
+colle             13 1592   0.00  1.00  -0.23   -0.23  0.06 -0.54   9.94  10.48
+grad              14 1393   0.00  1.00  -0.10   -0.11  0.02 -0.15  14.04  14.19
+high              15 1592   0.00  1.00  -0.25   -0.22  0.13 -0.64  12.21  12.85
+ih                16 1591   4.87  1.89   5.00    4.87  1.48  1.00   9.00   8.00
+know              17 1591   0.00  1.00   0.01    0.00  1.13 -2.66   2.96   5.62
+numarticle        18 1592   0.00  1.00  -0.12   -0.14  0.17 -0.41  13.91  14.32
+numbook           19 1592   0.00  1.00  -0.25   -0.22  0.13 -0.49  11.22  11.71
+classroom         20 1592   0.00  1.03  -0.27   -0.21  0.00 -4.89  11.22  16.12
+media_grad        21 1592   0.00  1.00  -0.20   -0.16  0.00 -2.86  20.90  23.76
+know_cent         22 1591   0.00  1.00   0.01    0.00  1.13 -2.66   2.96   5.62
+needforcog_cent   23 1592   0.00  1.29  -0.07    0.00  1.32 -3.85   2.82   6.67
+class_cent        24 1592   0.00  1.03  -0.27   -0.21  0.00 -4.89  11.22  16.12
+media_cent        25 1592   0.00  1.00  -0.20   -0.16  0.00 -2.86  20.90  23.76
+                 skew kurtosis   se
+ID               0.00    -1.20 1.44
+duration*       -0.04    -1.15 1.27
+sex*            -0.05    -2.00 0.01
+education*       0.15    -0.17 0.02
+income*         -0.01    -1.03 0.69
+religion*        0.17    -1.38 0.40
+identity*       -0.84    -0.82 0.22
+age*             0.73    -0.40 0.26
+political_atti*  0.36    -0.75 0.05
+english_level*   7.84    62.72 0.01
+needforcog      -0.12    -0.08 0.03
+Score_Type*      0.00    -1.24 0.06
+colle            5.16    31.98 0.03
+grad            10.74   122.11 0.03
+high             5.23    37.74 0.03
+ih               0.01    -0.40 0.05
+know            -0.05    -0.62 0.03
+numarticle      10.24   121.66 0.03
+numbook          5.86    44.27 0.03
+classroom        4.65    29.82 0.03
+media_grad      10.27   159.11 0.02
+know_cent       -0.05    -0.62 0.03
+needforcog_cent -0.12    -0.08 0.03
+class_cent       4.65    29.82 0.03
+media_cent      10.27   159.11 0.02</code></pre>
+</div>
+</div>
+<section id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition-without-interaction" class="level3">
+<h3 class="anchored" data-anchor-id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition-without-interaction">Model of objective expertise, perceived expertise and need for cognition without interaction</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Model 1 ----</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Need for cognition and perceived expertise as fixed effects</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>Model<span class="fl">.1</span><span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>class_cent <span class="sc">+</span> media_cent <span class="sc">+</span> know_cent <span class="sc">+</span> needforcog_cent <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID),   </span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">data=</span>expertise3_ready)</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model<span class="fl">.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
 lmerModLmerTest]
-Formula: ih ~ needforcog * know + (1 | Score_Type) + (1 | ID)
+Formula: ih ~ class_cent + media_cent + know_cent + needforcog_cent +  
+    (1 | Score_Type) + (1 | ID)
    Data: expertise3_ready
 
-REML criterion at convergence: 6306.8
+REML criterion at convergence: 6300.3
 
 Scaled residuals: 
      Min       1Q   Median       3Q      Max 
--2.86029 -0.65622 -0.01566  0.60575  2.91171 
+-3.03870 -0.66109 -0.02984  0.61030  2.85090 
 
 Random effects:
  Groups     Name        Variance Std.Dev.
- ID         (Intercept) 0.4976   0.7054  
- Score_Type (Intercept) 0.3950   0.6285  
- Residual               2.6737   1.6352  
+ ID         (Intercept) 0.4983   0.7059  
+ Score_Type (Intercept) 0.3471   0.5891  
+ Residual               2.6815   1.6375  
 Number of obs: 1590, groups:  ID, 199; Score_Type, 8
 
 Fixed effects:
                   Estimate Std. Error         df t value Pr(&gt;|t|)    
-(Intercept)      4.997e+00  5.355e-01  1.788e+02   9.332  &lt; 2e-16 ***
-needforcog      -4.924e-02  7.979e-02  6.742e+02  -0.617  0.53738    
-know             2.462e-02  8.385e-03  1.512e+03   2.936  0.00338 ** 
-needforcog:know -3.528e-03  1.364e-03  1.536e+03  -2.587  0.00978 ** 
+(Intercept)        4.87046    0.21811    7.77813  22.330 2.47e-08 ***
+class_cent         0.02900    0.04777 1569.58075   0.607   0.5439    
+media_cent        -0.07888    0.04758 1576.28023  -1.658   0.0976 .  
+know_cent          0.10044    0.04962 1366.14963   2.024   0.0431 *  
+needforcog_cent   -0.20573    0.05048  196.31885  -4.076 6.66e-05 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Correlation of Fixed Effects:
-            (Intr) ndfrcg know  
-needforcog  -0.883              
-know        -0.707  0.748       
-nedfrcg:knw  0.687 -0.776 -0.969</code></pre>
+            (Intr) clss_c md_cnt knw_cn
+class_cent   0.000                     
+media_cent   0.000  0.288              
+know_cent    0.000 -0.107 -0.216       
+nedfrcg_cnt  0.000 -0.025 -0.052 -0.012</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(Model<span class="fl">.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(Model<span class="fl">.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>                       2.5 %        97.5 %
-.sig01           0.587590004  0.8248621076
-.sig02           0.374383811  1.0706622905
-.sigma           1.575182111  1.6970943748
-(Intercept)      3.957100675  6.0397943974
-needforcog      -0.205646024  0.1069229731
-know             0.008125139  0.0410084056
-needforcog:know -0.006198133 -0.0008540352</code></pre>
+<pre><code>                       2.5 %     97.5 %
+.sig01           0.587868486  0.8255644
+.sig02           0.350482884  1.0048383
+.sigma           1.576916986  1.6990007
+(Intercept)      4.419584771  5.3213676
+class_cent      -0.064079579  0.1231931
+media_cent      -0.172238855  0.0142051
+know_cent        0.003084828  0.1980084
+needforcog_cent -0.304733534 -0.1066888</code></pre>
 </div>
 </div>
-<p>So it seems that the interaction between perceived knowledge and need for cognition are related to inherence significantly. Interestingly, this interaction is negatively related to inherence scores. We may argue that perceived knowledge is misleading, but need for cognition moderates this relation as an individual difference. Therefore, people seek out tasks that challenge their abilities may show less inherent bias contained explanations even if they think they know that area (maybe false, maybe true). It may be related to Dunning–Kruger effect ([Kruger &amp; Dunning, 1999](https://www.sciencedirect.com/science/article/pii/B9780123855220000056#bb0315)). People may overestimate their abilities, but judge the explanations with inherence bias. Not suprisingly, people who are seeking for cognitive activities (need for cognition) may also show more effort for the explanations.</p>
+<p>So it seems that perceived knowledge and need for cognition are related to inherence significantly. Interestingly, need for cognition interaction is negatively related to inherence scores.People seek out tasks that challenge their abilities may show less inherent bias contained explanations and if they think they know that area, they agree with inherence bias included sentences more. IPeople may overestimate their abilities and they produce/comprehend the explanations with inherence bias more likely. Not suprisingly, people who are seeking for cognitive activities (need for cognition) may also show more effort for the explanations.</p>
+</section>
+<section id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition-with-interaction" class="level3">
+<h3 class="anchored" data-anchor-id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition-with-interaction">Model of objective expertise, perceived expertise and need for cognition with interaction</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Model 2----</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Need for cognition and courses without perceived expertise</span></span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>Model<span class="fl">.2</span><span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>colle<span class="sc">*</span>grad<span class="sc">*</span>high<span class="sc">*</span>needforcog<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID),   </span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">data=</span>expertise3_ready)</span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model<span class="fl">.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
-lmerModLmerTest]
-Formula: ih ~ colle * grad * high * needforcog + (1 | Score_Type) + (1 |  
-    ID)
-   Data: expertise3_ready
-
-REML criterion at convergence: 6342.3
-
-Scaled residuals: 
-     Min       1Q   Median       3Q      Max 
--3.06886 -0.65955 -0.00945  0.60546  2.92112 
-
-Random effects:
- Groups     Name        Variance Std.Dev.
- ID         (Intercept) 0.5140   0.7169  
- Score_Type (Intercept) 0.3412   0.5841  
- Residual               2.6709   1.6343  
-Number of obs: 1591, groups:  ID, 199; Score_Type, 8
-
-Fixed effects:
-                             Estimate Std. Error         df t value Pr(&gt;|t|)
-(Intercept)                   5.87258    0.38024   63.47208  15.444  &lt; 2e-16
-colle                         0.54561    0.27133 1545.86757   2.011  0.04451
-grad                         -0.85560    1.68374 1508.30307  -0.508  0.61142
-high                          0.66059    0.30457 1516.73954   2.169  0.03024
-needforcog                   -0.17360    0.05241  218.11623  -3.312  0.00108
-colle:grad                   -0.46827    0.55591 1516.80044  -0.842  0.39973
-colle:high                   -0.20613    0.10441 1497.78661  -1.974  0.04853
-grad:high                     3.82571    3.16695 1539.49890   1.208  0.22723
-colle:needforcog             -0.07348    0.03947 1539.44580  -1.862  0.06284
-grad:needforcog               0.11034    0.22311 1508.41103   0.495  0.62099
-high:needforcog              -0.11272    0.04952 1513.55100  -2.276  0.02298
-colle:grad:high              -0.37437    1.12072 1549.26610  -0.334  0.73839
-colle:grad:needforcog         0.06625    0.07437 1517.29021   0.891  0.37319
-colle:high:needforcog         0.03566    0.01880 1491.09477   1.897  0.05801
-grad:high:needforcog         -0.47626    0.40288 1544.15953  -1.182  0.23733
-colle:grad:high:needforcog    0.04489    0.13863 1549.67710   0.324  0.74614
-                              
-(Intercept)                ***
-colle                      *  
-grad                          
-high                       *  
-needforcog                 ** 
-colle:grad                    
-colle:high                 *  
-grad:high                     
-colle:needforcog           .  
-grad:needforcog               
-high:needforcog            *  
-colle:grad:high               
-colle:grad:needforcog         
-colle:high:needforcog      .  
-grad:high:needforcog          
-colle:grad:high:needforcog    
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(Model<span class="fl">.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>                                  2.5 %       97.5 %
-.sig01                      0.598606290  0.835634616
-.sig02                      0.347419790  0.996378660
-.sigma                      1.568004029  1.689350498
-(Intercept)                 5.134572967  6.610505700
-colle                       0.016649477  1.076093721
-grad                       -4.140756108  2.432766190
-high                        0.066832480  1.256153612
-needforcog                 -0.276131710 -0.071002920
-colle:grad                 -1.554365884  0.616436828
-colle:high                 -0.410147597 -0.002428289
-grad:high                  -2.365704723 10.002012570
-colle:needforcog           -0.150598433  0.003505473
-grad:needforcog            -0.325405201  0.545660671
-high:needforcog            -0.209484183 -0.016083268
-colle:grad:high            -2.560835721  1.816788781
-colle:grad:needforcog      -0.078858868  0.211548900
-colle:high:needforcog      -0.001028691  0.072367667
-grad:high:needforcog       -1.261993522  0.311527501
-colle:grad:high:needforcog -0.226163204  0.315346380</code></pre>
-</div>
-</div>
-<p>The second model includes what I call true expertise with classes. Here only the interaction between high school courses and need for cognition is significantly related to inherence bias. This may be misleading because after new analyses with a latent variable (only classes), this effect may not be there. However, if we would interpret this result, I would probably say that high school classes may work as perceived knowledge, they are probably superficial and forgotten already in adulthood, so even if they took these courses, they didn’t become experts and evaluate the inherent bias included sentences are more satisfactory.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Model 3 ----</span></span>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Model 2 ----</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Books and need for cognition as fixed effects</span></span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>Model<span class="fl">.3</span><span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>numarticle<span class="sc">*</span>numbook<span class="sc">*</span>needforcog<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID),   </span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">data=</span>expertise3_ready)</span>
-<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model<span class="fl">.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>Model<span class="fl">.2</span><span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>class_cent <span class="sc">+</span> media_cent <span class="sc">+</span> know_cent <span class="sc">+</span> needforcog_cent <span class="sc">+</span> </span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>                needforcog<span class="sc">*</span>class_cent <span class="sc">+</span> needforcog<span class="sc">*</span>media_cent <span class="sc">+</span> needforcog<span class="sc">*</span>know <span class="sc">+</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>                (<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID), <span class="at">data=</span>expertise3_ready)</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model<span class="fl">.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
 lmerModLmerTest]
-Formula: ih ~ numarticle * numbook * needforcog + (1 | Score_Type) + (1 |  
-    ID)
+Formula: ih ~ class_cent + media_cent + know_cent + needforcog_cent +  
+    needforcog * class_cent + needforcog * media_cent + needforcog *  
+    know + (1 | Score_Type) + (1 | ID)
    Data: expertise3_ready
 
-REML criterion at convergence: 6361.4
+REML criterion at convergence: 6302.9
 
 Scaled residuals: 
-     Min       1Q   Median       3Q      Max 
--3.08300 -0.65140 -0.01693  0.60347  2.90687 
+    Min      1Q  Median      3Q     Max 
+-2.9030 -0.6610 -0.0184  0.6123  3.1697 
 
 Random effects:
  Groups     Name        Variance Std.Dev.
- ID         (Intercept) 0.5231   0.7232  
- Score_Type (Intercept) 0.3524   0.5936  
- Residual               2.6785   1.6366  
-Number of obs: 1591, groups:  ID, 199; Score_Type, 8
+ ID         (Intercept) 0.4977   0.7055  
+ Score_Type (Intercept) 0.3477   0.5896  
+ Residual               2.6669   1.6331  
+Number of obs: 1590, groups:  ID, 199; Score_Type, 8
 
 Fixed effects:
-                                Estimate Std. Error         df t value Pr(&gt;|t|)
-(Intercept)                    6.083e+00  3.860e-01  6.373e+01  15.761  &lt; 2e-16
-numarticle                     6.222e-03  1.108e-02  1.560e+03   0.561 0.574609
-numbook                       -2.822e-02  1.011e-01  1.572e+03  -0.279 0.780157
-needforcog                    -1.981e-01  5.332e-02  2.238e+02  -3.714 0.000257
-numarticle:numbook            -6.733e-04  1.921e-03  1.562e+03  -0.350 0.726011
-numarticle:needforcog         -1.545e-03  1.817e-03  1.468e+03  -0.850 0.395409
-numbook:needforcog             2.001e-03  1.522e-02  1.572e+03   0.132 0.895396
-numarticle:numbook:needforcog  1.241e-04  2.688e-04  1.566e+03   0.462 0.644375
-                                 
-(Intercept)                   ***
-numarticle                       
-numbook                          
-needforcog                    ***
-numarticle:numbook               
-numarticle:needforcog            
-numbook:needforcog               
-numarticle:numbook:needforcog    
+                        Estimate Std. Error         df t value Pr(&gt;|t|)    
+(Intercept)              4.86968    0.21831    7.78120  22.306 2.47e-08 ***
+class_cent               0.35793    0.23812 1538.91170   1.503   0.1330    
+media_cent              -0.47494    0.30060 1563.54525  -1.580   0.1143    
+know_cent                0.70578    0.23208 1375.72760   3.041   0.0024 ** 
+needforcog_cent         -0.21651    0.05055  198.18020  -4.283 2.87e-05 ***
+class_cent:needforcog   -0.05398    0.03763 1535.11456  -1.435   0.1516    
+media_cent:needforcog    0.06650    0.04749 1565.74090   1.400   0.1617    
+needforcog:know         -0.10285    0.03828 1415.00120  -2.687   0.0073 ** 
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Correlation of Fixed Effects:
-            (Intr) nmrtcl numbok ndfrcg nmrtcl:nm nmrtcl:nd nmbk:n
-numarticle  -0.142                                                
-numbook     -0.157 -0.020                                         
-needforcog  -0.821  0.169  0.178                                  
-nmrtcl:nmbk  0.109 -0.180 -0.780 -0.118                           
-nmrtcl:ndfr  0.142 -0.980  0.022 -0.178  0.179                    
-nmbk:ndfrcg  0.162  0.020 -0.993 -0.189  0.750    -0.020          
-nmrtcl:nmb: -0.114  0.213  0.775  0.127 -0.998    -0.221    -0.746
+            (Intr) clss_c md_cnt knw_cn ndfrc_ clss_: md_cn:
+class_cent   0.007                                          
+media_cent   0.019  0.211                                   
+know_cent    0.002 -0.108 -0.238                            
+nedfrcg_cnt -0.001 -0.054 -0.021 -0.052                     
+clss_cnt:nd -0.006 -0.980 -0.186  0.104  0.050              
+md_cnt:ndfr -0.019 -0.190 -0.987  0.248  0.012  0.174       
+nedfrcg:knw -0.002  0.105  0.250 -0.977  0.050 -0.106 -0.268
 fit warnings:
-Some predictor variables are on very different scales: consider rescaling</code></pre>
+fixed-effect model matrix is rank deficient so dropping 2 columns / coefficients</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(Model<span class="fl">.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(Model<span class="fl">.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>                                     2.5 %        97.5 %
-.sig01                         0.604855443  0.8420590252
-.sig02                         0.353924573  1.0126366846
-.sigma                         1.574595027  1.6963782485
-(Intercept)                    5.333419261  6.8330466620
-numarticle                    -0.015513078  0.0278662759
-numbook                       -0.226234014  0.1693551715
-needforcog                    -0.302556547 -0.0936433471
-numarticle:numbook            -0.004431782  0.0030896405
-numarticle:needforcog         -0.005094864  0.0020171548
-numbook:needforcog            -0.027750007  0.0318199690
-numarticle:numbook:needforcog -0.000402417  0.0006499776</code></pre>
+<pre><code>                            2.5 %      97.5 %
+.sig01                 0.58704091  0.82394772
+.sig02                 0.35088142  1.00567836
+.sigma                 1.57112583  1.69276158
+(Intercept)            4.41848217  5.32097565
+class_cent            -0.10748632  0.82468080
+media_cent            -1.06371448  0.11322395
+know_cent              0.25131285  1.15943906
+needforcog_cent       -0.31555682 -0.11742931
+class_cent:needforcog -0.12764196  0.01964830
+media_cent:needforcog -0.02645455  0.15950956
+needforcog:know       -0.17764073 -0.02788099</code></pre>
 </div>
 </div>
-<p>This is also interesting, books, articles and need for cognition interaction is significantly related to inherence scores and negatively (but the two way interaction between books and need for cognition is positive). Similar to previous model, if we would interpret this, I would say that people who read books about that topic (active participation/experience) may have less tendency for inherent bias and need for cognition moderates this relation, so if you read many books but less seek cognitive activities, you probably still have inherent bias more. Articles are interesting here because their two way interaction is negative and its correlation between books and need for cognition is negative, which is similar to high school classes and perceived expertise. It may be because magazine articles like from popular science area, etc. offers superficial information and sometimes false information. So even if you feel more knowledgeable in that area, it may be misleading here.</p>
+</section>
+</section>
+<section id="histograms-for-factors" class="level2">
+<h2 class="anchored" data-anchor-id="histograms-for-factors">Histograms for Factors</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="do">##Histogram, descriptives and correlation matrix for new factors ----</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">descriptives</span>(<span class="at">dat=</span>factor_exp_comb, <span class="fu">vars</span>(Factor1, Factor2),</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">sd=</span>T, <span class="at">skew =</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ DESCRIPTIVES
+
+ Descriptives                                             
+ ──────────────────────────────────────────────────────── 
+                          Factor1         Factor2         
+ ──────────────────────────────────────────────────────── 
+   N                              1592             1592   
+   Missing                           0                0   
+   Mean                   8.761835e-16    -5.523220e-16   
+   Median                   -0.2661121       -0.2012776   
+   Standard deviation         1.025264        0.9950548   
+   Minimum                   -4.893420        -2.856758   
+   Maximum                    11.22177         20.89972   
+   Skewness                   4.661496         10.28496   
+   Std. error skewness      0.06133318       0.06133318   
+ ──────────────────────────────────────────────────────── </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(factor_exp_comb<span class="sc">$</span>Factor1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(factor_exp_comb<span class="sc">$</span>Factor2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>So our descriptive stats and graphs showed there is an extreme skewness due to extreme values in our factors.</p>
+</section>
+<section id="winsorize-the-variables-at-1" class="level2">
+<h2 class="anchored" data-anchor-id="winsorize-the-variables-at-1">Winsorize the variables at 1%</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># winsorize the variables (at 1%)</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>expertise3_ready <span class="ot">&lt;-</span> expertise3_ready<span class="sc">%&gt;%</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">numarticle_wins_1=</span><span class="fu">Winsorize</span>(numarticle, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.99</span>)), </span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">numbook_wins_1=</span><span class="fu">Winsorize</span>(numbook, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.99</span>)),</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">high_wins_1=</span><span class="fu">Winsorize</span>(high, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.99</span>)),</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">colle_wins_1=</span><span class="fu">Winsorize</span>(colle, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.99</span>)),</span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">grad_wins_1=</span><span class="fu">Winsorize</span>(grad,<span class="at">na.rm=</span><span class="cn">TRUE</span>, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.99</span>)),</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">classroom_wins_1=</span><span class="fu">Winsorize</span>(classroom,<span class="at">na.rm=</span><span class="cn">TRUE</span>, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.99</span>)),</span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">media_wins_1=</span><span class="fu">Winsorize</span>(media_grad,<span class="at">na.rm=</span><span class="cn">TRUE</span>, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.99</span>)))</span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a><span class="co">#check descriptives</span></span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a><span class="fu">descriptives</span>(<span class="at">dat=</span>expertise3_ready, <span class="fu">vars</span>(classroom_wins_1,media_wins_1), <span class="at">median=</span>F, <span class="at">n=</span>F, <span class="at">missing=</span>F, <span class="at">sd=</span>T, <span class="at">skew =</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ DESCRIPTIVES
+
+ Descriptives                                                
+ ─────────────────────────────────────────────────────────── 
+                          classroom_wins_1    media_wins_1   
+ ─────────────────────────────────────────────────────────── 
+   Mean                        -0.01922705     -0.04075412   
+   Standard deviation            0.8935287       0.5996877   
+   Minimum                       -4.893420       -2.856758   
+   Maximum                        5.029690        3.427757   
+   Skewness                       3.471803        3.585548   
+   Std. error skewness          0.06133318      0.06133318   
+ ─────────────────────────────────────────────────────────── </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">descriptives</span>(<span class="at">dat=</span>expertise3_ready, <span class="fu">vars</span>(high_wins_1, colle_wins_1), <span class="at">median=</span>F, <span class="at">n=</span>F, <span class="at">missing=</span>F, <span class="at">sd=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ DESCRIPTIVES
+
+ Descriptives                                          
+ ───────────────────────────────────────────────────── 
+                         high_wins_1    colle_wins_1   
+ ───────────────────────────────────────────────────── 
+   Mean                  -0.02454199     -0.01854773   
+   Standard deviation      0.8226327       0.8666794   
+   Minimum                -0.6447821      -0.5405821   
+   Maximum                  4.341215        5.110902   
+ ───────────────────────────────────────────────────── </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">descriptives</span>(<span class="at">dat=</span>expertise3_ready, <span class="fu">vars</span>(numarticle_wins_1, numbook_wins_1, grad_wins_1), <span class="at">median=</span>F, <span class="at">n=</span>F, <span class="at">missing=</span>F, <span class="at">sd=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ DESCRIPTIVES
+
+ Descriptives                                                                 
+ ──────────────────────────────────────────────────────────────────────────── 
+                         numarticle_wins_1    numbook_wins_1    grad_wins_1   
+ ──────────────────────────────────────────────────────────────────────────── 
+   Mean                        -0.05220288       -0.02881345    -0.06591236   
+   Standard deviation            0.4758284         0.7815089      0.3238198   
+   Minimum                      -0.4101997        -0.4928124     -0.1541325   
+   Maximum                        3.159021          4.500323       2.798505   
+ ──────────────────────────────────────────────────────────────────────────── </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(expertise3_ready<span class="sc">$</span>classroom_wins_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Our first factor is negatively skewed</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(expertise3_ready<span class="sc">$</span>media_wins_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Center variables: </span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>expertise3_ready<span class="sc">$</span>classroom_wins_1_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise3_ready<span class="sc">$</span>classroom_wins_1, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>expertise3_ready<span class="sc">$</span>media_wins_1_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise3_ready<span class="sc">$</span>media_wins_1, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="hlm-models" class="level2">
+<h2 class="anchored" data-anchor-id="hlm-models">HLM Models</h2>
+<p>Since expertise can be objective (based on the experience like problem solving in that area or productions, year of education or spending more time about that topic) and subjective (how much people perceived themselves as knowledgeable about that topic), objective expertise or real expertise will be negatively related to inherence scores, which means that real experts, which spend more time to learn that subject through courses or pressed materials -books, magazines, articles-, will not satisfy with heuristic explanations. Experts produced more features in diagnostic categories like to describe depression, they listed more attributes for this category (Murphy &amp; Wright, 1984). Therefore, it can be argued that they will evaluate the cases with both intrinsic and extrinsic factors, so they have less scores for inherency.</p>
+<p>Besides this, our expertise variables and engaging in cognitive activities may be interact because expertise sources such as books or magazines also contain products of heuristic thinking. People who have low scores in need for cognition trusted these kind of external sources besides cognitive heuristics:</p>
+<p>“Research relating need for cognition to other individual-differences variables provides evidence that individuals high in need for cognition naturally tend to seek, acquire, think about, and reflect back on information to make sense of stimuli, relationships, and events in their world; individuals low in need for cognition, in contrast, are more likely to rely on others (e.g., experts), cognitive heuristics, or social comparison processes to provide this structure.” (Cacioppo et al., 1996, p.243)</p>
+<p>As a result of this, even if people who read more books, magazines or take more grad courses, they would probably satisfy with sentences that include inherence bias more or less depend on their need for cognition score, so the assumption is the interaction between need for cognition and this expertise factor will be significantly related to inherence scores.</p>
+<section id="model-objective-expertise-with-grad-courses-books-and-magazines" class="level3">
+<h3 class="anchored" data-anchor-id="model-objective-expertise-with-grad-courses-books-and-magazines">Model objective expertise with grad courses, books and magazines</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Model objective expertise ----</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>Model_obj<span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>media_wins_1_cent<span class="sc">*</span>needforcog_cent<span class="sc">+</span>media_wins_1_cent<span class="sc">+</span>needforcog_cent<span class="sc">+</span></span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>                (<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID), <span class="at">data=</span>expertise3_ready)</span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model_obj)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: ih ~ media_wins_1_cent * needforcog_cent + media_wins_1_cent +  
+    needforcog_cent + (1 | Score_Type) + (1 | ID)
+   Data: expertise3_ready
+
+REML criterion at convergence: 6298.7
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-3.05748 -0.65994 -0.01794  0.60242  2.91751 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ ID         (Intercept) 0.5217   0.7223  
+ Score_Type (Intercept) 0.3420   0.5848  
+ Residual               2.6705   1.6342  
+Number of obs: 1591, groups:  ID, 199; Score_Type, 8
+
+Fixed effects:
+                                    Estimate Std. Error         df t value
+(Intercept)                          4.86046    0.21698    7.84928  22.401
+media_wins_1_cent                   -0.19370    0.08355 1583.44045  -2.318
+needforcog_cent                     -0.19923    0.05118  198.62257  -3.893
+media_wins_1_cent:needforcog_cent    0.11493    0.06318 1574.07118   1.819
+                                  Pr(&gt;|t|)    
+(Intercept)                       2.14e-08 ***
+media_wins_1_cent                 0.020550 *  
+needforcog_cent                   0.000135 ***
+media_wins_1_cent:needforcog_cent 0.069067 .  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) md__1_ ndfrc_
+md_wns_1_cn  0.009              
+nedfrcg_cnt  0.000 -0.070       
+md_wns_1_:_ -0.023 -0.390  0.009</code></pre>
+</div>
+</div>
+<p>The results showed that not the interaction but main effects significantly related to inherence scores. It’s maybe because of low power to detect interaction or because people with high need for cognition scores also take these courses and read these books due to their tendencies, so there is not an interaction. Media and grad courses expertise is related to inherence scores negatively, adjusting for need for cognition scores. I think these results may tap to the role of memory limitations in heuristic thinking. If experts can produce more hypotheses with using their long term memory, the recent memory traces would be remembered probably better. Especially grad courses and also books and magazines seem to related this. Furthermore, especially grad courses again, can be more challenging for the related area. For example, a course related to language may be challenging or understanding books required more attention to details and different backgrounds about these topics so these people already have an expanded mental shotgun area/stage. Inherence bias occurs as a result of memory limitations, so having active memory traces (and broad mental shotgun representations) may provide these people to think beyond heuristic thinking with inherence bias.</p>
+<p>I would expect the same result with high school and college courses, the relation may be more weak because these courses may not be recent, so let’s check the model:</p>
+</section>
+<section id="model-objective-expertise-with-high-school-and-college-courses" class="level3">
+<h3 class="anchored" data-anchor-id="model-objective-expertise-with-high-school-and-college-courses">Model objective expertise with high school and college courses</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>Model_obj2<span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>classroom_wins_1_cent <span class="sc">*</span> needforcog_cent <span class="sc">+</span>classroom_wins_1_cent <span class="sc">+</span> needforcog_cent<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID), <span class="at">data=</span>expertise3_ready)</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model_obj2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: 
+ih ~ classroom_wins_1_cent * needforcog_cent + classroom_wins_1_cent +  
+    needforcog_cent + (1 | Score_Type) + (1 | ID)
+   Data: expertise3_ready
+
+REML criterion at convergence: 6299.3
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-3.07377 -0.66531 -0.01234  0.60541  2.92029 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ ID         (Intercept) 0.5238   0.7237  
+ Score_Type (Intercept) 0.3451   0.5875  
+ Residual               2.6679   1.6334  
+Number of obs: 1591, groups:  ID, 199; Score_Type, 8
+
+Fixed effects:
+                                        Estimate Std. Error         df t value
+(Intercept)                              4.87082    0.21783    7.82515  22.361
+classroom_wins_1_cent                    0.05744    0.05285 1560.84930   1.087
+needforcog_cent                         -0.21340    0.05116  197.59997  -4.171
+classroom_wins_1_cent:needforcog_cent   -0.10805    0.04312 1540.95311  -2.506
+                                      Pr(&gt;|t|)    
+(Intercept)                           2.26e-08 ***
+classroom_wins_1_cent                   0.2773    
+needforcog_cent                       4.53e-05 ***
+classroom_wins_1_cent:needforcog_cent   0.0123 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) cl__1_ ndfrc_
+clssrm_w_1_  0.000              
+nedfrcg_cnt  0.000 -0.009       
+clssr__1_:_ -0.002 -0.039  0.051</code></pre>
+</div>
+</div>
+<p>These results showed that the interaction is significant, so the relation between class and inherence scores is depend on need for cognition scores. However, since the trend of the relation between class and inherence scores is positive, this interaction seems negative, so need for cognition mitigated this relation. Commenting this counter intuitive result may be a better way to understand this interaction:</p>
+<p>Main effect of class is not significant (the relation between high school and undergraduate courses and inherence scores). This may be as a result of not challenging nature of these courses or they may not be remembered very well, if these people didn’t interest in them later. The positive trend may be a product of perceived expertise, so people who take these courses think themselves as experts but they are not. However if they have tendency to engage in cognitive activities, they still trust cognitive heuristics less, so need for cognition interact with this relation.</p>
+<p>What about perceived expertise? I think perceived expertise may be misleading for people because especially for daily topics like breakfast, they may think that they know enough but their knowledge is limited (and they produce less diverse facts during mental shotgun stage). However, the need for cognition also moderates this relation. Let’s check:</p>
+</section>
+<section id="model-of-perceived-expertise-and-need-for-cognition" class="level3">
+<h3 class="anchored" data-anchor-id="model-of-perceived-expertise-and-need-for-cognition">Model of perceived expertise and need for cognition</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>Model_perc<span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>know_cent<span class="sc">*</span>needforcog_cent<span class="sc">+</span> know_cent <span class="sc">+</span> needforcog_cent <span class="sc">+</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>                (<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID), <span class="at">data=</span>expertise3_ready)</span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model_perc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: ih ~ know_cent * needforcog_cent + know_cent + needforcog_cent +  
+    (1 | Score_Type) + (1 | ID)
+   Data: expertise3_ready
+
+REML criterion at convergence: 6293.4
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-2.94526 -0.66336 -0.01584  0.61110  2.90351 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ ID         (Intercept) 0.4960   0.7043  
+ Score_Type (Intercept) 0.3643   0.6036  
+ Residual               2.6744   1.6354  
+Number of obs: 1590, groups:  ID, 199; Score_Type, 8
+
+Fixed effects:
+                            Estimate Std. Error         df t value Pr(&gt;|t|)    
+(Intercept)                  4.87459    0.22298    7.75612  21.861 3.01e-08 ***
+know_cent                    0.08693    0.04832 1357.80267   1.799  0.07227 .  
+needforcog_cent             -0.21666    0.05038  196.42283  -4.301 2.68e-05 ***
+know_cent:needforcog_cent   -0.09801    0.03666 1399.78419  -2.674  0.00759 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) knw_cn ndfrc_
+know_cent    0.000              
+nedfrcg_cnt -0.001 -0.025       
+knw_cnt:nd_ -0.007 -0.012  0.053</code></pre>
+</div>
+</div>
+<p>These results are similar to previous one and the relation between perceived knowledge and inherence scores moderated by need for cognition, which means people may overinterpret their knowledge and tend to think heuristically more due to this, but their tendency to engage in cognitive activities change this relation, if they like to engage in cognitive activities more, they satisfy with inherent explanations less even if they overestimate their knowledge about that area. This result partially support and partially conflict with Pennycook et al.&nbsp;(2017). Partially supported because just like that research, we found that people are unaware of their own inherence bias and this may be one of the reason behind inherence bias. However, they also found that Dunning-Kruger effects influence their need for cognition scores, so they also overestimate their need for cognition scores. Unlike my assumption here (the mitigating factor in engaging cognitive activities), their finding taps that perceived knowledge should be positively related to need for cognition:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">corrMatrix</span>(expertise3_ready,</span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">vars =</span> <span class="fu">vars</span>(know_cent,needforcog_cent), <span class="at">flag =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ CORRELATION MATRIX
+
+ Correlation Matrix                                                 
+ ────────────────────────────────────────────────────────────────── 
+                                     know_cent    needforcog_cent   
+ ────────────────────────────────────────────────────────────────── 
+   know_cent          Pearson's r            —                      
+                      p-value                —                      
+                                                                    
+   needforcog_cent    Pearson's r    0.0323268                  —   
+                      p-value        0.1974834                  —   
+ ────────────────────────────────────────────────────────────────── 
+   Note. * p &lt; .05, ** p &lt; .01, *** p &lt; .001</code></pre>
+</div>
+</div>
+<p>However our scores showed that they are not related significantly. After all of these let’s check our first model 1 and model 2 to adjust other variables:</p>
+</section>
+<section id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition-without-interaction-1" class="level3">
+<h3 class="anchored" data-anchor-id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition-without-interaction-1">Model of objective expertise, perceived expertise and need for cognition without interaction</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>Model.<span class="fl">1.1</span><span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>classroom_wins_1_cent <span class="sc">+</span> media_wins_1_cent <span class="sc">+</span> know_cent <span class="sc">+</span>needforcog_cent <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID),   </span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data=</span>expertise3_ready)</span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model.<span class="fl">1.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: ih ~ classroom_wins_1_cent + media_wins_1_cent + know_cent +  
+    needforcog_cent + (1 | Score_Type) + (1 | ID)
+   Data: expertise3_ready
+
+REML criterion at convergence: 6297.9
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-3.02285 -0.66284 -0.02625  0.61186  2.83745 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ ID         (Intercept) 0.4951   0.7037  
+ Score_Type (Intercept) 0.3479   0.5898  
+ Residual               2.6810   1.6374  
+Number of obs: 1590, groups:  ID, 199; Score_Type, 8
+
+Fixed effects:
+                        Estimate Std. Error         df t value Pr(&gt;|t|)    
+(Intercept)              4.87045    0.21832    7.76987  22.309 2.52e-08 ***
+classroom_wins_1_cent    0.01370    0.05555 1569.38189   0.247   0.8053    
+media_wins_1_cent       -0.17044    0.08309 1567.81620  -2.051   0.0404 *  
+know_cent                0.11019    0.05019 1355.48286   2.195   0.0283 *  
+needforcog_cent         -0.20200    0.05045  197.08317  -4.004 8.82e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) cl__1_ md__1_ knw_cn
+clssrm_w_1_  0.000                     
+md_wns_1_cn  0.000  0.304              
+know_cent    0.000 -0.128 -0.263       
+nedfrcg_cnt  0.000 -0.028 -0.075 -0.004</code></pre>
+</div>
+</div>
+<p>The same comments can be done also here, our results are not different than single models. This model may be better because it also adjusts perceived expertise and need for cognition, when the objective expertise variables are explained and vice versa. Therefore, our media and grad class related factor is still negatively related to inherence score when it was adjusted for perceived knowledge, class and need for cognition. Let’s check the model with interaction:</p>
+</section>
+<section id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition-with-interaction-1" class="level3">
+<h3 class="anchored" data-anchor-id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition-with-interaction-1">Model of objective expertise, perceived expertise and need for cognition with interaction</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>Model.<span class="fl">2.1</span><span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>classroom_wins_1_cent <span class="sc">+</span> media_wins_1_cent <span class="sc">+</span> know_cent<span class="sc">+</span>needforcog_cent <span class="sc">+</span> classroom_wins_1_cent<span class="sc">*</span>needforcog_cent <span class="sc">+</span> media_wins_1_cent<span class="sc">*</span>needforcog_cent <span class="sc">+</span> know_cent<span class="sc">*</span>needforcog_cent<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID),   </span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data=</span>expertise3_ready)</span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model.<span class="fl">2.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: ih ~ classroom_wins_1_cent + media_wins_1_cent + know_cent +  
+    needforcog_cent + classroom_wins_1_cent * needforcog_cent +  
+    media_wins_1_cent * needforcog_cent + know_cent * needforcog_cent +  
+    (1 | Score_Type) + (1 | ID)
+   Data: expertise3_ready
+
+REML criterion at convergence: 6296.3
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-2.86875 -0.65764 -0.02032  0.60869  2.94463 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ ID         (Intercept) 0.4978   0.7056  
+ Score_Type (Intercept) 0.3466   0.5888  
+ Residual               2.6592   1.6307  
+Number of obs: 1590, groups:  ID, 199; Score_Type, 8
+
+Fixed effects:
+                                        Estimate Std. Error         df t value
+(Intercept)                            4.865e+00  2.180e-01  7.783e+00  22.316
+classroom_wins_1_cent                  8.854e-03  5.611e-02  1.570e+03   0.158
+media_wins_1_cent                     -1.986e-01  9.123e-02  1.570e+03  -2.177
+know_cent                              1.021e-01  5.010e-02  1.365e+03   2.039
+needforcog_cent                       -2.148e-01  5.063e-02  1.993e+02  -4.242
+classroom_wins_1_cent:needforcog_cent -7.424e-02  4.461e-02  1.547e+03  -1.664
+media_wins_1_cent:needforcog_cent      1.319e-01  6.806e-02  1.575e+03   1.938
+know_cent:needforcog_cent             -1.048e-01  3.866e-02  1.408e+03  -2.712
+                                      Pr(&gt;|t|)    
+(Intercept)                           2.46e-08 ***
+classroom_wins_1_cent                  0.87462    
+media_wins_1_cent                      0.02960 *  
+know_cent                              0.04166 *  
+needforcog_cent                       3.38e-05 ***
+classroom_wins_1_cent:needforcog_cent  0.09626 .  
+media_wins_1_cent:needforcog_cent      0.05277 .  
+know_cent:needforcog_cent              0.00678 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) cl__1_ md__1_ knw_cn ndfrc_ c__1_: m__1_:
+clssrm_w_1_  0.004                                          
+md_wns_1_cn  0.010  0.339                                   
+know_cent    0.001 -0.121 -0.226                            
+nedfrcg_cnt -0.001 -0.034 -0.083 -0.002                     
+clssr__1_:_ -0.007 -0.093 -0.160 -0.001  0.054              
+md_wns_1_:_ -0.023 -0.150 -0.394 -0.040  0.010  0.245       
+knw_cnt:nd_  0.000  0.017 -0.005  0.034  0.055 -0.133 -0.288</code></pre>
+</div>
+</div>
+<p>This total model is still similar to the single models unlike the interactions between objective expertise and need for cognition. Maybe we don’t have enough power to detect these interactions due to sample size. We can still make the similar comments above I guess.</p>
+<p>#Winsorize at 1% the raw variables before factor analysis We can see that there are extreme values for our factor 1 (high+colle) and factor 2 (media+grad). We can deal these values with winsorization:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="co"># winsorize the variables (at 1%)</span></span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>expertise3_wins_fact <span class="ot">&lt;-</span> expertise3_wins_fact<span class="sc">%&gt;%</span></span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">numarticle_w1=</span><span class="fu">Winsorize</span>(numarticle, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.99</span>)), </span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">numbook_w1=</span><span class="fu">Winsorize</span>(numbook, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.99</span>)),</span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">high_w1=</span><span class="fu">Winsorize</span>(high, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.99</span>)),</span>
+<span id="cb74-6"><a href="#cb74-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">colle_w1=</span><span class="fu">Winsorize</span>(colle, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.99</span>)),</span>
+<span id="cb74-7"><a href="#cb74-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">grad_w1=</span><span class="fu">Winsorize</span>(grad,<span class="at">na.rm=</span><span class="cn">TRUE</span>, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.99</span>)))</span>
+<span id="cb74-8"><a href="#cb74-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-9"><a href="#cb74-9" aria-hidden="true" tabindex="-1"></a><span class="co">#check descriptives</span></span>
+<span id="cb74-10"><a href="#cb74-10" aria-hidden="true" tabindex="-1"></a><span class="fu">descriptives</span>(<span class="at">dat=</span>expertise3_wins_fact, <span class="fu">vars</span>(high_w1, colle_w1), <span class="at">median=</span>F, <span class="at">n=</span>F, <span class="at">missing=</span>F, <span class="at">sd=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ DESCRIPTIVES
+
+ Descriptives                                     
+ ──────────────────────────────────────────────── 
+                         high_w1      colle_w1    
+ ──────────────────────────────────────────────── 
+   Mean                  0.3216080    0.3071608   
+   Standard deviation    0.9623120    0.9595196   
+   Minimum                0.000000     0.000000   
+   Maximum                6.000000     6.000000   
+ ──────────────────────────────────────────────── </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">descriptives</span>(<span class="at">dat=</span>expertise3_wins_fact, <span class="fu">vars</span>(numarticle_w1, numbook_w1, grad_w1), <span class="at">median=</span>F, <span class="at">n=</span>F, <span class="at">missing=</span>F, <span class="at">sd=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ DESCRIPTIVES
+
+ Descriptives                                                        
+ ─────────────────────────────────────────────────────────────────── 
+                         numarticle_w1    numbook_w1    grad_w1      
+ ─────────────────────────────────────────────────────────────────── 
+   Mean                       5.582915      1.098618    0.03203518   
+   Standard deviation         14.21353      3.060414     0.2316370   
+   Minimum                    0.000000      0.000000      0.000000   
+   Maximum                    100.0000      20.00000      2.000000   
+ ─────────────────────────────────────────────────────────────────── </code></pre>
+</div>
+</div>
+<p>Our minimum and maximum values seems better, let’s check histograms:</p>
+</section>
+</section>
+<section id="factor-analysis-with-winsorized-variables" class="level2">
+<h2 class="anchored" data-anchor-id="factor-analysis-with-winsorized-variables">Factor analysis with winsorized variables</h2>
+<p>Factor analysis for expertise variables with raw scores</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Factor analysis for expertise variables with raw scores ----</span></span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Import packages </span></span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych) <span class="co">#PCA/EFA analysis</span></span>
+<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(REdaS) <span class="co">#Produces KMO and Bartletts test</span></span>
+<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GPArotation)</span>
+<span id="cb78-8"><a href="#cb78-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-9"><a href="#cb78-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-10"><a href="#cb78-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a new dataframe that include only related variables</span></span>
+<span id="cb78-11"><a href="#cb78-11" aria-hidden="true" tabindex="-1"></a>factor_exp1<span class="ot">&lt;-</span>expertise3_wins_fact<span class="sc">%&gt;%</span></span>
+<span id="cb78-12"><a href="#cb78-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(colle_w1, grad_w1, high_w1, numarticle_w1, numbook_w1)</span>
+<span id="cb78-13"><a href="#cb78-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-14"><a href="#cb78-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-15"><a href="#cb78-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Since grad classes for TV category is missing (nobody takes any class in the sample), listwise deletion is applied here.</span></span>
+<span id="cb78-16"><a href="#cb78-16" aria-hidden="true" tabindex="-1"></a><span class="fu">bart_spher</span>(factor_exp1, <span class="at">use =</span> <span class="st">"complete.obs"</span>) <span class="do">###### produces Bartletts test of spherecity </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Bartlett's Test of Sphericity
+
+Call: bart_spher(x = factor_exp1, use = "complete.obs")
+
+     X2 = 1655.614
+     df = 10
+p-value &lt; 2.22e-16</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Check eigenvalues</span></span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a><span class="fu">fa.parallel</span>(factor_exp1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Parallel analysis suggests that the number of factors =  3  and the number of components =  2 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="co"># So we can reduce it to 2 factors</span></span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fa</span>(factor_exp1, <span class="at">nfactors =</span> <span class="dv">3</span>, <span class="at">rotate =</span>  <span class="st">"oblimin"</span> )  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Factor Analysis using method =  minres
+Call: fa(r = factor_exp1, nfactors = 3, rotate = "oblimin")
+Standardized loadings (pattern matrix) based upon correlation matrix
+                MR1   MR2   MR3   h2   u2 com
+colle_w1      -0.01  0.72  0.13 0.64 0.36 1.1
+grad_w1        0.17  0.44 -0.31 0.24 0.76 2.2
+high_w1        0.09  0.22  0.60 0.59 0.41 1.3
+numarticle_w1  0.76 -0.04 -0.10 0.55 0.45 1.0
+numbook_w1     0.77  0.03  0.12 0.66 0.34 1.1
+
+                       MR1  MR2  MR3
+SS loadings           1.27 0.86 0.55
+Proportion Var        0.25 0.17 0.11
+Cumulative Var        0.25 0.43 0.54
+Proportion Explained  0.47 0.32 0.20
+Cumulative Proportion 0.47 0.80 1.00
+
+ With factor correlations of 
+     MR1  MR2  MR3
+MR1 1.00 0.52 0.09
+MR2 0.52 1.00 0.56
+MR3 0.09 0.56 1.00
+
+Mean item complexity =  1.3
+Test of the hypothesis that 3 factors are sufficient.
+
+The degrees of freedom for the null model are  10  and the objective function was  1.04 with Chi Square of  1655.61
+The degrees of freedom for the model are -2  and the objective function was  0 
+
+The root mean square of the residuals (RMSR) is  0 
+The df corrected root mean square of the residuals is  NA 
+
+The harmonic number of observations is  1592 with the empirical chi square  0  with prob &lt;  NA 
+The total number of observations was  1592  with Likelihood Chi Square =  0  with prob &lt;  NA 
+
+Tucker Lewis Index of factoring reliability =  1.006
+Fit based upon off diagonal values = 1
+Measures of factor score adequacy             
+                                                   MR1  MR2  MR3
+Correlation of (regression) scores with factors   0.88 0.85 0.78
+Multiple R square of scores with factors          0.77 0.73 0.60
+Minimum correlation of possible factor scores     0.54 0.45 0.20</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Figure for the analysis</span></span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>M2<span class="ot">&lt;-</span><span class="fu">fa</span>(factor_exp1, <span class="at">nfactors =</span> <span class="dv">3</span>, <span class="at">rotate =</span>  <span class="st">"oblimin"</span> ) <span class="do">##save the analysis as the object m1</span></span>
+<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a><span class="fu">fa.diagram</span>(M2,<span class="at">main=</span><span class="st">"Expert Variables"</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-37-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Eigenvalues suggest 2 components here</p>
+<section id="extracting-components" class="level3">
+<h3 class="anchored" data-anchor-id="extracting-components">Extracting components</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>PrC_expert<span class="ot">&lt;-</span> <span class="fu">principal</span>(factor_exp1, <span class="at">scores =</span><span class="cn">TRUE</span>, <span class="at">rotate=</span> <span class="st">"varimax"</span>, <span class="at">nfactors=</span><span class="dv">2</span>, <span class="at">method=</span><span class="st">"regression"</span>)</span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a><span class="fu">loadings</span> (PrC_expert)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Loadings:
+              RC1   RC2  
+colle_w1      0.241 0.821
+grad_w1       0.635      
+high_w1             0.894
+numarticle_w1 0.849      
+numbook_w1    0.760 0.350
+
+                 RC1   RC2
+SS loadings    1.759 1.600
+Proportion Var 0.352 0.320
+Cumulative Var 0.352 0.672</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Combining data frames</span></span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>expertise3_wins_fact1 <span class="ot">&lt;-</span> <span class="fu">cbind</span>(expertise3_wins_fact, PrC_expert<span class="sc">$</span>scores)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Check the correlation matrix again, it’s the same above:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">corrMatrix</span>(<span class="at">data =</span> expertise3_wins_fact1, <span class="at">vars =</span> <span class="fu">vars</span>(colle_w1, grad_w1, high_w1, numarticle_w1, numbook_w1, RC1, RC2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ CORRELATION MATRIX
+
+ Correlation Matrix                                                                                                                   
+ ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── 
+                                   colle_w1      grad_w1       high_w1       numarticle_w1    numbook_w1    RC1           RC2         
+ ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── 
+   colle_w1         Pearson's r             —                                                                                         
+                    p-value                 —                                                                                         
+                                                                                                                                      
+   grad_w1          Pearson's r     0.2469764             —                                                                           
+                    p-value        &lt; .0000001             —                                                                           
+                                                                                                                                      
+   high_w1          Pearson's r     0.5239629     0.0806383             —                                                             
+                    p-value        &lt; .0000001     0.0012811             —                                                             
+                                                                                                                                      
+   numarticle_w1    Pearson's r     0.2062351     0.2759111     0.1050732                —                                            
+                    p-value        &lt; .0000001    &lt; .0000001     0.0000266                —                                            
+                                                                                                                                      
+   numbook_w1       Pearson's r     0.3807299     0.2925613     0.3087127        0.5716079             —                              
+                    p-value        &lt; .0000001    &lt; .0000001    &lt; .0000001       &lt; .0000001             —                              
+                                                                                                                                      
+   RC1              Pearson's r     0.2406258     0.6345799     0.0175533        0.8490179     0.7600788             —                
+                    p-value        &lt; .0000001    &lt; .0000001     0.4840040       &lt; .0000001    &lt; .0000001             —                
+                                                                                                                                      
+   RC2              Pearson's r     0.8206051     0.0651383     0.8941356        0.0297629     0.3496585    -0.0000000            —   
+                    p-value        &lt; .0000001     0.0093297    &lt; .0000001        0.2352812    &lt; .0000001     1.0000000            —   
+ ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="histograms-of-these-components" class="level2">
+<h2 class="anchored" data-anchor-id="histograms-of-these-components">Histograms of these components</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="do">##Histogram, descriptives and correlation matrix for new factors ----</span></span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a><span class="fu">descriptives</span>(<span class="at">dat=</span>expertise3_wins_fact1, <span class="fu">vars</span>(RC1, RC2),</span>
+<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">sd=</span>T, <span class="at">skew =</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ DESCRIPTIVES
+
+ Descriptives                                              
+ ───────────────────────────────────────────────────────── 
+                          RC1              RC2             
+ ───────────────────────────────────────────────────────── 
+   N                               1592             1592   
+   Missing                            0                0   
+   Mean                   -4.315364e-16    -7.624415e-16   
+   Median                    -0.3404724       -0.3261946   
+   Standard deviation          1.000000         1.000000   
+   Minimum                    -1.478736        -1.747536   
+   Maximum                     9.432424         7.325695   
+   Skewness                    4.769103         3.671222   
+   Std. error skewness       0.06133318       0.06133318   
+ ───────────────────────────────────────────────────────── </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(expertise3_wins_fact1<span class="sc">$</span>RC1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-42-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(expertise3_wins_fact1<span class="sc">$</span>RC2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-43-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="long-format-with-component-scores" class="level2">
+<h2 class="anchored" data-anchor-id="long-format-with-component-scores">Long format (with component scores)</h2>
+<p>Long format of expertise dataset</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">'reshape2'</span>)</span>
+<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a>expertise3_wins_comp <span class="ot">&lt;-</span> <span class="fu">melt</span>(expertise3_new, <span class="at">id.vars =</span> <span class="fu">c</span>(<span class="st">"ID"</span>,<span class="st">'duration'</span>,<span class="st">"sex"</span> ,<span class="st">"education"</span> ,<span class="st">"income"</span>,<span class="st">"religion"</span>,<span class="st">'identity'</span>,<span class="st">'age'</span>,<span class="st">'political_atti'</span>,<span class="st">'english_level'</span>,<span class="st">'needforcog'</span>), </span>
+<span id="cb94-4"><a href="#cb94-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">measure.vars =</span> <span class="fu">c</span>(<span class="st">"ih_lang"</span>, <span class="st">"ih_school"</span>,<span class="st">"ih_cards"</span>, <span class="st">"ih_breakfast"</span>, <span class="st">"ih_weddings"</span>, </span>
+<span id="cb94-5"><a href="#cb94-5" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">"ih_teeth"</span>, <span class="st">"ih_traffic"</span>, <span class="st">"ih_tv"</span>,<span class="st">'know_lang'</span>,<span class="st">'know_school'</span>,<span class="st">'know_cards'</span>,<span class="st">'know_breakfast'</span>,</span>
+<span id="cb94-6"><a href="#cb94-6" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'know_weddings'</span>,<span class="st">'know_teeth'</span>,<span class="st">'know_traffic'</span>,<span class="st">'know_tv'</span>,</span>
+<span id="cb94-7"><a href="#cb94-7" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'high_lang'</span>, <span class="st">'colle_lang'</span>, <span class="st">'grad_lang'</span>,</span>
+<span id="cb94-8"><a href="#cb94-8" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'numbook_lang'</span>,<span class="st">'numarticle_lang'</span>,</span>
+<span id="cb94-9"><a href="#cb94-9" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'high_school'</span>, <span class="st">'colle_school'</span>, <span class="st">'grad_school'</span>,</span>
+<span id="cb94-10"><a href="#cb94-10" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'numbook_school'</span>,<span class="st">'numarticle_school'</span>,</span>
+<span id="cb94-11"><a href="#cb94-11" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'high_cards'</span>, <span class="st">'colle_cards'</span>, <span class="st">'grad_cards'</span>,</span>
+<span id="cb94-12"><a href="#cb94-12" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'numbook_cards'</span>,<span class="st">'numarticle_cards'</span>,</span>
+<span id="cb94-13"><a href="#cb94-13" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'high_breakfast'</span>, <span class="st">'colle_breakfast'</span>, <span class="st">'grad_breakfast'</span>,</span>
+<span id="cb94-14"><a href="#cb94-14" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'numbook_breakfast'</span>,<span class="st">'numarticle_breakfast'</span>,</span>
+<span id="cb94-15"><a href="#cb94-15" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'high_weddings'</span>, <span class="st">'colle_weddings'</span>, <span class="st">'grad_weddings'</span>,</span>
+<span id="cb94-16"><a href="#cb94-16" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'numbook_weddings'</span>,<span class="st">'numarticle_weddings'</span>,</span>
+<span id="cb94-17"><a href="#cb94-17" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'high_teeth'</span>, <span class="st">'colle_teeth'</span>, <span class="st">'grad_teeth'</span>,</span>
+<span id="cb94-18"><a href="#cb94-18" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'numbook_teeth'</span>,<span class="st">'numarticle_teeth'</span>,</span>
+<span id="cb94-19"><a href="#cb94-19" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'high_traffic'</span>, <span class="st">'colle_traffic'</span>, <span class="st">'grad_traffic'</span>,</span>
+<span id="cb94-20"><a href="#cb94-20" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'numbook_traffic'</span>,<span class="st">'numarticle_traffic'</span>,</span>
+<span id="cb94-21"><a href="#cb94-21" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'high_tv'</span>, <span class="st">'colle_tv'</span>, <span class="st">'grad_tv'</span>,</span>
+<span id="cb94-22"><a href="#cb94-22" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">'numbook_tv'</span>,<span class="st">'numarticle_tv'</span>),</span>
+<span id="cb94-23"><a href="#cb94-23" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sep =</span> <span class="st">"_"</span>, <span class="at">variable.name =</span> <span class="st">"Category"</span>, <span class="at">value.name =</span> <span class="st">"Score"</span>)</span>
+<span id="cb94-24"><a href="#cb94-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-25"><a href="#cb94-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Split the Category column into two columns based on the underscore separator</span></span>
+<span id="cb94-26"><a href="#cb94-26" aria-hidden="true" tabindex="-1"></a>expertise3_wins_comp <span class="ot">&lt;-</span> expertise3_wins_comp <span class="sc">%&gt;%</span> <span class="fu">separate</span>(Category, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"Category"</span>, <span class="st">"Score_Type"</span>), <span class="at">sep =</span> <span class="st">"_"</span>)</span>
+<span id="cb94-27"><a href="#cb94-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-28"><a href="#cb94-28" aria-hidden="true" tabindex="-1"></a><span class="do">## spread the data from long to wide format  ----</span></span>
+<span id="cb94-29"><a href="#cb94-29" aria-hidden="true" tabindex="-1"></a>expertise3_win1_comp <span class="ot">&lt;-</span> expertise3_wins_comp <span class="sc">%&gt;%</span> <span class="fu">spread</span>(Category, Score)</span>
+<span id="cb94-30"><a href="#cb94-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-31"><a href="#cb94-31" aria-hidden="true" tabindex="-1"></a><span class="co"># change the score type to a factor</span></span>
+<span id="cb94-32"><a href="#cb94-32" aria-hidden="true" tabindex="-1"></a>expertise3_win1_comp<span class="sc">$</span>Score_Type<span class="ot">&lt;-</span><span class="fu">as.factor</span>(expertise3_win1_comp<span class="sc">$</span>Score_Type)</span>
+<span id="cb94-33"><a href="#cb94-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-34"><a href="#cb94-34" aria-hidden="true" tabindex="-1"></a><span class="co"># convert the column ih to numeric</span></span>
+<span id="cb94-35"><a href="#cb94-35" aria-hidden="true" tabindex="-1"></a>expertise3_win1_comp<span class="sc">$</span>ih<span class="ot">&lt;-</span><span class="fu">as.numeric</span>(expertise3_win1_comp<span class="sc">$</span>ih)</span>
+<span id="cb94-36"><a href="#cb94-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-37"><a href="#cb94-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine factor scores with the final data ----</span></span>
+<span id="cb94-38"><a href="#cb94-38" aria-hidden="true" tabindex="-1"></a>expertise3_win1_comp<span class="ot">&lt;-</span><span class="fu">bind_cols</span>(expertise3_win1_comp,expertise3_wins_fact1<span class="sc">$</span>RC1,expertise3_wins_fact1<span class="sc">$</span>RC2)</span>
+<span id="cb94-39"><a href="#cb94-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-40"><a href="#cb94-40" aria-hidden="true" tabindex="-1"></a><span class="co">#Rename the combined factor variables</span></span>
+<span id="cb94-41"><a href="#cb94-41" aria-hidden="true" tabindex="-1"></a>expertise3_win1_comp<span class="ot">&lt;-</span><span class="fu">rename</span>(expertise3_win1_comp, <span class="at">PC1=</span>...<span class="dv">20</span>)</span>
+<span id="cb94-42"><a href="#cb94-42" aria-hidden="true" tabindex="-1"></a>expertise3_win1_comp<span class="ot">&lt;-</span><span class="fu">rename</span>(expertise3_win1_comp, <span class="at">PC2=</span>...<span class="dv">21</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Center variables: </span></span>
+<span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb95-3"><a href="#cb95-3" aria-hidden="true" tabindex="-1"></a>expertise3_win1_comp<span class="sc">$</span>know_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise3_win1_comp<span class="sc">$</span>know, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb95-4"><a href="#cb95-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb95-5"><a href="#cb95-5" aria-hidden="true" tabindex="-1"></a>expertise3_win1_comp<span class="sc">$</span>needforcog_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise3_win1_comp<span class="sc">$</span>needforcog, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb95-6"><a href="#cb95-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb95-7"><a href="#cb95-7" aria-hidden="true" tabindex="-1"></a>expertise3_win1_comp<span class="sc">$</span>PC1_w1_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise3_win1_comp<span class="sc">$</span>PC1, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb95-8"><a href="#cb95-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb95-9"><a href="#cb95-9" aria-hidden="true" tabindex="-1"></a>expertise3_win1_comp<span class="sc">$</span>PC2_w2_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise3_win1_comp<span class="sc">$</span>PC2, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="hlm-models-1" class="level2">
+<h2 class="anchored" data-anchor-id="hlm-models-1">HLM Models</h2>
+<section id="model-objective-expertise-with-grad-courses-books-and-magazines-1" class="level3">
+<h3 class="anchored" data-anchor-id="model-objective-expertise-with-grad-courses-books-and-magazines-1">Model objective expertise with grad courses, books and magazines</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Model objective expertise ----</span></span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a>Model_obj<span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>PC1_w1_cent<span class="sc">*</span>needforcog_cent<span class="sc">+</span>PC1_w1_cent<span class="sc">+</span>needforcog_cent<span class="sc">+</span></span>
+<span id="cb96-4"><a href="#cb96-4" aria-hidden="true" tabindex="-1"></a>                (<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID), <span class="at">data=</span>expertise3_win1_comp)</span>
+<span id="cb96-5"><a href="#cb96-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model_obj)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: ih ~ PC1_w1_cent * needforcog_cent + PC1_w1_cent + needforcog_cent +  
+    (1 | Score_Type) + (1 | ID)
+   Data: expertise3_win1_comp
+
+REML criterion at convergence: 6305.3
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-3.09646 -0.65141 -0.01162  0.60478  2.89691 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ ID         (Intercept) 0.5242   0.7240  
+ Score_Type (Intercept) 0.3478   0.5897  
+ Residual               2.6776   1.6363  
+Number of obs: 1591, groups:  ID, 199; Score_Type, 8
+
+Fixed effects:
+                              Estimate Std. Error         df t value Pr(&gt;|t|)
+(Intercept)                    4.86635    0.21867    7.83496  22.255  2.3e-08
+PC1_w1_cent                   -0.07447    0.05599 1532.07904  -1.330 0.183697
+needforcog_cent               -0.20158    0.05130  198.61611  -3.929 0.000118
+PC1_w1_cent:needforcog_cent    0.02305    0.03721 1578.32515   0.619 0.535820
+                               
+(Intercept)                 ***
+PC1_w1_cent                    
+needforcog_cent             ***
+PC1_w1_cent:needforcog_cent    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) PC1_w1_ ndfrc_
+PC1_w1_cent  0.012               
+nedfrcg_cnt  0.000 -0.070        
+PC1_w1_cn:_ -0.024 -0.521   0.006</code></pre>
+</div>
+</div>
+</section>
+<section id="model-objective-expertise-with-high-school-and-college-courses-1" class="level3">
+<h3 class="anchored" data-anchor-id="model-objective-expertise-with-high-school-and-college-courses-1">Model objective expertise with high school and college courses</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a>Model_obj2<span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>PC2_w2_cent <span class="sc">*</span> needforcog_cent <span class="sc">+</span>PC2_w2_cent <span class="sc">+</span> needforcog_cent<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID), <span class="at">data=</span>expertise3_win1_comp)</span>
+<span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model_obj2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: ih ~ PC2_w2_cent * needforcog_cent + PC2_w2_cent + needforcog_cent +  
+    (1 | Score_Type) + (1 | ID)
+   Data: expertise3_win1_comp
+
+REML criterion at convergence: 6300.7
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-3.09277 -0.66309 -0.01215  0.60398  2.91818 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ ID         (Intercept) 0.5198   0.7210  
+ Score_Type (Intercept) 0.3404   0.5834  
+ Residual               2.6715   1.6345  
+Number of obs: 1591, groups:  ID, 199; Score_Type, 8
+
+Fixed effects:
+                              Estimate Std. Error         df t value Pr(&gt;|t|)
+(Intercept)                    4.87325    0.21643    7.83004  22.516 2.12e-08
+PC2_w2_cent                    0.08026    0.04831 1567.99193   1.661   0.0968
+needforcog_cent               -0.21295    0.05105  197.64379  -4.171 4.54e-05
+PC2_w2_cent:needforcog_cent   -0.07549    0.03797 1558.32191  -1.988   0.0470
+                               
+(Intercept)                 ***
+PC2_w2_cent                 .  
+needforcog_cent             ***
+PC2_w2_cent:needforcog_cent *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) PC2_w2_ ndfrc_
+PC2_w2_cent  0.001               
+nedfrcg_cnt  0.000 -0.030        
+PC2_w2_cn:_ -0.008 -0.068   0.042</code></pre>
+</div>
+</div>
+</section>
+<section id="model-of-perceived-expertise-and-need-for-cognition-1" class="level3">
+<h3 class="anchored" data-anchor-id="model-of-perceived-expertise-and-need-for-cognition-1">Model of perceived expertise and need for cognition</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a>Model_perc<span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>know_cent<span class="sc">*</span>needforcog_cent<span class="sc">+</span> know_cent <span class="sc">+</span> needforcog_cent <span class="sc">+</span></span>
+<span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a>                (<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID), <span class="at">data=</span>expertise3_win1_comp)</span>
+<span id="cb100-3"><a href="#cb100-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model_perc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: ih ~ know_cent * needforcog_cent + know_cent + needforcog_cent +  
+    (1 | Score_Type) + (1 | ID)
+   Data: expertise3_win1_comp
+
+REML criterion at convergence: 6293.4
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-2.94526 -0.66336 -0.01584  0.61110  2.90351 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ ID         (Intercept) 0.4960   0.7043  
+ Score_Type (Intercept) 0.3643   0.6036  
+ Residual               2.6744   1.6354  
+Number of obs: 1590, groups:  ID, 199; Score_Type, 8
+
+Fixed effects:
+                            Estimate Std. Error         df t value Pr(&gt;|t|)    
+(Intercept)                  4.87459    0.22298    7.75612  21.861 3.01e-08 ***
+know_cent                    0.08693    0.04832 1357.80267   1.799  0.07227 .  
+needforcog_cent             -0.21666    0.05038  196.42283  -4.301 2.68e-05 ***
+know_cent:needforcog_cent   -0.09801    0.03666 1399.78419  -2.674  0.00759 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) knw_cn ndfrc_
+know_cent    0.000              
+nedfrcg_cnt -0.001 -0.025       
+knw_cnt:nd_ -0.007 -0.012  0.053</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">corrMatrix</span>(expertise3_win1_comp,</span>
+<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">vars =</span> <span class="fu">vars</span>(know_cent,needforcog_cent), <span class="at">flag =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ CORRELATION MATRIX
+
+ Correlation Matrix                                                 
+ ────────────────────────────────────────────────────────────────── 
+                                     know_cent    needforcog_cent   
+ ────────────────────────────────────────────────────────────────── 
+   know_cent          Pearson's r            —                      
+                      p-value                —                      
+                                                                    
+   needforcog_cent    Pearson's r    0.0323268                  —   
+                      p-value        0.1974834                  —   
+ ────────────────────────────────────────────────────────────────── 
+   Note. * p &lt; .05, ** p &lt; .01, *** p &lt; .001</code></pre>
+</div>
+</div>
+</section>
+<section id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition-without-interaction-2" class="level3">
+<h3 class="anchored" data-anchor-id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition-without-interaction-2">Model of objective expertise, perceived expertise and need for cognition without interaction</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>Model.<span class="fl">1.1</span><span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>PC1_w1_cent <span class="sc">+</span> PC2_w2_cent <span class="sc">+</span> know_cent <span class="sc">+</span>needforcog_cent <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID),   </span>
+<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data=</span>expertise3_win1_comp)</span>
+<span id="cb104-3"><a href="#cb104-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model.<span class="fl">1.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: ih ~ PC1_w1_cent + PC2_w2_cent + know_cent + needforcog_cent +  
+    (1 | Score_Type) + (1 | ID)
+   Data: expertise3_win1_comp
+
+REML criterion at convergence: 6299.9
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-3.04789 -0.66791 -0.03113  0.60644  2.84714 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ ID         (Intercept) 0.4987   0.7062  
+ Score_Type (Intercept) 0.3401   0.5832  
+ Residual               2.6813   1.6375  
+Number of obs: 1590, groups:  ID, 199; Score_Type, 8
+
+Fixed effects:
+                  Estimate Std. Error         df t value Pr(&gt;|t|)    
+(Intercept)        4.87050    0.21611    7.78797  22.537 2.26e-08 ***
+PC1_w1_cent       -0.07868    0.04938 1492.80341  -1.593   0.1113    
+PC2_w2_cent        0.05708    0.04892 1567.08966   1.167   0.2435    
+know_cent          0.09657    0.05072 1344.82431   1.904   0.0571 .  
+needforcog_cent   -0.20471    0.05059  197.51174  -4.047 7.45e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) PC1_1_ PC2_2_ knw_cn
+PC1_w1_cent  0.000                     
+PC2_w2_cent  0.000  0.070              
+know_cent    0.000 -0.260 -0.167       
+nedfrcg_cnt  0.000 -0.078 -0.030  0.001</code></pre>
+</div>
+</div>
+</section>
+<section id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition-with-interaction-2" class="level3">
+<h3 class="anchored" data-anchor-id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition-with-interaction-2">Model of objective expertise, perceived expertise and need for cognition with interaction</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a>Model.<span class="fl">2.1</span><span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>PC1_w1_cent <span class="sc">+</span> PC2_w2_cent  <span class="sc">+</span> know_cent<span class="sc">+</span>needforcog_cent <span class="sc">+</span> PC1_w1_cent<span class="sc">*</span>needforcog_cent <span class="sc">+</span> PC2_w2_cent<span class="sc">*</span>needforcog_cent <span class="sc">+</span> know_cent<span class="sc">*</span>needforcog_cent<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID),   </span>
+<span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data=</span>expertise3_win1_comp)</span>
+<span id="cb106-3"><a href="#cb106-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model.<span class="fl">2.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: ih ~ PC1_w1_cent + PC2_w2_cent + know_cent + needforcog_cent +  
+    PC1_w1_cent * needforcog_cent + PC2_w2_cent * needforcog_cent +  
+    know_cent * needforcog_cent + (1 | Score_Type) + (1 | ID)
+   Data: expertise3_win1_comp
+
+REML criterion at convergence: 6304.6
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-2.94328 -0.65638 -0.01338  0.60696  2.89992 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ ID         (Intercept) 0.5000   0.7071  
+ Score_Type (Intercept) 0.3397   0.5828  
+ Residual               2.6691   1.6337  
+Number of obs: 1590, groups:  ID, 199; Score_Type, 8
+
+Fixed effects:
+                              Estimate Std. Error         df t value Pr(&gt;|t|)
+(Intercept)                    4.87079    0.21607    7.79504  22.543 2.23e-08
+PC1_w1_cent                   -0.08004    0.05771 1486.77758  -1.387   0.1657
+PC2_w2_cent                    0.06017    0.04926 1568.51514   1.222   0.2220
+know_cent                      0.09172    0.05068 1352.14067   1.810   0.0705
+needforcog_cent               -0.21713    0.05075  199.21963  -4.278 2.92e-05
+PC1_w1_cent:needforcog_cent    0.04532    0.03872 1559.22145   1.170   0.2420
+PC2_w2_cent:needforcog_cent   -0.05653    0.03918 1561.39689  -1.443   0.1492
+know_cent:needforcog_cent     -0.09392    0.03909 1396.96749  -2.403   0.0164
+                               
+(Intercept)                 ***
+PC1_w1_cent                    
+PC2_w2_cent                    
+know_cent                   .  
+needforcog_cent             ***
+PC1_w1_cent:needforcog_cent    
+PC2_w2_cent:needforcog_cent    
+know_cent:needforcog_cent   *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) PC1_w1_ PC2_w2_ knw_cn ndfrc_ PC1_1_: PC2_2_:
+PC1_w1_cent  0.013                                              
+PC2_w2_cent  0.003  0.125                                       
+know_cent    0.000 -0.220  -0.165                               
+nedfrcg_cnt -0.001 -0.077  -0.034   0.003                       
+PC1_w1_cn:_ -0.023 -0.483  -0.108  -0.012 -0.011                
+PC2_w2_cn:_ -0.006 -0.102  -0.062  -0.011  0.046 -0.038         
+knw_cnt:nd_  0.000 -0.001   0.001   0.041  0.060 -0.251  -0.163 </code></pre>
+</div>
+</div>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
