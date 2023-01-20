@@ -222,9 +222,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DescTools)</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stats)</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">#Read the csv file ----</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>Expertise6 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"~/Desktop/Expertise6_5.8.14_December 23, 2022_10.51 2.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">'reshape2'</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4) </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmerTest)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">#Read the csv file ----</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>Expertise6 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"~/Desktop/Expertise6_5.8.14_December 23, 2022_10.51 2.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Creates a new dataframe called expertise6_clean, which is a copy of the original dataframe called expertise6 and removes the second row of the dataframe and create a variable called column_names and assign it the names of the columns in the dataframe and change the column names</p>
 <div class="cell">
@@ -314,59 +318,60 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">##Change the column names ----</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(expertise6_clean) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'ip'</span>,<span class="st">'duration'</span>, <span class="st">'finished'</span>, <span class="st">'stih_food'</span>,<span class="st">'r_ih_food'</span>,</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'stih_sports'</span>,<span class="st">'r_ih_sports'</span>,<span class="st">'stih_school'</span>,<span class="st">'r_ih_school'</span>,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'stih_architect'</span>,<span class="st">'r_ih_architect'</span>,<span class="st">'stih_product'</span>,<span class="st">'r_ih_product'</span>,                                <span class="st">'stih_langu'</span>,<span class="st">'r_ih_langu'</span>,<span class="st">'stih_network'</span>,<span class="st">'r_ih_network'</span>,</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'stih_anthro'</span>,<span class="st">'r_ih_anthro'</span>,</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'know_food'</span>,<span class="st">'know_sports'</span>,<span class="st">'know_school'</span>,<span class="st">'know_architect'</span>,</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'know_product'</span>,<span class="st">'know_langu'</span>,<span class="st">'know_network'</span>,<span class="st">'know_anthro'</span>,</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'course_food'</span>,<span class="st">'high_food'</span>, <span class="st">'colle_food'</span>, <span class="st">'grad_food'</span>,</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'book_food'</span>,<span class="st">'numbook_food'</span>,<span class="st">'article_food'</span>,<span class="st">'numarticle_food'</span>,</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'in_arti_food'</span>,<span class="st">'numinarti_food'</span>, <span class="st">'docu_food'</span>, <span class="st">'numdocu_food'</span>,</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'radio_food'</span>,<span class="st">'numradio_food'</span>,</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'course_sports'</span>,<span class="st">'high_sports'</span>, <span class="st">'colle_sports'</span>, <span class="st">'grad_sports'</span>,</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'book_sports'</span>,<span class="st">'numbook_sports'</span>,<span class="st">'article_sports'</span>,<span class="st">'numarticle_sports'</span>,</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'in_arti_sports'</span>,<span class="st">'numinarti_sports'</span>, <span class="st">'docu_sports'</span>, <span class="st">'numdocu_sports'</span>,</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'radio_sports'</span>,<span class="st">'numradio_sports'</span>,</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'course_school'</span>,<span class="st">'high_school'</span>, <span class="st">'colle_school'</span>, <span class="st">'grad_school'</span>,</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'book_school'</span>,<span class="st">'numbook_school'</span>,<span class="st">'article_school'</span>,<span class="st">'numarticle_school'</span>,</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'in_arti_school'</span>,<span class="st">'numinarti_school'</span>, <span class="st">'docu_school'</span>, <span class="st">'numdocu_school'</span>,</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'radio_school'</span>,<span class="st">'numradio_school'</span>,</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'course_architect'</span>,<span class="st">'high_architect'</span>, <span class="st">'colle_architect'</span>,<span class="st">'grad_architect'</span>,</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'book_architect'</span>,<span class="st">'numbook_architect'</span>,<span class="st">'article_architect'</span>,</span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numarticle_architect'</span>,</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'in_arti_architect'</span>,<span class="st">'numinarti_architect'</span>, </span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'docu_architect'</span>, <span class="st">'numdocu_architect'</span>,</span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'radio_architect'</span>,<span class="st">'numradio_architect'</span>,</span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'course_product'</span>,<span class="st">'high_product'</span>, <span class="st">'colle_product'</span>, <span class="st">'grad_product'</span>,</span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'book_product'</span>,<span class="st">'numbook_product'</span>,<span class="st">'article_product'</span>,</span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numarticle_product'</span>,</span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'in_arti_product'</span>,<span class="st">'numinarti_product'</span>, <span class="st">'docu_product'</span>, <span class="st">'numdocu_product'</span>,</span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'radio_product'</span>,<span class="st">'numradio_product'</span>,</span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'course_langu'</span>,<span class="st">'high_langu'</span>, <span class="st">'colle_langu'</span>, <span class="st">'grad_langu'</span>,</span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'book_langu'</span>,<span class="st">'numbook_langu'</span>,<span class="st">'article_langu'</span>,<span class="st">'numarticle_langu'</span>,</span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'in_arti_langu'</span>,<span class="st">'numinarti_langu'</span>, <span class="st">'docu_langu'</span>, <span class="st">'numdocu_langu'</span>,</span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'radio_langu'</span>,<span class="st">'numradio_langu'</span>,</span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'course_network'</span>,<span class="st">'high_network'</span>, <span class="st">'colle_network'</span>, <span class="st">'grad_network'</span>,</span>
-<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'book_network'</span>,<span class="st">'numbook_network'</span>,<span class="st">'article_network'</span>,<span class="st">'numarticle_network'</span>,</span>
-<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'in_arti_network'</span>,<span class="st">'numinarti_network'</span>, <span class="st">'docu_network'</span>, <span class="st">'numdocu_network'</span>,</span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'radio_network'</span>,<span class="st">'numradio_network'</span>,</span>
-<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'course_anthro'</span>,<span class="st">'high_anthro'</span>, <span class="st">'colle_anthro'</span>, <span class="st">'grad_anthro'</span>,</span>
-<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'book_anthro'</span>,<span class="st">'numbook_anthro'</span>,<span class="st">'article_anthro'</span>,<span class="st">'numarticle_anthro'</span>,</span>
-<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'in_arti_anthro'</span>,<span class="st">'numinarti_anthro'</span>, <span class="st">'docu_anthro'</span>, <span class="st">'numdocu_anthro'</span>,</span>
-<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'radio_anthro'</span>,<span class="st">'numradio_anthro'</span>,</span>
-<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo1'</span>,<span class="st">'needforclo2'</span>,<span class="st">'needforclo3'</span>,<span class="st">'needforclo4'</span>,<span class="st">'needforclo5'</span>,</span>
-<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo6'</span>,<span class="st">'needforclo7'</span>,<span class="st">'needforclo8'</span>,<span class="st">'needforclo9'</span>,<span class="st">'needforclo10'</span>,</span>
-<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo11'</span>,<span class="st">'needforclo12'</span>,<span class="st">'needforclo13'</span>,<span class="st">'needforclo14'</span>,</span>
-<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo15'</span>,<span class="st">'needforclo16'</span>,<span class="st">'needforclo17'</span>,<span class="st">'needforclo18'</span>,</span>
-<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo19'</span>,<span class="st">'needforclo20'</span>,<span class="st">'needforclo21'</span>,<span class="st">'needforclo22'</span>,</span>
-<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo23'</span>,<span class="st">'needforclo24'</span>,<span class="st">'needforclo25'</span>,<span class="st">'needforclo26'</span>,</span>
-<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo27'</span>,<span class="st">'needforclo28'</span>,<span class="st">'needforclo29'</span>,<span class="st">'needforclo30'</span>,</span>
-<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo31'</span>,<span class="st">'needforclo32'</span>,<span class="st">'needforclo33'</span>,<span class="st">'needforclo34'</span>,</span>
-<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo35'</span>,<span class="st">'needforclo36'</span>,<span class="st">'needforclo37'</span>,<span class="st">'needforclo38'</span>,</span>
-<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo39'</span>,<span class="st">'needforclo40'</span>,<span class="st">'needforclo41'</span>,<span class="st">'needforclo42'</span>,</span>
-<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'sex'</span>,<span class="st">'birthdate'</span>,<span class="st">'education'</span>,<span class="st">'income'</span>,<span class="st">'religion'</span>,</span>
-<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'identity'</span>,<span class="st">'age'</span>,<span class="st">'political_atti'</span>,<span class="st">'english_level'</span>,<span class="st">'proceure_confu'</span>,</span>
-<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'whatwestudied'</span>,<span class="st">'moretothisstudy'</span>,<span class="st">'additional_thoughts'</span>,<span class="st">'attention'</span>, </span>
-<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'surveyorder'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'stih_architect'</span>,<span class="st">'r_ih_architect'</span>,<span class="st">'stih_product'</span>,<span class="st">'r_ih_product'</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'stih_langu'</span>,<span class="st">'r_ih_langu'</span>,<span class="st">'stih_network'</span>,<span class="st">'r_ih_network'</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'stih_anthro'</span>,<span class="st">'r_ih_anthro'</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'know_food'</span>,<span class="st">'know_sports'</span>,<span class="st">'know_school'</span>,<span class="st">'know_architect'</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'know_product'</span>,<span class="st">'know_langu'</span>,<span class="st">'know_network'</span>,<span class="st">'know_anthro'</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'course_food'</span>,<span class="st">'high_food'</span>, <span class="st">'colle_food'</span>, <span class="st">'grad_food'</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'book_food'</span>,<span class="st">'numbook_food'</span>,<span class="st">'article_food'</span>,<span class="st">'numarticle_food'</span>,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'inarti_food'</span>,<span class="st">'numinarti_food'</span>, <span class="st">'docu_food'</span>, <span class="st">'numdocu_food'</span>,</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'radio_food'</span>,<span class="st">'numradio_food'</span>,</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'course_sports'</span>,<span class="st">'high_sports'</span>, <span class="st">'colle_sports'</span>, <span class="st">'grad_sports'</span>,</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'book_sports'</span>,<span class="st">'numbook_sports'</span>,<span class="st">'article_sports'</span>,<span class="st">'numarticle_sports'</span>,</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'inarti_sports'</span>,<span class="st">'numinarti_sports'</span>, <span class="st">'docu_sports'</span>, <span class="st">'numdocu_sports'</span>,</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'radio_sports'</span>,<span class="st">'numradio_sports'</span>,</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'course_school'</span>,<span class="st">'high_school'</span>, <span class="st">'colle_school'</span>, <span class="st">'grad_school'</span>,</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'book_school'</span>,<span class="st">'numbook_school'</span>,<span class="st">'article_school'</span>,<span class="st">'numarticle_school'</span>,</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'inarti_school'</span>,<span class="st">'numinarti_school'</span>, <span class="st">'docu_school'</span>, <span class="st">'numdocu_school'</span>,</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'radio_school'</span>,<span class="st">'numradio_school'</span>,</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'course_architect'</span>,<span class="st">'high_architect'</span>, <span class="st">'colle_architect'</span>,<span class="st">'grad_architect'</span>,</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'book_architect'</span>,<span class="st">'numbook_architect'</span>,<span class="st">'article_architect'</span>,</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numarticle_architect'</span>,</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'inarti_architect'</span>,<span class="st">'numinarti_architect'</span>, </span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'docu_architect'</span>, <span class="st">'numdocu_architect'</span>,</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'radio_architect'</span>,<span class="st">'numradio_architect'</span>,</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'course_product'</span>,<span class="st">'high_product'</span>, <span class="st">'colle_product'</span>, <span class="st">'grad_product'</span>,</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'book_product'</span>,<span class="st">'numbook_product'</span>,<span class="st">'article_product'</span>,</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numarticle_product'</span>,</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'inarti_product'</span>,<span class="st">'numinarti_product'</span>, <span class="st">'docu_product'</span>, <span class="st">'numdocu_product'</span>,</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'radio_product'</span>,<span class="st">'numradio_product'</span>,</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'course_langu'</span>,<span class="st">'high_langu'</span>, <span class="st">'colle_langu'</span>, <span class="st">'grad_langu'</span>,</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'book_langu'</span>,<span class="st">'numbook_langu'</span>,<span class="st">'article_langu'</span>,<span class="st">'numarticle_langu'</span>,</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'inarti_langu'</span>,<span class="st">'numinarti_langu'</span>, <span class="st">'docu_langu'</span>, <span class="st">'numdocu_langu'</span>,</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'radio_langu'</span>,<span class="st">'numradio_langu'</span>,</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'course_network'</span>,<span class="st">'high_network'</span>, <span class="st">'colle_network'</span>, <span class="st">'grad_network'</span>,</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'book_network'</span>,<span class="st">'numbook_network'</span>,<span class="st">'article_network'</span>,<span class="st">'numarticle_network'</span>,</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'inarti_network'</span>,<span class="st">'numinarti_network'</span>, <span class="st">'docu_network'</span>, <span class="st">'numdocu_network'</span>,</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'radio_network'</span>,<span class="st">'numradio_network'</span>,</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'course_anthro'</span>,<span class="st">'high_anthro'</span>, <span class="st">'colle_anthro'</span>, <span class="st">'grad_anthro'</span>,</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'book_anthro'</span>,<span class="st">'numbook_anthro'</span>,<span class="st">'article_anthro'</span>,<span class="st">'numarticle_anthro'</span>,</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'inarti_anthro'</span>,<span class="st">'numinarti_anthro'</span>, <span class="st">'docu_anthro'</span>, <span class="st">'numdocu_anthro'</span>,</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'radio_anthro'</span>,<span class="st">'numradio_anthro'</span>,</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo1'</span>,<span class="st">'needforclo2'</span>,<span class="st">'needforclo3'</span>,<span class="st">'needforclo4'</span>,<span class="st">'needforclo5'</span>,</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo6'</span>,<span class="st">'needforclo7'</span>,<span class="st">'needforclo8'</span>,<span class="st">'needforclo9'</span>,<span class="st">'needforclo10'</span>,</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo11'</span>,<span class="st">'needforclo12'</span>,<span class="st">'needforclo13'</span>,<span class="st">'needforclo14'</span>,</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo15'</span>,<span class="st">'needforclo16'</span>,<span class="st">'needforclo17'</span>,<span class="st">'needforclo18'</span>,</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo19'</span>,<span class="st">'needforclo20'</span>,<span class="st">'needforclo21'</span>,<span class="st">'needforclo22'</span>,</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo23'</span>,<span class="st">'needforclo24'</span>,<span class="st">'needforclo25'</span>,<span class="st">'needforclo26'</span>,</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo27'</span>,<span class="st">'needforclo28'</span>,<span class="st">'needforclo29'</span>,<span class="st">'needforclo30'</span>,</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo31'</span>,<span class="st">'needforclo32'</span>,<span class="st">'needforclo33'</span>,<span class="st">'needforclo34'</span>,</span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo35'</span>,<span class="st">'needforclo36'</span>,<span class="st">'needforclo37'</span>,<span class="st">'needforclo38'</span>,</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo39'</span>,<span class="st">'needforclo40'</span>,<span class="st">'needforclo41'</span>,<span class="st">'needforclo42'</span>,</span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'sex'</span>,<span class="st">'birthdate'</span>,<span class="st">'education'</span>,<span class="st">'income'</span>,<span class="st">'religion'</span>,</span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'identity'</span>,<span class="st">'age'</span>,<span class="st">'political_atti'</span>,<span class="st">'english_level'</span>,<span class="st">'proceure_confu'</span>,</span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'whatwestudied'</span>,<span class="st">'moretothisstudy'</span>,<span class="st">'additional_thoughts'</span>,<span class="st">'attention'</span>, </span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'surveyorder'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="questionnaire-items" class="level3">
@@ -604,29 +609,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>expertise6_new<span class="ot">&lt;-</span>expertise6_clean<span class="sc">%&gt;%</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(attention<span class="sc">==</span><span class="dv">1</span><span class="sc">&amp;</span>finished<span class="sc">==</span><span class="dv">1</span>)</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="do">##Exclude the participants that joined outside of US ----</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#view(expertise6_new)</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>expertise6_new<span class="ot">&lt;-</span>expertise6_new<span class="sc">%&gt;%</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(ip<span class="sc">!=</span><span class="st">"66.42.251.231"</span>)</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>expertise6_new <span class="ot">&lt;-</span> expertise6_new <span class="sc">%&gt;%</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>(ip <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"74.219.142.226"</span>, <span class="st">"24.12.92.17"</span>, <span class="st">"184.88.52.194"</span>, </span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"97.103.220.145"</span>, <span class="st">"76.250.238.38"</span>)))</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="do">##selecting the columns that we want to keep ----</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>expertise6_new<span class="ot">&lt;-</span>expertise6_new<span class="sc">%&gt;%</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>finished,<span class="sc">-</span>birthdate,<span class="sc">-</span>proceure_confu,<span class="sc">-</span>whatwestudied,<span class="sc">-</span>moretothisstudy,<span class="sc">-</span>additional_thoughts,<span class="sc">-</span>attention, <span class="sc">-</span>surveyorder)</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="co">#adds a column to the dataframe, with the name "id"</span></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>expertise6_new<span class="ot">&lt;-</span><span class="fu">cbind</span>(<span class="at">ID =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(expertise6_new), expertise6_new)</span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Numeric variables ----</span></span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Change the data type of the variables to numeric </span></span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>expertise6_new <span class="ot">&lt;-</span> expertise6_new <span class="sc">%&gt;%</span></span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="fu">vars</span>(stih_food, r_ih_food, stih_sports, r_ih_sports, stih_school, r_ih_school, stih_architect, r_ih_architect, </span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>                 stih_product, r_ih_product, stih_langu, r_ih_langu, stih_network, r_ih_network, stih_anthro, r_ih_anthro), as.numeric)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="do">##Exclude the participants that joined outside of US ----</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#view(expertise6_new)</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>expertise6_new<span class="ot">&lt;-</span>expertise6_new<span class="sc">%&gt;%</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(ip<span class="sc">!=</span><span class="st">"66.42.251.231"</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>expertise6_new <span class="ot">&lt;-</span> expertise6_new <span class="sc">%&gt;%</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>(ip <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"74.219.142.226"</span>, <span class="st">"24.12.92.17"</span>, <span class="st">"184.88.52.194"</span>, </span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"97.103.220.145"</span>, <span class="st">"76.250.238.38"</span>)))</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="do">##selecting the columns that we want to keep ----</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>expertise6_new<span class="ot">&lt;-</span>expertise6_new<span class="sc">%&gt;%</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>finished,<span class="sc">-</span>birthdate,<span class="sc">-</span>proceure_confu,<span class="sc">-</span>whatwestudied,<span class="sc">-</span>moretothisstudy,<span class="sc">-</span>additional_thoughts,<span class="sc">-</span>attention, <span class="sc">-</span>surveyorder)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co">#adds a column to the dataframe, with the name "id"</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>expertise6_new<span class="ot">&lt;-</span><span class="fu">cbind</span>(<span class="at">ID =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(expertise6_new), expertise6_new)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Numeric variables ----</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Change the data type of the variables to numeric </span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>expertise6_new <span class="ot">&lt;-</span> expertise6_new <span class="sc">%&gt;%</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="fu">vars</span>(stih_food, r_ih_food, stih_sports, r_ih_sports, stih_school, r_ih_school, stih_architect, r_ih_architect, </span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>                 stih_product, r_ih_product, stih_langu, r_ih_langu, stih_network, r_ih_network, stih_anthro, r_ih_anthro), as.numeric)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="correlation-for-ih-scores" class="level2">
@@ -711,20 +715,21 @@ cor7 -0.636777009250974 - -0.436258848944745</code></pre>
 <span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo35'</span>,<span class="st">'needforclo36'</span>,<span class="st">'needforclo37'</span>,<span class="st">'needforclo38'</span>,</span>
 <span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'needforclo39'</span>,<span class="st">'needforclo40'</span>,<span class="st">'needforclo41'</span>,<span class="st">'needforclo42'</span>), as.numeric)</span>
 <span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="do">## Calculate needforcog scores  ----</span></span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="co">#add a new variable called needforcog, which is the sum of all the need for cognition items, the items are weighted according to the scoring key</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="do">## Calculate needforclo scores  ----</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="co">#add a new variable called needforclo, which is the sum of all the need for cognition items, the items are weighted according to the scoring key</span></span>
 <span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>expertise6_new <span class="ot">&lt;-</span> expertise6_new <span class="sc">%&gt;%</span></span>
 <span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ID)<span class="sc">%&gt;%</span></span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">needforcog=</span>(needforclo1<span class="sc">+</span>needforclo2<span class="sc">+</span>needforclo3<span class="sc">+</span>needforclo4<span class="sc">+</span>(<span class="dv">10</span><span class="sc">-</span>needforclo5)<span class="sc">+</span></span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>                        needforclo6<span class="sc">+</span>needforclo7<span class="sc">+</span>(<span class="dv">10</span><span class="sc">-</span>needforclo8)<span class="sc">+</span>(<span class="dv">10</span><span class="sc">-</span>needforclo9)<span class="sc">+</span>needforclo10<span class="sc">+</span></span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>                        needforclo11<span class="sc">+</span>needforclo12<span class="sc">+</span>needforclo13<span class="sc">+</span>needforclo14<span class="sc">+</span></span>
-<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>                        needforclo15<span class="sc">+</span>needforclo16<span class="sc">+</span>needforclo17<span class="sc">+</span>needforclo18<span class="sc">+</span></span>
-<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>                        needforclo19<span class="sc">+</span>needforclo20<span class="sc">+</span>needforclo21<span class="sc">+</span>needforclo22<span class="sc">+</span></span>
-<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>                        needforclo23<span class="sc">+</span>needforclo24<span class="sc">+</span>needforclo25<span class="sc">+</span>needforclo26<span class="sc">+</span></span>
-<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>                        needforclo27<span class="sc">+</span>needforclo28<span class="sc">+</span>needforclo29<span class="sc">+</span>needforclo30<span class="sc">+</span></span>
-<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>                        needforclo31<span class="sc">+</span>needforclo32<span class="sc">+</span>needforclo33<span class="sc">+</span>needforclo34<span class="sc">+</span></span>
-<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>                        needforclo35<span class="sc">+</span>needforclo36<span class="sc">+</span>needforclo37<span class="sc">+</span>needforclo38<span class="sc">+</span></span>
-<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>                        needforclo39<span class="sc">+</span>needforclo40<span class="sc">+</span>needforclo41<span class="sc">+</span>needforclo42)<span class="sc">/</span><span class="dv">42</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">needforclo=</span>(needforclo1<span class="sc">+</span>needforclo2<span class="sc">+</span>needforclo3<span class="sc">+</span>needforclo4<span class="sc">+</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>                       (<span class="dv">10</span><span class="sc">-</span>needforclo5)<span class="sc">+</span>needforclo6<span class="sc">+</span>needforclo7<span class="sc">+</span>(<span class="dv">10</span><span class="sc">-</span>needforclo8)<span class="sc">+</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>                       (<span class="dv">10</span><span class="sc">-</span>needforclo9)<span class="sc">+</span>needforclo10<span class="sc">+</span> needforclo11<span class="sc">+</span>needforclo12<span class="sc">+</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>                       needforclo13<span class="sc">+</span>needforclo14<span class="sc">+</span>needforclo15<span class="sc">+</span>needforclo16<span class="sc">+</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>                       needforclo17<span class="sc">+</span>needforclo18<span class="sc">+</span>needforclo19<span class="sc">+</span>(<span class="dv">10</span><span class="sc">-</span>needforclo20)<span class="sc">+</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>                       (<span class="dv">10</span><span class="sc">-</span>needforclo21)<span class="sc">+</span>(<span class="dv">10</span><span class="sc">-</span>needforclo22)<span class="sc">+</span>needforclo23<span class="sc">+</span>(<span class="dv">10</span><span class="sc">-</span>needforclo24)<span class="sc">+</span></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>                       (<span class="dv">10</span><span class="sc">-</span>needforclo25)<span class="sc">+</span>needforclo26<span class="sc">+</span>needforclo27<span class="sc">+</span>(<span class="dv">10</span><span class="sc">-</span>needforclo28)<span class="sc">+</span></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>                       needforclo29<span class="sc">+</span>needforclo30<span class="sc">+</span>(<span class="dv">10</span><span class="sc">-</span>needforclo31)<span class="sc">+</span>(<span class="dv">10</span><span class="sc">-</span>needforclo32)<span class="sc">+</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>                       needforclo33<span class="sc">+</span>needforclo34<span class="sc">+</span>needforclo35<span class="sc">+</span>(<span class="dv">10</span><span class="sc">-</span>needforclo36)<span class="sc">+</span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>                       needforclo37<span class="sc">+</span>(<span class="dv">10</span><span class="sc">-</span>needforclo38)<span class="sc">+</span>needforclo39<span class="sc">+</span>(<span class="dv">10</span><span class="sc">-</span>needforclo40)<span class="sc">+</span></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>                       (<span class="dv">10</span><span class="sc">-</span>needforclo41)<span class="sc">+</span>needforclo42)<span class="sc">/</span><span class="dv">42</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="data-preparation" class="level2">
@@ -770,287 +775,740 @@ cor7 -0.636777009250974 - -0.436258848944745</code></pre>
 <span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_anthro'</span>, <span class="st">'numdocu_anthro'</span>,</span>
 <span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_anthro'</span>)</span>
 <span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>expertise6_new[variables] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(expertise6_new[variables], </span>
-<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>                                    <span class="cf">function</span>(x) <span class="fu">ifelse</span>(<span class="fu">is.na</span>(x), <span class="dv">0</span>, <span class="fu">ifelse</span>(x<span class="sc">==</span><span class="st">'no'</span>,<span class="dv">0</span>,x)))</span>
-<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Missing values in the dataframe  ----</span></span>
-<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(<span class="fu">is.na</span>(expertise6_new), <span class="dv">2</span>, sum)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>                  ID                   ip             duration 
-                   0                    0                    0 
-           stih_food            r_ih_food          stih_sports 
-                   0                    0                    0 
-         r_ih_sports          stih_school          r_ih_school 
-                   0                    0                    0 
-      stih_architect       r_ih_architect         stih_product 
-                   0                    0                    0 
-        r_ih_product           stih_langu           r_ih_langu 
-                   0                    0                    0 
-        stih_network         r_ih_network          stih_anthro 
-                   0                    0                    0 
-         r_ih_anthro            know_food          know_sports 
-                   0                    0                    0 
-         know_school       know_architect         know_product 
-                   0                    0                    0 
-          know_langu         know_network          know_anthro 
-                   0                    0                    0 
-         course_food            high_food           colle_food 
-                   1                    0                    0 
-           grad_food            book_food         numbook_food 
-                   0                    0                    0 
-        article_food      numarticle_food         in_arti_food 
-                   0                    0                    0 
-      numinarti_food            docu_food         numdocu_food 
-                   0                    0                    0 
-          radio_food        numradio_food        course_sports 
-                   0                    0                    0 
-         high_sports         colle_sports          grad_sports 
-                   0                    0                    0 
-         book_sports       numbook_sports       article_sports 
-                   1                    0                    0 
-   numarticle_sports       in_arti_sports     numinarti_sports 
-                   0                    0                    0 
-         docu_sports       numdocu_sports         radio_sports 
-                   0                    0                    0 
-     numradio_sports        course_school          high_school 
-                   0                    0                    0 
-        colle_school          grad_school          book_school 
-                   0                    0                    0 
-      numbook_school       article_school    numarticle_school 
-                   0                    0                    0 
-      in_arti_school     numinarti_school          docu_school 
-                   0                    0                    0 
-      numdocu_school         radio_school      numradio_school 
-                   0                    0                    0 
-    course_architect       high_architect      colle_architect 
-                   1                    0                    0 
-      grad_architect       book_architect    numbook_architect 
-                   0                    0                    0 
-   article_architect numarticle_architect    in_arti_architect 
-                   0                    0                    0 
- numinarti_architect       docu_architect    numdocu_architect 
-                   0                    0                    0 
-     radio_architect   numradio_architect       course_product 
-                   0                    0                    0 
-        high_product        colle_product         grad_product 
-                   0                    0                    0 
-        book_product      numbook_product      article_product 
-                   0                    0                    1 
-  numarticle_product      in_arti_product    numinarti_product 
-                   0                    0                    0 
-        docu_product      numdocu_product        radio_product 
-                   2                    0                    1 
-    numradio_product         course_langu           high_langu 
-                   0                    0                    0 
-         colle_langu           grad_langu           book_langu 
-                   0                    0                    1 
-       numbook_langu        article_langu     numarticle_langu 
-                   0                    1                    0 
-       in_arti_langu      numinarti_langu           docu_langu 
-                   0                    0                    1 
-       numdocu_langu          radio_langu       numradio_langu 
-                   0                    0                    0 
-      course_network         high_network        colle_network 
-                   1                    0                    0 
-        grad_network         book_network      numbook_network 
-                   0                    0                    0 
-     article_network   numarticle_network      in_arti_network 
-                   1                    0                    1 
-   numinarti_network         docu_network      numdocu_network 
-                   0                    0                    0 
-       radio_network     numradio_network        course_anthro 
-                   1                    0                    0 
-         high_anthro         colle_anthro          grad_anthro 
-                   0                    0                    0 
-         book_anthro       numbook_anthro       article_anthro 
-                   2                    0                    1 
-   numarticle_anthro       in_arti_anthro     numinarti_anthro 
-                   0                    1                    0 
-         docu_anthro       numdocu_anthro         radio_anthro 
-                   1                    0                    2 
-     numradio_anthro          needforclo1          needforclo2 
-                   0                    0                    0 
-         needforclo3          needforclo4          needforclo5 
-                   0                    0                    0 
-         needforclo6          needforclo7          needforclo8 
-                   0                    0                    0 
-         needforclo9         needforclo10         needforclo11 
-                   0                    0                    1 
-        needforclo12         needforclo13         needforclo14 
-                   0                    0                    0 
-        needforclo15         needforclo16         needforclo17 
-                   0                    0                    0 
-        needforclo18         needforclo19         needforclo20 
-                   0                    0                    0 
-        needforclo21         needforclo22         needforclo23 
-                   0                    0                    0 
-        needforclo24         needforclo25         needforclo26 
-                   0                    0                    0 
-        needforclo27         needforclo28         needforclo29 
-                   0                    0                    0 
-        needforclo30         needforclo31         needforclo32 
-                   0                    0                    0 
-        needforclo33         needforclo34         needforclo35 
-                   0                    0                    0 
-        needforclo36         needforclo37         needforclo38 
-                   0                    0                    0 
-        needforclo39         needforclo40         needforclo41 
-                   0                    0                    0 
-        needforclo42                  sex            education 
-                   0                    0                    0 
-              income             religion             identity 
-                   3                    0                    1 
-                 age       political_atti        english_level 
-                   1                    0                    0 
-             ih_food            ih_sports            ih_school 
-                   0                    0                    0 
-        ih_architect           ih_product             ih_langu 
-                   0                    0                    0 
-          ih_network            ih_anthro           needforcog 
-                   0                    0                    1 </code></pre>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>expertise6_new <span class="ot">&lt;-</span> expertise6_new <span class="sc">%&gt;%</span></span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="fu">vars</span>(<span class="st">'know_food'</span>,<span class="st">'know_sports'</span>,<span class="st">'know_school'</span>,<span class="st">'know_architect'</span>,</span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'know_product'</span>,<span class="st">'know_langu'</span>,<span class="st">'know_network'</span>,<span class="st">'know_anthro'</span>,</span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_food'</span>, <span class="st">'colle_food'</span>, <span class="st">'grad_food'</span>,</span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_food'</span>,<span class="st">'numarticle_food'</span>,</span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_food'</span>, <span class="st">'numdocu_food'</span>,</span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_food'</span>,</span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_sports'</span>, <span class="st">'colle_sports'</span>, <span class="st">'grad_sports'</span>,</span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_sports'</span>,<span class="st">'numarticle_sports'</span>,</span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_sports'</span>, <span class="st">'numdocu_sports'</span>,</span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_sports'</span>,</span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_school'</span>, <span class="st">'colle_school'</span>, <span class="st">'grad_school'</span>,</span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_school'</span>,<span class="st">'numarticle_school'</span>,</span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_school'</span>,<span class="st">'numdocu_school'</span>,</span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_school'</span>,</span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_architect'</span>, <span class="st">'colle_architect'</span>,<span class="st">'grad_architect'</span>,</span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_architect'</span>,</span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numarticle_architect'</span>,</span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_architect'</span>, </span>
+<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numdocu_architect'</span>,</span>
+<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_architect'</span>,</span>
+<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_product'</span>, <span class="st">'colle_product'</span>, <span class="st">'grad_product'</span>,</span>
+<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_product'</span>,</span>
+<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numarticle_product'</span>,</span>
+<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a>                       <span class="st">'numinarti_product'</span>,<span class="st">'numdocu_product'</span>,</span>
+<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_product'</span>,</span>
+<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_langu'</span>, <span class="st">'colle_langu'</span>, <span class="st">'grad_langu'</span>,</span>
+<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_langu'</span>,<span class="st">'numarticle_langu'</span>,</span>
+<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_langu'</span>, <span class="st">'numdocu_langu'</span>,</span>
+<span id="cb12-69"><a href="#cb12-69" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_langu'</span>,</span>
+<span id="cb12-70"><a href="#cb12-70" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_network'</span>, <span class="st">'colle_network'</span>, <span class="st">'grad_network'</span>,</span>
+<span id="cb12-71"><a href="#cb12-71" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_network'</span>,<span class="st">'numarticle_network'</span>,</span>
+<span id="cb12-72"><a href="#cb12-72" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_network'</span>, <span class="st">'numdocu_network'</span>,</span>
+<span id="cb12-73"><a href="#cb12-73" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_network'</span>,</span>
+<span id="cb12-74"><a href="#cb12-74" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_anthro'</span>, <span class="st">'colle_anthro'</span>,<span class="st">'grad_anthro'</span>,</span>
+<span id="cb12-75"><a href="#cb12-75" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_anthro'</span>,<span class="st">'numarticle_anthro'</span>,</span>
+<span id="cb12-76"><a href="#cb12-76" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_anthro'</span>, <span class="st">'numdocu_anthro'</span>,</span>
+<span id="cb12-77"><a href="#cb12-77" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_anthro'</span>), as.numeric)</span>
+<span id="cb12-78"><a href="#cb12-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-79"><a href="#cb12-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-80"><a href="#cb12-80" aria-hidden="true" tabindex="-1"></a><span class="co">#expertise6_new[variables] &lt;- lapply(expertise6_new[variables], </span></span>
+<span id="cb12-81"><a href="#cb12-81" aria-hidden="true" tabindex="-1"></a>                                    <span class="co">#function(x) ifelse(is.na(x), 0, ifelse(x=='no',0, x)))</span></span>
+<span id="cb12-82"><a href="#cb12-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-83"><a href="#cb12-83" aria-hidden="true" tabindex="-1"></a>expertise6_new[variables] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(expertise6_new[variables], <span class="cf">function</span>(x) <span class="fu">replace</span>(x, <span class="fu">is.na</span>(x) <span class="sc">|</span> <span class="sc">!</span><span class="fu">is.numeric</span>(x) , <span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Expertise Ready Df ----</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create new data frame as analyzable </span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>expertise6_new<span class="ot">&lt;-</span>expertise6_new<span class="sc">%&gt;%</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>stih_food,<span class="sc">-</span>r_ih_food,<span class="sc">-</span>stih_sports,<span class="sc">-</span>r_ih_sports,</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>stih_school,<span class="sc">-</span>r_ih_school,<span class="sc">-</span>stih_architect,<span class="sc">-</span>r_ih_architect,</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>stih_product,<span class="sc">-</span>r_ih_product,</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>stih_langu,<span class="sc">-</span>r_ih_langu,<span class="sc">-</span>stih_network,<span class="sc">-</span>r_ih_network,</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>stih_anthro,<span class="sc">-</span>r_ih_anthro,</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>course_food,</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>book_food,<span class="sc">-</span>article_food,</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>course_sports,</span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>book_sports,<span class="sc">-</span>article_sports,</span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>course_school,</span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>book_school,<span class="sc">-</span>article_school,</span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>course_architect,</span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>book_architect,<span class="sc">-</span>article_architect,</span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>course_product,</span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>book_product,<span class="sc">-</span>article_product,</span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>course_langu,</span>
-<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>book_langu,<span class="sc">-</span>article_langu,</span>
-<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>course_network,</span>
-<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>book_network,<span class="sc">-</span>article_network,</span>
-<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>course_anthro,</span>
-<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>book_anthro,<span class="sc">-</span>article_anthro,</span>
-<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>        <span class="sc">-</span>needforclo1,<span class="sc">-</span>needforclo2,<span class="sc">-</span>needforclo3,<span class="sc">-</span>needforclo4,<span class="sc">-</span>needforclo5,</span>
-<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>        <span class="sc">-</span>needforclo6,<span class="sc">-</span>needforclo7,<span class="sc">-</span>needforclo8,<span class="sc">-</span>needforclo9,<span class="sc">-</span>needforclo10,</span>
-<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>        <span class="sc">-</span>needforclo11,<span class="sc">-</span>needforclo12,<span class="sc">-</span>needforclo13,<span class="sc">-</span>needforclo14,<span class="sc">-</span>needforclo15,</span>
-<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>        <span class="sc">-</span>needforclo16,<span class="sc">-</span>needforclo17,<span class="sc">-</span>needforclo18,<span class="sc">-</span>needforclo19,<span class="sc">-</span>needforclo20,</span>
-<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>        <span class="sc">-</span>needforclo21,<span class="sc">-</span>needforclo22,<span class="sc">-</span>needforclo23,<span class="sc">-</span>needforclo24,<span class="sc">-</span>needforclo25,</span>
-<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>        <span class="sc">-</span>needforclo26,<span class="sc">-</span> needforclo27,<span class="sc">-</span>needforclo28,<span class="sc">-</span>needforclo29,<span class="sc">-</span>needforclo30,</span>
-<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>        <span class="sc">-</span>needforclo31,<span class="sc">-</span>needforclo32,<span class="sc">-</span>needforclo33,<span class="sc">-</span>needforclo34,<span class="sc">-</span>needforclo35,</span>
-<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>        <span class="sc">-</span>needforclo36,<span class="sc">-</span>needforclo37,<span class="sc">-</span>needforclo38,<span class="sc">-</span>needforclo39,<span class="sc">-</span>needforclo40,</span>
-<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>        <span class="sc">-</span>needforclo41,<span class="sc">-</span>needforclo42)</span>
-<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a><span class="co"># change the data type of the variables to numeric</span></span>
-<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>expertise6_new <span class="ot">&lt;-</span> expertise6_new <span class="sc">%&gt;%</span></span>
-<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="fu">vars</span>(<span class="st">'know_food'</span>,<span class="st">'know_sports'</span>,<span class="st">'know_school'</span>,<span class="st">'know_architect'</span>,</span>
-<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'know_product'</span>,<span class="st">'know_langu'</span>,<span class="st">'know_network'</span>,<span class="st">'know_anthro'</span>,</span>
-<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_food'</span>, <span class="st">'colle_food'</span>, <span class="st">'grad_food'</span>,</span>
-<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_food'</span>,<span class="st">'numarticle_food'</span>,</span>
-<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_food'</span>, <span class="st">'numdocu_food'</span>,</span>
-<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_food'</span>,</span>
-<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_sports'</span>, <span class="st">'colle_sports'</span>, <span class="st">'grad_sports'</span>,</span>
-<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_sports'</span>,<span class="st">'numarticle_sports'</span>,</span>
-<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_sports'</span>, <span class="st">'numdocu_sports'</span>,</span>
-<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_sports'</span>,</span>
-<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_school'</span>, <span class="st">'colle_school'</span>, <span class="st">'grad_school'</span>,</span>
-<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_school'</span>,<span class="st">'numarticle_school'</span>,</span>
-<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_school'</span>,<span class="st">'numdocu_school'</span>,</span>
-<span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_school'</span>,</span>
-<span id="cb14-53"><a href="#cb14-53" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_architect'</span>, <span class="st">'colle_architect'</span>,<span class="st">'grad_architect'</span>,</span>
-<span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_architect'</span>,</span>
-<span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numarticle_architect'</span>,</span>
-<span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_architect'</span>, </span>
-<span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numdocu_architect'</span>,</span>
-<span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_architect'</span>,</span>
-<span id="cb14-59"><a href="#cb14-59" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_product'</span>, <span class="st">'colle_product'</span>, <span class="st">'grad_product'</span>,</span>
-<span id="cb14-60"><a href="#cb14-60" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_product'</span>,</span>
-<span id="cb14-61"><a href="#cb14-61" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numarticle_product'</span>,</span>
-<span id="cb14-62"><a href="#cb14-62" aria-hidden="true" tabindex="-1"></a>                       <span class="st">'numinarti_product'</span>,<span class="st">'numdocu_product'</span>,</span>
-<span id="cb14-63"><a href="#cb14-63" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_product'</span>,</span>
-<span id="cb14-64"><a href="#cb14-64" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_langu'</span>, <span class="st">'colle_langu'</span>, <span class="st">'grad_langu'</span>,</span>
-<span id="cb14-65"><a href="#cb14-65" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_langu'</span>,<span class="st">'numarticle_langu'</span>,</span>
-<span id="cb14-66"><a href="#cb14-66" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_langu'</span>, <span class="st">'numdocu_langu'</span>,</span>
-<span id="cb14-67"><a href="#cb14-67" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_langu'</span>,</span>
-<span id="cb14-68"><a href="#cb14-68" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_network'</span>, <span class="st">'colle_network'</span>, <span class="st">'grad_network'</span>,</span>
-<span id="cb14-69"><a href="#cb14-69" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_network'</span>,<span class="st">'numarticle_network'</span>,</span>
-<span id="cb14-70"><a href="#cb14-70" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_network'</span>, <span class="st">'numdocu_network'</span>,</span>
-<span id="cb14-71"><a href="#cb14-71" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_network'</span>,</span>
-<span id="cb14-72"><a href="#cb14-72" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_anthro'</span>, <span class="st">'colle_anthro'</span>,<span class="st">'grad_anthro'</span>,</span>
-<span id="cb14-73"><a href="#cb14-73" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_anthro'</span>,<span class="st">'numarticle_anthro'</span>,</span>
-<span id="cb14-74"><a href="#cb14-74" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_anthro'</span>, <span class="st">'numdocu_anthro'</span>,</span>
-<span id="cb14-75"><a href="#cb14-75" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_anthro'</span>), as.numeric)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="detect-the-id-of-missing-values-of-expertise-scores" class="level2">
+<h2 class="anchored" data-anchor-id="detect-the-id-of-missing-values-of-expertise-scores">Detect the ID of missing values of expertise scores</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>missing_ids <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">mapply</span>(<span class="cf">function</span>(x) expertise6_new<span class="sc">$</span>ID[<span class="fu">which</span>(<span class="fu">is.na</span>(expertise6_new[x]))], <span class="fu">c</span>(<span class="st">'know_food'</span>,<span class="st">'know_sports'</span>,<span class="st">'know_school'</span>,<span class="st">'know_architect'</span>,</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'know_product'</span>,<span class="st">'know_langu'</span>,<span class="st">'know_network'</span>,<span class="st">'know_anthro'</span>,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_food'</span>, <span class="st">'colle_food'</span>, <span class="st">'grad_food'</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_food'</span>,<span class="st">'numarticle_food'</span>,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_food'</span>, <span class="st">'numdocu_food'</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_food'</span>,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_sports'</span>, <span class="st">'colle_sports'</span>, <span class="st">'grad_sports'</span>,</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_sports'</span>,<span class="st">'numarticle_sports'</span>,</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_sports'</span>, <span class="st">'numdocu_sports'</span>,</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_sports'</span>,</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_school'</span>, <span class="st">'colle_school'</span>, <span class="st">'grad_school'</span>,</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_school'</span>,<span class="st">'numarticle_school'</span>,</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_school'</span>,<span class="st">'numdocu_school'</span>,</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_school'</span>,</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_architect'</span>, <span class="st">'colle_architect'</span>,<span class="st">'grad_architect'</span>,</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_architect'</span>,</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numarticle_architect'</span>,</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_architect'</span>, </span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numdocu_architect'</span>,</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_architect'</span>,</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_product'</span>, <span class="st">'colle_product'</span>, <span class="st">'grad_product'</span>,</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_product'</span>,</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numarticle_product'</span>,</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>                       <span class="st">'numinarti_product'</span>,<span class="st">'numdocu_product'</span>,</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_product'</span>,</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_langu'</span>, <span class="st">'colle_langu'</span>, <span class="st">'grad_langu'</span>,</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_langu'</span>,<span class="st">'numarticle_langu'</span>,</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_langu'</span>, <span class="st">'numdocu_langu'</span>,</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_langu'</span>,</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_network'</span>, <span class="st">'colle_network'</span>, <span class="st">'grad_network'</span>,</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_network'</span>,<span class="st">'numarticle_network'</span>,</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_network'</span>, <span class="st">'numdocu_network'</span>,</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_network'</span>,</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_anthro'</span>, <span class="st">'colle_anthro'</span>,<span class="st">'grad_anthro'</span>,</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_anthro'</span>,<span class="st">'numarticle_anthro'</span>,</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_anthro'</span>, <span class="st">'numdocu_anthro'</span>,</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_anthro'</span>)))</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">ifelse</span>(<span class="fu">length</span>(missing_ids[missing_ids <span class="sc">&gt;</span> <span class="dv">0</span>]) <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="fu">paste</span>(<span class="st">"The following IDs are missing:"</span>,missing_ids[missing_ids <span class="sc">!=</span> <span class="dv">0</span>]), <span class="st">"There is no missing IDs."</span>),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>There is no missing IDs. </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Expertise Ready Df ----</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">#','high_food','colle_food','grad_food','numbook_food','numarticle_food','numinarti_food','numdocu_food','numradio_food','high_sports','colle_sports','grad_sports','numbook_sports','numarticle_sports','numinarti_sports','numdocu_sports','numradio_sports','high_school','colle_school','grad_school','numbook_school','numarticle_school','numinarti_school','numdocu_school','numradio_school','high_architect','colle_architect','grad_architect','numbook_architect','numarticle_architect','numinarti_architect','numdocu_architect','numradio_architect','high_product','colle_product','grad_product','numbook_product','numarticle_product','numinarti_product','numdocu_product','numradio_product','high_langu','colle_langu','grad_langu','numbook_langu','numarticle_langu','numinarti_langu','numdocu_langu','numradio_langu','high_network','colle_network','grad_network','numbook_network','numarticle_network','numinarti_network','numdocu_network','numradio_network','high_anthro','colle_anthro','grad_anthro','numbook_anthro','numarticle_anthro','numinarti_anthro','numdocu_anthro','numradio_anthro</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># change the data type of the variables to numeric</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>expertise6_new<span class="ot">&lt;-</span>expertise6_new<span class="sc">%&gt;%</span><span class="fu">mutate_at</span>(<span class="fu">vars</span>(<span class="st">'know_food'</span>,<span class="st">'know_sports'</span>,<span class="st">'know_school'</span>,<span class="st">'know_architect'</span>,<span class="st">'know_product'</span>,<span class="st">'know_langu'</span>,<span class="st">'know_network'</span>,<span class="st">'know_anthro'</span>),as.numeric)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="long-format" class="level2">
 <h2 class="anchored" data-anchor-id="long-format">Long format</h2>
 <p>Long format of expertise dataset for factor analysis</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">'reshape2'</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>expertise6_factor <span class="ot">&lt;-</span> <span class="fu">melt</span>(expertise6_new, <span class="at">id.vars =</span> <span class="fu">c</span>(<span class="st">"ID"</span>,<span class="st">'duration'</span>,<span class="st">"sex"</span> ,<span class="st">"education"</span> ,<span class="st">"income"</span>,<span class="st">"religion"</span>,<span class="st">'identity'</span>,<span class="st">'age'</span>,<span class="st">'political_atti'</span>,<span class="st">'english_level'</span>,<span class="st">'needforcog'</span>), </span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">measure.vars =</span> <span class="fu">c</span>(<span class="st">"ih_food"</span>, <span class="st">"ih_sports"</span>,<span class="st">"ih_school"</span>,                                <span class="st">"ih_architect"</span>,<span class="st">"ih_product"</span>,<span class="st">"ih_langu"</span>,<span class="st">"ih_network"</span>,<span class="st">"ih_anthro"</span>,</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>                       <span class="st">'know_food'</span>,<span class="st">'know_sports'</span>,<span class="st">'know_school'</span>,<span class="st">'know_architect'</span>,</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'know_product'</span>,<span class="st">'know_langu'</span>,<span class="st">'know_network'</span>,<span class="st">'know_anthro'</span>,</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_food'</span>, <span class="st">'colle_food'</span>, <span class="st">'grad_food'</span>,</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_food'</span>,<span class="st">'numarticle_food'</span>,</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_food'</span>, <span class="st">'numdocu_food'</span>,</span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_food'</span>,</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_sports'</span>, <span class="st">'colle_sports'</span>, <span class="st">'grad_sports'</span>,</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_sports'</span>,<span class="st">'numarticle_sports'</span>,</span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_sports'</span>, <span class="st">'numdocu_sports'</span>,</span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_sports'</span>,</span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_school'</span>, <span class="st">'colle_school'</span>, <span class="st">'grad_school'</span>,</span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_school'</span>,<span class="st">'numarticle_school'</span>,</span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_school'</span>,<span class="st">'numdocu_school'</span>,</span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_school'</span>,</span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_architect'</span>, <span class="st">'colle_architect'</span>,<span class="st">'grad_architect'</span>,</span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_architect'</span>,</span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numarticle_architect'</span>,</span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_architect'</span>, </span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numdocu_architect'</span>,</span>
-<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_architect'</span>,</span>
-<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_product'</span>, <span class="st">'colle_product'</span>, <span class="st">'grad_product'</span>,</span>
-<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_product'</span>,</span>
-<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numarticle_product'</span>,</span>
-<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>                       <span class="st">'numinarti_product'</span>,<span class="st">'numdocu_product'</span>,</span>
-<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_product'</span>,</span>
-<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_langu'</span>, <span class="st">'colle_langu'</span>, <span class="st">'grad_langu'</span>,</span>
-<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_langu'</span>,<span class="st">'numarticle_langu'</span>,</span>
-<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_langu'</span>, <span class="st">'numdocu_langu'</span>,</span>
-<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_langu'</span>,</span>
-<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_network'</span>, <span class="st">'colle_network'</span>, <span class="st">'grad_network'</span>,</span>
-<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_network'</span>,<span class="st">'numarticle_network'</span>,</span>
-<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_network'</span>, <span class="st">'numdocu_network'</span>,</span>
-<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_network'</span>,</span>
-<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_anthro'</span>, <span class="st">'colle_anthro'</span>,<span class="st">'grad_anthro'</span>,</span>
-<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_anthro'</span>,<span class="st">'numarticle_anthro'</span>,</span>
-<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_anthro'</span>, <span class="st">'numdocu_anthro'</span>,</span>
-<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_anthro'</span>),</span>
-<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sep =</span> <span class="st">"_"</span>, <span class="at">variable.name =</span> <span class="st">"Category"</span>, <span class="at">value.name =</span> <span class="st">"Score"</span>)</span>
-<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Split the Category column into two columns based on the underscore separator</span></span>
-<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a>expertise6_factor <span class="ot">&lt;-</span> expertise6_factor <span class="sc">%&gt;%</span> <span class="fu">separate</span>(Category, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"Category"</span>, <span class="st">"Score_Type"</span>), <span class="at">sep =</span> <span class="st">"_"</span>)</span>
-<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a><span class="do">## spread the data from long to wide format  ----</span></span>
-<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a>expertise6_fact <span class="ot">&lt;-</span> expertise6_factor <span class="sc">%&gt;%</span> <span class="fu">spread</span>(Category, Score)</span>
-<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a><span class="co"># change the score type to a factor</span></span>
-<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a>expertise6_fact<span class="sc">$</span>Score_Type<span class="ot">&lt;-</span><span class="fu">as.factor</span>(expertise6_fact<span class="sc">$</span>Score_Type)</span>
-<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a><span class="co"># convert the column ih to numeric</span></span>
-<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a>expertise6_fact<span class="sc">$</span>ih<span class="ot">&lt;-</span><span class="fu">as.numeric</span>(expertise6_fact<span class="sc">$</span>ih)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>expertise6_factor <span class="ot">&lt;-</span> <span class="fu">melt</span>(expertise6_new, <span class="at">id.vars =</span> <span class="fu">c</span>(<span class="st">"ID"</span>,<span class="st">'duration'</span>,<span class="st">"sex"</span> ,<span class="st">"education"</span> ,<span class="st">"income"</span>,<span class="st">"religion"</span>,<span class="st">'identity'</span>,<span class="st">'age'</span>,<span class="st">'political_atti'</span>,<span class="st">'english_level'</span>,<span class="st">'needforclo'</span>), </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">measure.vars =</span> <span class="fu">c</span>(<span class="st">"ih_food"</span>, <span class="st">"ih_sports"</span>,<span class="st">"ih_school"</span>,<span class="st">"ih_architect"</span>,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">"ih_product"</span>,<span class="st">"ih_langu"</span>,<span class="st">"ih_network"</span>,<span class="st">"ih_anthro"</span>,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>                       <span class="st">'know_food'</span>,<span class="st">'know_sports'</span>,<span class="st">'know_school'</span>,<span class="st">'know_architect'</span>,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'know_product'</span>,<span class="st">'know_langu'</span>,<span class="st">'know_network'</span>,<span class="st">'know_anthro'</span>,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_food'</span>, <span class="st">'colle_food'</span>, <span class="st">'grad_food'</span>,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_food'</span>,<span class="st">'numarticle_food'</span>,</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_food'</span>, <span class="st">'numdocu_food'</span>,</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_food'</span>,</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_sports'</span>, <span class="st">'colle_sports'</span>, <span class="st">'grad_sports'</span>,</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_sports'</span>,<span class="st">'numarticle_sports'</span>,</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_sports'</span>, <span class="st">'numdocu_sports'</span>,</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_sports'</span>,</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_school'</span>, <span class="st">'colle_school'</span>, <span class="st">'grad_school'</span>,</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_school'</span>,<span class="st">'numarticle_school'</span>,</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_school'</span>,<span class="st">'numdocu_school'</span>,</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_school'</span>,</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_architect'</span>, <span class="st">'colle_architect'</span>,<span class="st">'grad_architect'</span>,</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_architect'</span>,</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numarticle_architect'</span>,</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_architect'</span>, </span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numdocu_architect'</span>,</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_architect'</span>,</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_product'</span>, <span class="st">'colle_product'</span>, <span class="st">'grad_product'</span>,</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_product'</span>,</span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numarticle_product'</span>,</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>                       <span class="st">'numinarti_product'</span>,<span class="st">'numdocu_product'</span>,</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_product'</span>,</span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_langu'</span>, <span class="st">'colle_langu'</span>, <span class="st">'grad_langu'</span>,</span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_langu'</span>,<span class="st">'numarticle_langu'</span>,</span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_langu'</span>, <span class="st">'numdocu_langu'</span>,</span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_langu'</span>,</span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_network'</span>, <span class="st">'colle_network'</span>, <span class="st">'grad_network'</span>,</span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_network'</span>,<span class="st">'numarticle_network'</span>,</span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_network'</span>, <span class="st">'numdocu_network'</span>,</span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_network'</span>,</span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'high_anthro'</span>, <span class="st">'colle_anthro'</span>,<span class="st">'grad_anthro'</span>,</span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numbook_anthro'</span>,<span class="st">'numarticle_anthro'</span>,</span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numinarti_anthro'</span>, <span class="st">'numdocu_anthro'</span>,</span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'numradio_anthro'</span>),</span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sep =</span> <span class="st">"_"</span>, <span class="at">variable.name =</span> <span class="st">"Category"</span>, <span class="at">value.name =</span> <span class="st">"Score"</span>)</span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Split the Category column into two columns based on the underscore separator</span></span>
+<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a>expertise6_factor <span class="ot">&lt;-</span> expertise6_factor <span class="sc">%&gt;%</span> <span class="fu">separate</span>(Category, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"Category"</span>, <span class="st">"Score_Type"</span>), <span class="at">sep =</span> <span class="st">"_"</span>)</span>
+<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a><span class="do">## spread the data from long to wide format  ----</span></span>
+<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a>expertise6_fact <span class="ot">&lt;-</span> expertise6_factor <span class="sc">%&gt;%</span> <span class="fu">spread</span>(Category, Score)</span>
+<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a><span class="co"># change the score type to a factor</span></span>
+<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a>expertise6_fact<span class="sc">$</span>Score_Type<span class="ot">&lt;-</span><span class="fu">as.factor</span>(expertise6_fact<span class="sc">$</span>Score_Type)</span>
+<span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a><span class="co"># convert the column ih to numeric</span></span>
+<span id="cb16-53"><a href="#cb16-53" aria-hidden="true" tabindex="-1"></a>expertise6_fact<span class="sc">$</span>ih<span class="ot">&lt;-</span><span class="fu">as.numeric</span>(expertise6_fact<span class="sc">$</span>ih)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>###Create another data frame to winsorize expertise variables before factor analysis</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>expertise6_wins_fact<span class="ot">&lt;-</span>expertise6_fact</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>expertise6_wins_fact<span class="ot">&lt;-</span>expertise6_fact</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="winsorize-the-variables-at-1" class="level2">
+<h2 class="anchored" data-anchor-id="winsorize-the-variables-at-1">Winsorize the variables at 1%</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># winsorize the variables (at 1%)</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>expertise6_fact1 <span class="ot">&lt;-</span> expertise6_fact<span class="sc">%&gt;%</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">numarticle=</span><span class="fu">Winsorize</span>(numarticle, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.99</span>)), </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">numbook=</span><span class="fu">Winsorize</span>(numbook, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.99</span>)),</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">high=</span><span class="fu">Winsorize</span>(high, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.99</span>)),</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">colle=</span><span class="fu">Winsorize</span>(colle, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.99</span>)),</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">grad=</span><span class="fu">Winsorize</span>(grad,<span class="at">na.rm=</span><span class="cn">TRUE</span>, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.99</span>)),</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">numdocu=</span><span class="fu">Winsorize</span>(numdocu,<span class="at">na.rm=</span><span class="cn">TRUE</span>, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.99</span>)),</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">numinarti=</span><span class="fu">Winsorize</span>(numinarti,<span class="at">na.rm=</span><span class="cn">TRUE</span>, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.99</span>)),</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">numradio=</span><span class="fu">Winsorize</span>(numradio,<span class="at">na.rm=</span><span class="cn">TRUE</span>, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.99</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="factor-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="factor-analysis">Factor analysis</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Factor analysis for expertise variables with raw scores ----</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Import packages </span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych) <span class="co">#PCA/EFA analysis</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(REdaS) <span class="co">#Produces KMO and Bartletts test</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: grid</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GPArotation)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a new dataframe that include only related variables</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>factor_exp<span class="ot">&lt;-</span>expertise6_fact1<span class="sc">%&gt;%</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(colle, grad, high, numarticle, numbook, numdocu, numinarti, numradio)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Check missing values</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(<span class="fu">is.na</span>(factor_exp), <span class="dv">2</span>, sum)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     colle       grad       high numarticle    numbook    numdocu  numinarti 
+         0          0          0          0          0          0          0 
+  numradio 
+         0 </code></pre>
+</div>
+</div>
+<p>Factor analysis for expertise variables with raw scores</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Since grad classes for TV category is missing (nobody takes any class in the sample), listwise deletion is applied here.</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bart_spher</span>(factor_exp, <span class="at">use =</span> <span class="st">"complete.obs"</span>) <span class="do">###### produces Bartletts test of spherecity </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Bartlett's Test of Sphericity
+
+Call: bart_spher(x = factor_exp, use = "complete.obs")
+
+     X2 = 3334.573
+     df = 28
+p-value &lt; 2.22e-16</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">KMO</span>(factor_exp)       <span class="do">###### Kaiser-Meyer-Olkin measure, which is above .5.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Kaiser-Meyer-Olkin factor adequacy
+Call: KMO(r = factor_exp)
+Overall MSA =  0.79
+MSA for each item = 
+     colle       grad       high numarticle    numbook    numdocu  numinarti 
+      0.77       0.83       0.70       0.79       0.81       0.83       0.77 
+  numradio 
+      0.84 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Check eigenvalues</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">fa.parallel</span>(factor_exp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Parallel analysis suggests that the number of factors =  3  and the number of components =  2 </code></pre>
+</div>
+</div>
+<section id="factor-analysis-1" class="level3">
+<h3 class="anchored" data-anchor-id="factor-analysis-1">Factor analysis</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># So we can reduce it to 2 factors</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fa</span>(factor_exp, <span class="at">nfactors =</span> <span class="dv">2</span>, <span class="at">rotate =</span>  <span class="st">"oblimin"</span> )  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Factor Analysis using method =  minres
+Call: fa(r = factor_exp, nfactors = 2, rotate = "oblimin")
+Standardized loadings (pattern matrix) based upon correlation matrix
+             MR1   MR2   h2   u2 com
+colle      -0.04  0.83 0.66 0.34 1.0
+grad        0.09  0.35 0.16 0.84 1.1
+high       -0.03  0.40 0.15 0.85 1.0
+numarticle  0.77  0.06 0.63 0.37 1.0
+numbook     0.44  0.47 0.62 0.38 2.0
+numdocu     0.58 -0.06 0.30 0.70 1.0
+numinarti   0.89 -0.04 0.76 0.24 1.0
+numradio    0.30  0.04 0.10 0.90 1.0
+
+                       MR1  MR2
+SS loadings           2.10 1.30
+Proportion Var        0.26 0.16
+Cumulative Var        0.26 0.42
+Proportion Explained  0.62 0.38
+Cumulative Proportion 0.62 1.00
+
+ With factor correlations of 
+     MR1  MR2
+MR1 1.00 0.49
+MR2 0.49 1.00
+
+Mean item complexity =  1.2
+Test of the hypothesis that 2 factors are sufficient.
+
+The degrees of freedom for the null model are  28  and the objective function was  2.18 with Chi Square of  3334.57
+The degrees of freedom for the model are 13  and the objective function was  0.08 
+
+The root mean square of the residuals (RMSR) is  0.03 
+The df corrected root mean square of the residuals is  0.05 
+
+The harmonic number of observations is  1536 with the empirical chi square  90.74  with prob &lt;  1e-13 
+The total number of observations was  1536  with Likelihood Chi Square =  123.66  with prob &lt;  3.8e-20 
+
+Tucker Lewis Index of factoring reliability =  0.928
+RMSEA index =  0.074  and the 90 % confidence intervals are  0.063 0.087
+BIC =  28.27
+Fit based upon off diagonal values = 0.99
+Measures of factor score adequacy             
+                                                   MR1  MR2
+Correlation of (regression) scores with factors   0.93 0.88
+Multiple R square of scores with factors          0.87 0.77
+Minimum correlation of possible factor scores     0.73 0.54</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Figure for the analysis</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>M1<span class="ot">&lt;-</span><span class="fu">fa</span>(factor_exp, <span class="at">nfactors =</span> <span class="dv">2</span>, <span class="at">rotate =</span>  <span class="st">"oblimin"</span> ) <span class="do">##save the analysis as the object m1</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="fu">fa.diagram</span>(M1,<span class="at">main=</span><span class="st">"Expertise Variables"</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>So here we have two factors and we can investigate them as classes and media-literature part, let’s extract values for now, but creating these categories with averaging related variables may be a better way for the sake of conceptual understanding.</p>
+</section>
+<section id="extracting-factor-values" class="level3">
+<h3 class="anchored" data-anchor-id="extracting-factor-values">Extracting factor values</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>factor_exp_score <span class="ot">&lt;-</span> <span class="fu">factanal</span>(factor_exp, <span class="at">factors=</span><span class="dv">2</span>, <span class="at">scores=</span><span class="st">"regression"</span>, <span class="at">rotation =</span> <span class="st">"oblimin"</span>, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(factor_exp_score<span class="sc">$</span>scores)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Factor1    Factor2
+[1,]  0.02119905 -0.4233947
+[2,]  0.22119338 -0.4679913
+[3,] -0.14582577 -0.3159511
+[4,]  0.17926929 -0.5193750
+[5,] -0.26945985 -0.2581370
+[6,]  0.82731651 -0.4607261</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>factor_exp_comb <span class="ot">&lt;-</span> <span class="fu">bind_cols</span>(factor_exp, <span class="fu">data.frame</span>(factor_exp_score<span class="sc">$</span>scores))</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>factor_exp_comb<span class="sc">$</span>class<span class="ot">&lt;-</span>factor_exp_comb<span class="sc">$</span>Factor1</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>factor_exp_comb<span class="sc">$</span>media_grad<span class="ot">&lt;-</span>factor_exp_comb<span class="sc">$</span>Factor2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="histogram-and-descriptives-for-factor-scores" class="level3">
+<h3 class="anchored" data-anchor-id="histogram-and-descriptives-for-factor-scores">Histogram and descriptives for factor scores</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">descriptives</span>(<span class="at">dat=</span>factor_exp_comb, <span class="fu">vars</span>(Factor1, Factor2),</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">sd=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ DESCRIPTIVES
+
+ Descriptives                                            
+ ─────────────────────────────────────────────────────── 
+                         Factor1          Factor2        
+ ─────────────────────────────────────────────────────── 
+   N                              1536            1536   
+   Missing                           0               0   
+   Mean                  -5.305905e-16    8.812395e-16   
+   Median                   -0.2694598      -0.2581370   
+   Standard deviation        0.9977506       0.9220806   
+   Minimum                   -2.856278       -3.778751   
+   Maximum                    7.978103        6.476149   
+ ─────────────────────────────────────────────────────── </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(factor_exp_comb<span class="sc">$</span>Factor1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(factor_exp_comb<span class="sc">$</span>Factor2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="winsorize-the-variables-at-1-1" class="level2">
+<h2 class="anchored" data-anchor-id="winsorize-the-variables-at-1-1">Winsorize the variables at 1%</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># winsorize the variables (at 1%)</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>expertise6_ready <span class="ot">&lt;-</span> expertise6_fact<span class="sc">%&gt;%</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">numarticle_wins_1=</span><span class="fu">Winsorize</span>(numarticle, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.99</span>)), </span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">numbook_wins_1=</span><span class="fu">Winsorize</span>(numbook, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.99</span>)),</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">high_wins_1=</span><span class="fu">Winsorize</span>(high, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.99</span>)),</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">colle_wins_1=</span><span class="fu">Winsorize</span>(colle, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.99</span>)),</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">grad_wins_1=</span><span class="fu">Winsorize</span>(grad,<span class="at">na.rm=</span><span class="cn">TRUE</span>, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.99</span>)),</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">docu_wins_1=</span><span class="fu">Winsorize</span>(numdocu,<span class="at">na.rm=</span><span class="cn">TRUE</span>, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.99</span>)),</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">inarti_wins_1=</span><span class="fu">Winsorize</span>(numinarti,<span class="at">na.rm=</span><span class="cn">TRUE</span>, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.99</span>)),</span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">radio_wins_1=</span><span class="fu">Winsorize</span>(numradio,<span class="at">na.rm=</span><span class="cn">TRUE</span>, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.99</span>)))</span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a><span class="co">#check descriptives</span></span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a><span class="fu">descriptives</span>(<span class="at">dat=</span>expertise6_ready, <span class="fu">vars</span>(docu_wins_1,inarti_wins_1, radio_wins_1 ), <span class="at">median=</span>F, <span class="at">n=</span>F, <span class="at">missing=</span>T, <span class="at">sd=</span>T, <span class="at">skew =</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ DESCRIPTIVES
+
+ Descriptives                                                            
+ ─────────────────────────────────────────────────────────────────────── 
+                          docu_wins_1    inarti_wins_1    radio_wins_1   
+ ─────────────────────────────────────────────────────────────────────── 
+   Missing                          0                0               0   
+   Mean                      2.194010         9.023438       0.7988281   
+   Standard deviation        5.699259         26.33146        2.767993   
+   Minimum                   0.000000         0.000000        0.000000   
+   Maximum                   38.25000         191.2500        20.00000   
+   Skewness                  4.286225         4.959908        5.015617   
+   Std. error skewness     0.06243908       0.06243908      0.06243908   
+ ─────────────────────────────────────────────────────────────────────── </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">descriptives</span>(<span class="at">dat=</span>expertise6_ready, <span class="fu">vars</span>(high_wins_1, colle_wins_1), <span class="at">median=</span>F, <span class="at">n=</span>F, <span class="at">missing=</span>T, <span class="at">sd=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ DESCRIPTIVES
+
+ Descriptives                                          
+ ───────────────────────────────────────────────────── 
+                         high_wins_1    colle_wins_1   
+ ───────────────────────────────────────────────────── 
+   Missing                         0               0   
+   Mean                    0.3147135       0.5794271   
+   Standard deviation      0.8859480        1.522536   
+   Minimum                  0.000000        0.000000   
+   Maximum                  4.650000        10.00000   
+ ───────────────────────────────────────────────────── </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">descriptives</span>(<span class="at">dat=</span>expertise6_ready, <span class="fu">vars</span>(numarticle_wins_1, numbook_wins_1, grad_wins_1), <span class="at">median=</span>F, <span class="at">n=</span>F, <span class="at">missing=</span>T, <span class="at">sd=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ DESCRIPTIVES
+
+ Descriptives                                                                 
+ ──────────────────────────────────────────────────────────────────────────── 
+                         numarticle_wins_1    numbook_wins_1    grad_wins_1   
+ ──────────────────────────────────────────────────────────────────────────── 
+   Missing                               0                 0              0   
+   Mean                           5.916667          1.592448     0.07291667   
+   Standard deviation             16.05380          4.371575      0.4732818   
+   Minimum                        0.000000          0.000000       0.000000   
+   Maximum                        100.0000          30.00000       4.000000   
+ ──────────────────────────────────────────────────────────────────────────── </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Standardize the Selected variables  ----</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>vars_to_standardize <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"know"</span>, <span class="st">"docu_wins_1"</span>,<span class="st">"inarti_wins_1"</span>, <span class="st">"radio_wins_1"</span>,<span class="st">"high_wins_1"</span>, <span class="st">"colle_wins_1"</span>,</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"numarticle_wins_1"</span>, <span class="st">"numbook_wins_1"</span>, <span class="st">"grad_wins_1"</span>)</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>expertise6_ready<span class="ot">&lt;-</span>expertise6_ready <span class="sc">%&gt;%</span> </span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Score_Type) <span class="sc">%&gt;%</span> </span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="fu">vars</span>(vars_to_standardize), scale)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(expertise6_ready<span class="sc">$</span>grad_wins_1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 384</code></pre>
+</div>
+</div>
+</section>
+<section id="take-the-means-of-winsorized-variables-to-create-our-new-categories-media-and-class" class="level2">
+<h2 class="anchored" data-anchor-id="take-the-means-of-winsorized-variables-to-create-our-new-categories-media-and-class">Take the means of winsorized variables to create our new categories: media and class</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>expertise6_ready <span class="ot">&lt;-</span> expertise6_ready <span class="sc">%&gt;%</span> <span class="fu">replace_na</span>(<span class="fu">list</span>(<span class="at">colle_wins_1 =</span> <span class="cn">NA</span>, <span class="at">high_wins_1 =</span> <span class="cn">NA</span>, <span class="at">grad_wins_1 =</span> <span class="cn">NA</span>, <span class="at">docu_wins_1=</span> <span class="cn">NA</span>,<span class="at">inarti_wins_1 =</span> <span class="cn">NA</span>, <span class="at">radio_wins_1 =</span> <span class="cn">NA</span>, <span class="at">numarticle_wins_1 =</span> <span class="cn">NA</span>, <span class="at">numbook_wins_1 =</span> <span class="cn">NA</span>))</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>expertise6_ready <span class="ot">&lt;-</span> expertise6_ready <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">class_wins1 =</span> <span class="fu">mapply</span>(<span class="cf">function</span>(x, y, z) {</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(<span class="fu">is.na</span>(x), (y <span class="sc">+</span> z)<span class="sc">/</span><span class="dv">2</span>, </span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>         <span class="fu">ifelse</span>(<span class="fu">is.na</span>(y), (x <span class="sc">+</span> z)<span class="sc">/</span><span class="dv">2</span>, </span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>                <span class="fu">ifelse</span>(<span class="fu">is.na</span>(z), (x <span class="sc">+</span> y)<span class="sc">/</span><span class="dv">2</span>, (x <span class="sc">+</span> y <span class="sc">+</span> z)<span class="sc">/</span><span class="dv">3</span>)))}, </span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>  grad_wins_1, colle_wins_1, high_wins_1))</span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>expertise6_ready <span class="ot">&lt;-</span> expertise6_ready <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">media_wins1 =</span> <span class="fu">mapply</span>(<span class="cf">function</span>(x, y, z, t, r) {</span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(<span class="fu">is.na</span>(x), (y <span class="sc">+</span> z <span class="sc">+</span> t <span class="sc">+</span> r)<span class="sc">/</span><span class="dv">4</span>, </span>
+<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a>         <span class="fu">ifelse</span>(<span class="fu">is.na</span>(y), (x <span class="sc">+</span> z <span class="sc">+</span> t <span class="sc">+</span> r)<span class="sc">/</span><span class="dv">4</span>,</span>
+<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a>                <span class="fu">ifelse</span>(<span class="fu">is.na</span>(z), (x <span class="sc">+</span> y <span class="sc">+</span> t <span class="sc">+</span> r)<span class="sc">/</span><span class="dv">4</span>, </span>
+<span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">ifelse</span>(<span class="fu">is.na</span>(t),(x <span class="sc">+</span> y <span class="sc">+</span> z <span class="sc">+</span> r)<span class="sc">/</span><span class="dv">4</span>, </span>
+<span id="cb48-15"><a href="#cb48-15" aria-hidden="true" tabindex="-1"></a>                              <span class="fu">ifelse</span>(<span class="fu">is.na</span>(r),(x <span class="sc">+</span> y <span class="sc">+</span> z <span class="sc">+</span> t)<span class="sc">/</span><span class="dv">4</span>,</span>
+<span id="cb48-16"><a href="#cb48-16" aria-hidden="true" tabindex="-1"></a>                                     (x <span class="sc">+</span> y <span class="sc">+</span> z <span class="sc">+</span> t <span class="sc">+</span> r)<span class="sc">/</span><span class="dv">5</span>)))))}, </span>
+<span id="cb48-17"><a href="#cb48-17" aria-hidden="true" tabindex="-1"></a>  docu_wins_1,inarti_wins_1, radio_wins_1, numbook_wins_1, grad_wins_1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="center-the-variables" class="level2">
+<h2 class="anchored" data-anchor-id="center-the-variables">Center the variables</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>expertise6_ready<span class="sc">$</span>know_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise6_ready<span class="sc">$</span>know, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>expertise6_ready<span class="sc">$</span>needforclo_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise6_ready<span class="sc">$</span>needforclo, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>expertise6_ready<span class="sc">$</span>class_wins1_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise6_ready<span class="sc">$</span>class_wins1, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>expertise6_ready<span class="sc">$</span>media_wins1_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise6_ready<span class="sc">$</span>media_wins1, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="hlm-models" class="level2">
+<h2 class="anchored" data-anchor-id="hlm-models">HLM Models</h2>
+<section id="model-objective-expertise-with-grad-courses-books-and-magazines" class="level3">
+<h3 class="anchored" data-anchor-id="model-objective-expertise-with-grad-courses-books-and-magazines">Model objective expertise with grad courses, books and magazines</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Model objective expertise ----</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>Model_obj<span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>class_wins1_cent<span class="sc">*</span>needforclo_cent<span class="sc">+</span>class_wins1_cent<span class="sc">+</span>needforclo_cent<span class="sc">+</span></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>                (<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID), <span class="at">data=</span>expertise6_ready)</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model_obj)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: ih ~ class_wins1_cent * needforclo_cent + class_wins1_cent +  
+    needforclo_cent + (1 | Score_Type) + (1 | ID)
+   Data: expertise6_ready
+
+REML criterion at convergence: 6320.8
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-2.93455 -0.65040  0.02653  0.66826  2.56442 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ ID         (Intercept) 0.7734   0.8794  
+ Score_Type (Intercept) 0.7745   0.8801  
+ Residual               3.1236   1.7674  
+Number of obs: 1528, groups:  ID, 191; Score_Type, 8
+
+Fixed effects:
+                                   Estimate Std. Error         df t value
+(Intercept)                         5.10303    0.32079    7.58400  15.907
+class_wins1_cent                   -0.07206    0.06840 1503.58449  -1.053
+needforclo_cent                     0.18572    0.11261  189.81958   1.649
+class_wins1_cent:needforclo_cent    0.02288    0.08782 1510.75809   0.261
+                                 Pr(&gt;|t|)    
+(Intercept)                      4.24e-07 ***
+class_wins1_cent                    0.292    
+needforclo_cent                     0.101    
+class_wins1_cent:needforclo_cent    0.794    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) cls_1_ ndfrc_
+clss_wns1_c  0.000              
+nedfrcl_cnt  0.000  0.013       
+clss_wn1_:_  0.004  0.093 -0.050</code></pre>
+</div>
+</div>
+</section>
+<section id="model-objective-expertise-with-high-school-and-college-courses" class="level3">
+<h3 class="anchored" data-anchor-id="model-objective-expertise-with-high-school-and-college-courses">Model objective expertise with high school and college courses</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>Model_obj2<span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>media_wins1_cent <span class="sc">*</span> needforclo_cent <span class="sc">+</span>media_wins1_cent <span class="sc">+</span> needforclo_cent<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID), <span class="at">data=</span>expertise6_ready)</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model_obj2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: ih ~ media_wins1_cent * needforclo_cent + media_wins1_cent +  
+    needforclo_cent + (1 | Score_Type) + (1 | ID)
+   Data: expertise6_ready
+
+REML criterion at convergence: 6315.2
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-2.94495 -0.65906  0.02574  0.65749  2.56054 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ ID         (Intercept) 0.7589   0.8711  
+ Score_Type (Intercept) 0.7772   0.8816  
+ Residual               3.1176   1.7657  
+Number of obs: 1528, groups:  ID, 191; Score_Type, 8
+
+Fixed effects:
+                                   Estimate Std. Error         df t value
+(Intercept)                         5.10200    0.32119    7.57087  15.884
+media_wins1_cent                   -0.18698    0.07638 1505.70217  -2.448
+needforclo_cent                     0.18792    0.11181  188.37578   1.681
+media_wins1_cent:needforclo_cent   -0.07847    0.10019 1474.34770  -0.783
+                                 Pr(&gt;|t|)    
+(Intercept)                      4.37e-07 ***
+media_wins1_cent                   0.0145 *  
+needforclo_cent                    0.0945 .  
+media_wins1_cent:needforclo_cent   0.4336    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) md_w1_ ndfrc_
+md_wns1_cnt  0.000              
+nedfrcl_cnt  0.000  0.014       
+md_wns1_c:_  0.004  0.094 -0.036</code></pre>
+</div>
+</div>
+</section>
+<section id="model-of-perceived-expertise-and-need-for-cognition" class="level3">
+<h3 class="anchored" data-anchor-id="model-of-perceived-expertise-and-need-for-cognition">Model of perceived expertise and need for cognition</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>Model_perc<span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>know_cent<span class="sc">*</span>needforclo_cent<span class="sc">+</span> know_cent <span class="sc">+</span> needforclo_cent <span class="sc">+</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>                (<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID), <span class="at">data=</span>expertise6_ready)</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model_perc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: ih ~ know_cent * needforclo_cent + know_cent + needforclo_cent +  
+    (1 | Score_Type) + (1 | ID)
+   Data: expertise6_ready
+
+REML criterion at convergence: 6321.4
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-2.92364 -0.65771  0.01587  0.66300  2.56876 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ ID         (Intercept) 0.7989   0.8938  
+ Score_Type (Intercept) 0.7760   0.8809  
+ Residual               3.1140   1.7646  
+Number of obs: 1528, groups:  ID, 191; Score_Type, 8
+
+Fixed effects:
+                            Estimate Std. Error         df t value Pr(&gt;|t|)    
+(Intercept)                  5.10150    0.32130    7.60464  15.878 4.19e-07 ***
+know_cent                   -0.06434    0.05369 1451.39265  -1.198    0.231    
+needforclo_cent              0.18403    0.11385  185.25861   1.616    0.108    
+know_cent:needforclo_cent   -0.02139    0.07491 1397.20099  -0.286    0.775    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) knw_cn ndfrc_
+know_cent    0.001              
+nedfrcl_cnt  0.000  0.046       
+knw_cnt:nd_  0.012  0.063 -0.040</code></pre>
+</div>
+</div>
+</section>
+<section id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition-without-interaction" class="level3">
+<h3 class="anchored" data-anchor-id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition-without-interaction">Model of objective expertise, perceived expertise and need for cognition without interaction</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>Model.<span class="fl">1.1</span><span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>class_wins1_cent <span class="sc">+</span> media_wins1_cent <span class="sc">+</span> know_cent <span class="sc">+</span>needforclo_cent <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID),   </span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data=</span>expertise6_ready)</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model.<span class="fl">1.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: 
+ih ~ class_wins1_cent + media_wins1_cent + know_cent + needforclo_cent +  
+    (1 | Score_Type) + (1 | ID)
+   Data: expertise6_ready
+
+REML criterion at convergence: 6319.9
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-2.93086 -0.66258  0.01667  0.66013  2.53736 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ ID         (Intercept) 0.7605   0.8721  
+ Score_Type (Intercept) 0.7758   0.8808  
+ Residual               3.1202   1.7664  
+Number of obs: 1528, groups:  ID, 191; Score_Type, 8
+
+Fixed effects:
+                   Estimate Std. Error         df t value Pr(&gt;|t|)    
+(Intercept)         5.10291    0.32094    7.57320  15.900 4.32e-07 ***
+class_wins1_cent    0.02859    0.08345 1490.43898   0.343    0.732    
+media_wins1_cent   -0.18826    0.09341 1513.35766  -2.015    0.044 *  
+know_cent          -0.02028    0.05887 1416.04242  -0.345    0.731    
+needforclo_cent     0.18335    0.11195  183.73314   1.638    0.103    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) cls_1_ md_w1_ knw_cn
+clss_wns1_c  0.000                     
+md_wns1_cnt  0.000 -0.481              
+know_cent    0.001 -0.211 -0.216       
+nedfrcl_cnt  0.000  0.000 -0.001  0.046</code></pre>
+</div>
+</div>
+</section>
+<section id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition-with-interaction" class="level3">
+<h3 class="anchored" data-anchor-id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition-with-interaction">Model of objective expertise, perceived expertise and need for cognition with interaction</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>Model.<span class="fl">2.1</span><span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>class_wins1_cent <span class="sc">+</span> media_wins1_cent  <span class="sc">+</span> know_cent<span class="sc">+</span> needforclo_cent <span class="sc">+</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>                  class_wins1_cent<span class="sc">*</span>needforclo_cent <span class="sc">+</span> media_wins1_cent<span class="sc">*</span>needforclo_cent <span class="sc">+</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>                  know_cent<span class="sc">*</span>needforclo_cent<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID),<span class="at">data=</span>expertise6_ready)</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model.<span class="fl">2.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: 
+ih ~ class_wins1_cent + media_wins1_cent + know_cent + needforclo_cent +  
+    class_wins1_cent * needforclo_cent + media_wins1_cent * needforclo_cent +  
+    know_cent * needforclo_cent + (1 | Score_Type) + (1 | ID)
+   Data: expertise6_ready
+
+REML criterion at convergence: 6326.7
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-2.92927 -0.66314  0.01952  0.65538  2.56700 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ ID         (Intercept) 0.7658   0.8751  
+ Score_Type (Intercept) 0.7735   0.8795  
+ Residual               3.1215   1.7668  
+Number of obs: 1528, groups:  ID, 191; Score_Type, 8
+
+Fixed effects:
+                                   Estimate Std. Error         df t value
+(Intercept)                       5.102e+00  3.206e-01  7.580e+00  15.917
+class_wins1_cent                  3.627e-02  8.392e-02  1.487e+03   0.432
+media_wins1_cent                 -2.009e-01  9.422e-02  1.505e+03  -2.133
+know_cent                        -1.764e-02  5.906e-02  1.411e+03  -0.299
+needforclo_cent                   1.831e-01  1.124e-01  1.831e+02   1.629
+class_wins1_cent:needforclo_cent  1.133e-01  1.156e-01  1.442e+03   0.980
+media_wins1_cent:needforclo_cent -1.560e-01  1.334e-01  1.512e+03  -1.170
+know_cent:needforclo_cent        -7.489e-03  8.398e-02  1.403e+03  -0.089
+                                 Pr(&gt;|t|)    
+(Intercept)                      4.25e-07 ***
+class_wins1_cent                   0.6656    
+media_wins1_cent                   0.0331 *  
+know_cent                          0.7653    
+needforclo_cent                    0.1050    
+class_wins1_cent:needforclo_cent   0.3272    
+media_wins1_cent:needforclo_cent   0.2423    
+know_cent:needforclo_cent          0.9290    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) cls_1_ md_w1_ knw_cn ndfrc_ c_1_:_ m_1_:_
+clss_wns1_c  0.001                                          
+md_wns1_cnt -0.001 -0.484                                   
+know_cent    0.001 -0.203 -0.221                            
+nedfrcl_cnt  0.000 -0.004 -0.001  0.043                     
+clss_wn1_:_  0.000  0.088 -0.069  0.032 -0.028              
+md_wns1_c:_ -0.001 -0.068  0.124 -0.053 -0.002 -0.560       
+knw_cnt:nd_  0.011  0.034 -0.052  0.055 -0.021 -0.190 -0.235</code></pre>
+</div>
 </div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

@@ -8,8 +8,7 @@ image: "newdata.png"
 
 This post includes the trial analyses of an example data related to expertise.
 
-Notes: Need for closure scores haven't been calculated, the reverse items will be checked.
-Notes: For the long format, internet article, documentaries and podcast series should be added.
+Notes: Need for closure scores haven't been calculated, the reverse items will be checked. Notes: For the long format, internet article, documentaries and podcast series should be added.
 
 ### Import necessary packages and expertise data
 
@@ -23,6 +22,10 @@ library(psych)
 library(DescTools)
 library(stats)
 library(factoextra)
+library('reshape2')
+library(lme4) 
+library(lmerTest)
+
 
 #Read the csv file ----
 Expertise6 <- read_csv("~/Desktop/Expertise6_5.8.14_December 23, 2022_10.51 2.csv")
@@ -32,7 +35,6 @@ Expertise6 <- read_csv("~/Desktop/Expertise6_5.8.14_December 23, 2022_10.51 2.cs
 Creates a new dataframe called expertise6_clean, which is a copy of the original dataframe called expertise6 and removes the second row of the dataframe and create a variable called column_names and assign it the names of the columns in the dataframe and change the column names
 
 ```{r warning = FALSE, message = FALSE}
-
 
 #removes the second row of the dataframe
 expertise6_clean<-Expertise6%>% 
@@ -50,49 +52,49 @@ column_names
 
 ```
 
-
 ```{r}
 ##Change the column names ----
 colnames(expertise6_clean) <- c('ip','duration', 'finished', 'stih_food','r_ih_food',
                         'stih_sports','r_ih_sports','stih_school','r_ih_school',
-                        'stih_architect','r_ih_architect','stih_product','r_ih_product',                                'stih_langu','r_ih_langu','stih_network','r_ih_network',
+                        'stih_architect','r_ih_architect','stih_product','r_ih_product',
+                        'stih_langu','r_ih_langu','stih_network','r_ih_network',
                         'stih_anthro','r_ih_anthro',
                         'know_food','know_sports','know_school','know_architect',
                         'know_product','know_langu','know_network','know_anthro',
                         'course_food','high_food', 'colle_food', 'grad_food',
                         'book_food','numbook_food','article_food','numarticle_food',
-                        'in_arti_food','numinarti_food', 'docu_food', 'numdocu_food',
+                        'inarti_food','numinarti_food', 'docu_food', 'numdocu_food',
                         'radio_food','numradio_food',
                         'course_sports','high_sports', 'colle_sports', 'grad_sports',
                         'book_sports','numbook_sports','article_sports','numarticle_sports',
-                        'in_arti_sports','numinarti_sports', 'docu_sports', 'numdocu_sports',
+                        'inarti_sports','numinarti_sports', 'docu_sports', 'numdocu_sports',
                         'radio_sports','numradio_sports',
                         'course_school','high_school', 'colle_school', 'grad_school',
                         'book_school','numbook_school','article_school','numarticle_school',
-                        'in_arti_school','numinarti_school', 'docu_school', 'numdocu_school',
+                        'inarti_school','numinarti_school', 'docu_school', 'numdocu_school',
                         'radio_school','numradio_school',
                         'course_architect','high_architect', 'colle_architect','grad_architect',
                         'book_architect','numbook_architect','article_architect',
                         'numarticle_architect',
-                        'in_arti_architect','numinarti_architect', 
+                        'inarti_architect','numinarti_architect', 
                         'docu_architect', 'numdocu_architect',
                         'radio_architect','numradio_architect',
                         'course_product','high_product', 'colle_product', 'grad_product',
                         'book_product','numbook_product','article_product',
                         'numarticle_product',
-                        'in_arti_product','numinarti_product', 'docu_product', 'numdocu_product',
+                        'inarti_product','numinarti_product', 'docu_product', 'numdocu_product',
                         'radio_product','numradio_product',
                         'course_langu','high_langu', 'colle_langu', 'grad_langu',
                         'book_langu','numbook_langu','article_langu','numarticle_langu',
-                        'in_arti_langu','numinarti_langu', 'docu_langu', 'numdocu_langu',
+                        'inarti_langu','numinarti_langu', 'docu_langu', 'numdocu_langu',
                         'radio_langu','numradio_langu',
                         'course_network','high_network', 'colle_network', 'grad_network',
                         'book_network','numbook_network','article_network','numarticle_network',
-                        'in_arti_network','numinarti_network', 'docu_network', 'numdocu_network',
+                        'inarti_network','numinarti_network', 'docu_network', 'numdocu_network',
                         'radio_network','numradio_network',
                         'course_anthro','high_anthro', 'colle_anthro', 'grad_anthro',
                         'book_anthro','numbook_anthro','article_anthro','numarticle_anthro',
-                        'in_arti_anthro','numinarti_anthro', 'docu_anthro', 'numdocu_anthro',
+                        'inarti_anthro','numinarti_anthro', 'docu_anthro', 'numdocu_anthro',
                         'radio_anthro','numradio_anthro',
                         'needforclo1','needforclo2','needforclo3','needforclo4','needforclo5',
                         'needforclo6','needforclo7','needforclo8','needforclo9','needforclo10',
@@ -111,7 +113,6 @@ colnames(expertise6_clean) <- c('ip','duration', 'finished', 'stih_food','r_ih_f
 
 
 ```
-
 
 ### Questionnaire Items
 
@@ -150,7 +151,6 @@ Data preparation for further analyses
 #Attention check and deletion of cases that didn't attend or finish the study ----
 expertise6_new<-expertise6_clean%>%
   filter(attention==1&finished==1)
-
 
 ##Exclude the participants that joined outside of US ----
 
@@ -246,20 +246,21 @@ expertise6_new <- expertise6_new %>%
                         'needforclo35','needforclo36','needforclo37','needforclo38',
                         'needforclo39','needforclo40','needforclo41','needforclo42'), as.numeric)
 
-## Calculate needforcog scores  ----
-#add a new variable called needforcog, which is the sum of all the need for cognition items, the items are weighted according to the scoring key
+## Calculate needforclo scores  ----
+#add a new variable called needforclo, which is the sum of all the need for cognition items, the items are weighted according to the scoring key
 expertise6_new <- expertise6_new %>%
   group_by(ID)%>%
-  mutate(needforcog=(needforclo1+needforclo2+needforclo3+needforclo4+(10-needforclo5)+
-                        needforclo6+needforclo7+(10-needforclo8)+(10-needforclo9)+needforclo10+
-                        needforclo11+needforclo12+needforclo13+needforclo14+
-                        needforclo15+needforclo16+needforclo17+needforclo18+
-                        needforclo19+needforclo20+needforclo21+needforclo22+
-                        needforclo23+needforclo24+needforclo25+needforclo26+
-                        needforclo27+needforclo28+needforclo29+needforclo30+
-                        needforclo31+needforclo32+needforclo33+needforclo34+
-                        needforclo35+needforclo36+needforclo37+needforclo38+
-                        needforclo39+needforclo40+needforclo41+needforclo42)/42)
+  mutate(needforclo=(needforclo1+needforclo2+needforclo3+needforclo4+
+                       (10-needforclo5)+needforclo6+needforclo7+(10-needforclo8)+
+                       (10-needforclo9)+needforclo10+ needforclo11+needforclo12+
+                       needforclo13+needforclo14+needforclo15+needforclo16+
+                       needforclo17+needforclo18+needforclo19+(10-needforclo20)+
+                       (10-needforclo21)+(10-needforclo22)+needforclo23+(10-needforclo24)+
+                       (10-needforclo25)+needforclo26+needforclo27+(10-needforclo28)+
+                       needforclo29+needforclo30+(10-needforclo31)+(10-needforclo32)+
+                       needforclo33+needforclo34+needforclo35+(10-needforclo36)+
+                       needforclo37+(10-needforclo38)+needforclo39+(10-needforclo40)+
+                       (10-needforclo41)+needforclo42)/42)
 ```
 
 ## Data preparation
@@ -307,50 +308,6 @@ variables <- c('know_food','know_sports','know_school','know_architect',
                         'numinarti_anthro', 'numdocu_anthro',
                         'numradio_anthro')
 
-expertise6_new[variables] <- lapply(expertise6_new[variables], 
-                                    function(x) ifelse(is.na(x), 0, ifelse(x=='no',0,x)))
-
-# Missing values in the dataframe  ----
-apply(is.na(expertise6_new), 2, sum)
-
-
-# Expertise Ready Df ----
-
-# Create new data frame as analyzable 
-expertise6_new<-expertise6_new%>%
-  select(-stih_food,-r_ih_food,-stih_sports,-r_ih_sports,
-         -stih_school,-r_ih_school,-stih_architect,-r_ih_architect,
-         -stih_product,-r_ih_product,
-         -stih_langu,-r_ih_langu,-stih_network,-r_ih_network,
-         -stih_anthro,-r_ih_anthro,
-         -course_food,
-         -book_food,-article_food,
-         -course_sports,
-         -book_sports,-article_sports,
-         -course_school,
-         -book_school,-article_school,
-         -course_architect,
-         -book_architect,-article_architect,
-         -course_product,
-         -book_product,-article_product,
-         -course_langu,
-         -book_langu,-article_langu,
-         -course_network,
-         -book_network,-article_network,
-         -course_anthro,
-         -book_anthro,-article_anthro,
-        -needforclo1,-needforclo2,-needforclo3,-needforclo4,-needforclo5,
-        -needforclo6,-needforclo7,-needforclo8,-needforclo9,-needforclo10,
-        -needforclo11,-needforclo12,-needforclo13,-needforclo14,-needforclo15,
-        -needforclo16,-needforclo17,-needforclo18,-needforclo19,-needforclo20,
-        -needforclo21,-needforclo22,-needforclo23,-needforclo24,-needforclo25,
-        -needforclo26,- needforclo27,-needforclo28,-needforclo29,-needforclo30,
-        -needforclo31,-needforclo32,-needforclo33,-needforclo34,-needforclo35,
-        -needforclo36,-needforclo37,-needforclo38,-needforclo39,-needforclo40,
-        -needforclo41,-needforclo42)
-
-
-# change the data type of the variables to numeric
 expertise6_new <- expertise6_new %>%
   mutate_at(vars('know_food','know_sports','know_school','know_architect',
                         'know_product','know_langu','know_network','know_anthro',
@@ -390,6 +347,69 @@ expertise6_new <- expertise6_new %>%
                         'numinarti_anthro', 'numdocu_anthro',
                         'numradio_anthro'), as.numeric)
 
+
+#expertise6_new[variables] <- lapply(expertise6_new[variables], 
+                                    #function(x) ifelse(is.na(x), 0, ifelse(x=='no',0, x)))
+
+expertise6_new[variables] <- lapply(expertise6_new[variables], function(x) replace(x, is.na(x) | !is.numeric(x) , 0))
+
+
+```
+
+## Detect the ID of missing values of expertise scores
+
+```{r}
+missing_ids <- unlist(mapply(function(x) expertise6_new$ID[which(is.na(expertise6_new[x]))], c('know_food','know_sports','know_school','know_architect',
+                        'know_product','know_langu','know_network','know_anthro',
+                        'high_food', 'colle_food', 'grad_food',
+                        'numbook_food','numarticle_food',
+                        'numinarti_food', 'numdocu_food',
+                        'numradio_food',
+                        'high_sports', 'colle_sports', 'grad_sports',
+                        'numbook_sports','numarticle_sports',
+                        'numinarti_sports', 'numdocu_sports',
+                        'numradio_sports',
+                        'high_school', 'colle_school', 'grad_school',
+                        'numbook_school','numarticle_school',
+                        'numinarti_school','numdocu_school',
+                        'numradio_school',
+                        'high_architect', 'colle_architect','grad_architect',
+                        'numbook_architect',
+                        'numarticle_architect',
+                        'numinarti_architect', 
+                        'numdocu_architect',
+                        'numradio_architect',
+                        'high_product', 'colle_product', 'grad_product',
+                        'numbook_product',
+                        'numarticle_product',
+                       'numinarti_product','numdocu_product',
+                        'numradio_product',
+                        'high_langu', 'colle_langu', 'grad_langu',
+                        'numbook_langu','numarticle_langu',
+                        'numinarti_langu', 'numdocu_langu',
+                        'numradio_langu',
+                        'high_network', 'colle_network', 'grad_network',
+                        'numbook_network','numarticle_network',
+                        'numinarti_network', 'numdocu_network',
+                        'numradio_network',
+                        'high_anthro', 'colle_anthro','grad_anthro',
+                        'numbook_anthro','numarticle_anthro',
+                        'numinarti_anthro', 'numdocu_anthro',
+                        'numradio_anthro')))
+
+cat(ifelse(length(missing_ids[missing_ids > 0]) > 0, paste("The following IDs are missing:",missing_ids[missing_ids != 0]), "There is no missing IDs."),"\n")
+```
+
+```{r}
+
+# Expertise Ready Df ----
+
+#','high_food','colle_food','grad_food','numbook_food','numarticle_food','numinarti_food','numdocu_food','numradio_food','high_sports','colle_sports','grad_sports','numbook_sports','numarticle_sports','numinarti_sports','numdocu_sports','numradio_sports','high_school','colle_school','grad_school','numbook_school','numarticle_school','numinarti_school','numdocu_school','numradio_school','high_architect','colle_architect','grad_architect','numbook_architect','numarticle_architect','numinarti_architect','numdocu_architect','numradio_architect','high_product','colle_product','grad_product','numbook_product','numarticle_product','numinarti_product','numdocu_product','numradio_product','high_langu','colle_langu','grad_langu','numbook_langu','numarticle_langu','numinarti_langu','numdocu_langu','numradio_langu','high_network','colle_network','grad_network','numbook_network','numarticle_network','numinarti_network','numdocu_network','numradio_network','high_anthro','colle_anthro','grad_anthro','numbook_anthro','numarticle_anthro','numinarti_anthro','numdocu_anthro','numradio_anthro
+
+# change the data type of the variables to numeric
+expertise6_new<-expertise6_new%>%mutate_at(vars('know_food','know_sports','know_school','know_architect','know_product','know_langu','know_network','know_anthro'),as.numeric)
+
+
 ```
 
 ## Long format
@@ -397,10 +417,10 @@ expertise6_new <- expertise6_new %>%
 Long format of expertise dataset for factor analysis
 
 ```{r warning = FALSE, message = FALSE}
-library('reshape2')
 
-expertise6_factor <- melt(expertise6_new, id.vars = c("ID",'duration',"sex" ,"education" ,"income","religion",'identity','age','political_atti','english_level','needforcog'), 
-                        measure.vars = c("ih_food", "ih_sports","ih_school",                                "ih_architect","ih_product","ih_langu","ih_network","ih_anthro",
+expertise6_factor <- melt(expertise6_new, id.vars = c("ID",'duration',"sex" ,"education" ,"income","religion",'identity','age','political_atti','english_level','needforclo'), 
+                        measure.vars = c("ih_food", "ih_sports","ih_school","ih_architect",
+                                         "ih_product","ih_langu","ih_network","ih_anthro",
                        'know_food','know_sports','know_school','know_architect',
                         'know_product','know_langu','know_network','know_anthro',
                         'high_food', 'colle_food', 'grad_food',
@@ -457,5 +477,236 @@ expertise6_fact$ih<-as.numeric(expertise6_fact$ih)
 
 ```{r}
 expertise6_wins_fact<-expertise6_fact
+
 ```
 
+## Winsorize the variables at 1%
+
+```{r warning = FALSE, message = FALSE}
+# winsorize the variables (at 1%)
+expertise6_fact1 <- expertise6_fact%>%
+  mutate(numarticle=Winsorize(numarticle, probs = c(0,0.99)), 
+         numbook=Winsorize(numbook, probs = c(0,0.99)),
+         high=Winsorize(high, probs = c(0,0.99)),
+         colle=Winsorize(colle, probs = c(0,0.99)),
+         grad=Winsorize(grad,na.rm=TRUE, probs = c(0,0.99)),
+         numdocu=Winsorize(numdocu,na.rm=TRUE, probs = c(0,0.99)),
+         numinarti=Winsorize(numinarti,na.rm=TRUE, probs = c(0,0.99)),
+         numradio=Winsorize(numradio,na.rm=TRUE, probs = c(0,0.99)))
+
+```
+
+## Factor analysis
+
+```{r}
+# Factor analysis for expertise variables with raw scores ----
+
+# Import packages 
+
+library(psych) #PCA/EFA analysis
+library(REdaS) #Produces KMO and Bartletts test
+library(GPArotation)
+
+
+# Create a new dataframe that include only related variables
+factor_exp<-expertise6_fact1%>%
+  select(colle, grad, high, numarticle, numbook, numdocu, numinarti, numradio)
+
+# Check missing values
+apply(is.na(factor_exp), 2, sum)
+
+
+
+```
+
+Factor analysis for expertise variables with raw scores
+
+```{r warning = FALSE, message = FALSE}
+
+# Since grad classes for TV category is missing (nobody takes any class in the sample), listwise deletion is applied here.
+bart_spher(factor_exp, use = "complete.obs") ###### produces Bartletts test of spherecity 
+
+KMO(factor_exp)       ###### Kaiser-Meyer-Olkin measure, which is above .5.
+
+#Check eigenvalues
+
+fa.parallel(factor_exp)
+
+
+```
+
+### Factor analysis
+
+```{r}
+
+# So we can reduce it to 2 factors
+fa(factor_exp, nfactors = 2, rotate =  "oblimin" )  
+
+# Figure for the analysis
+
+M1<-fa(factor_exp, nfactors = 2, rotate =  "oblimin" ) ##save the analysis as the object m1
+fa.diagram(M1,main="Expertise Variables")  
+
+```
+
+So here we have two factors and we can investigate them as classes and media-literature part, let's extract values for now, but creating these categories with averaging related variables may be a better way for the sake of conceptual understanding.
+
+### Extracting factor values
+
+```{r warning = FALSE, message = FALSE}
+factor_exp_score <- factanal(factor_exp, factors=2, scores="regression", rotation = "oblimin", na.rm=TRUE)
+
+head(factor_exp_score$scores)
+
+factor_exp_comb <- bind_cols(factor_exp, data.frame(factor_exp_score$scores))
+
+factor_exp_comb$class<-factor_exp_comb$Factor1
+
+factor_exp_comb$media_grad<-factor_exp_comb$Factor2
+
+```
+
+### Histogram and descriptives for factor scores
+
+```{r warning = FALSE, message = FALSE}
+descriptives(dat=factor_exp_comb, vars(Factor1, Factor2),
+             sd=T)
+
+```
+
+```{r warning = FALSE, message = FALSE}
+hist(factor_exp_comb$Factor1)
+
+```
+
+```{r warning = FALSE, message = FALSE}
+hist(factor_exp_comb$Factor2)
+```
+
+## Winsorize the variables at 1%
+
+```{r warning = FALSE, message = FALSE}
+# winsorize the variables (at 1%)
+expertise6_ready <- expertise6_fact%>%
+  mutate(numarticle_wins_1=Winsorize(numarticle, probs = c(0,0.99)), 
+         numbook_wins_1=Winsorize(numbook, probs = c(0,0.99)),
+         high_wins_1=Winsorize(high, probs = c(0,0.99)),
+         colle_wins_1=Winsorize(colle, probs = c(0,0.99)),
+         grad_wins_1=Winsorize(grad,na.rm=TRUE, probs = c(0,0.99)),
+         docu_wins_1=Winsorize(numdocu,na.rm=TRUE, probs = c(0,0.99)),
+         inarti_wins_1=Winsorize(numinarti,na.rm=TRUE, probs = c(0,0.99)),
+         radio_wins_1=Winsorize(numradio,na.rm=TRUE, probs = c(0,0.99)))
+
+#check descriptives
+descriptives(dat=expertise6_ready, vars(docu_wins_1,inarti_wins_1, radio_wins_1 ), median=F, n=F, missing=T, sd=T, skew =T)
+
+descriptives(dat=expertise6_ready, vars(high_wins_1, colle_wins_1), median=F, n=F, missing=T, sd=T)
+
+descriptives(dat=expertise6_ready, vars(numarticle_wins_1, numbook_wins_1, grad_wins_1), median=F, n=F, missing=T, sd=T)
+
+
+```
+
+```{r warning = FALSE, message = FALSE}
+# Standardize the Selected variables  ----
+vars_to_standardize <- c("know", "docu_wins_1","inarti_wins_1", "radio_wins_1","high_wins_1", "colle_wins_1",
+                         "numarticle_wins_1", "numbook_wins_1", "grad_wins_1")
+
+
+
+expertise6_ready<-expertise6_ready %>% 
+  group_by(Score_Type) %>% 
+  mutate_at(vars(vars_to_standardize), scale)
+
+```
+
+```{r warning = FALSE, message = FALSE}
+sum(is.na(expertise6_ready$grad_wins_1))
+
+
+```
+
+## Take the means of winsorized variables to create our new categories: media and class
+
+```{r warning = FALSE, message = FALSE}
+expertise6_ready <- expertise6_ready %>% replace_na(list(colle_wins_1 = NA, high_wins_1 = NA, grad_wins_1 = NA, docu_wins_1= NA,inarti_wins_1 = NA, radio_wins_1 = NA, numarticle_wins_1 = NA, numbook_wins_1 = NA))
+
+
+expertise6_ready <- expertise6_ready %>% mutate(class_wins1 = mapply(function(x, y, z) {
+  ifelse(is.na(x), (y + z)/2, 
+         ifelse(is.na(y), (x + z)/2, 
+                ifelse(is.na(z), (x + y)/2, (x + y + z)/3)))}, 
+  grad_wins_1, colle_wins_1, high_wins_1))
+
+expertise6_ready <- expertise6_ready %>% mutate(media_wins1 = mapply(function(x, y, z, t, r) {
+  ifelse(is.na(x), (y + z + t + r)/4, 
+         ifelse(is.na(y), (x + z + t + r)/4,
+                ifelse(is.na(z), (x + y + t + r)/4, 
+                       ifelse(is.na(t),(x + y + z + r)/4, 
+                              ifelse(is.na(r),(x + y + z + t)/4,
+                                     (x + y + z + t + r)/5)))))}, 
+  docu_wins_1,inarti_wins_1, radio_wins_1, numbook_wins_1, numarticle_wins_1))
+
+```
+
+## Center the variables
+
+```{r warning = FALSE, message = FALSE}
+
+expertise6_ready$know_cent <- scale(expertise6_ready$know, center = TRUE, scale = FALSE)
+
+expertise6_ready$needforclo_cent <- scale(expertise6_ready$needforclo, center = TRUE, scale = FALSE)
+
+expertise6_ready$class_wins1_cent <- scale(expertise6_ready$class_wins1, center = TRUE, scale = FALSE)
+
+expertise6_ready$media_wins1_cent <- scale(expertise6_ready$media_wins1, center = TRUE, scale = FALSE)
+
+```
+
+## HLM Models
+
+### Model objective expertise with grad courses, books and magazines
+
+```{r warning = FALSE, message = FALSE}
+## Model objective expertise ----
+
+Model_obj<-lmer(ih ~class_wins1_cent*needforclo_cent+class_wins1_cent+needforclo_cent+
+                (1|Score_Type)+(1|ID), data=expertise6_ready)
+summary(Model_obj)
+
+
+```
+
+### Model objective expertise with high school and college courses
+
+```{r}
+Model_obj2<-lmer(ih ~media_wins1_cent * needforclo_cent +media_wins1_cent + needforclo_cent+(1|Score_Type)+(1|ID), data=expertise6_ready)
+summary(Model_obj2)
+
+```
+
+### Model of perceived expertise and need for cognition
+
+```{r}
+Model_perc<-lmer(ih ~know_cent*needforclo_cent+ know_cent + needforclo_cent +
+                (1|Score_Type)+(1|ID), data=expertise6_ready)
+summary(Model_perc)
+```
+
+### Model of objective expertise, perceived expertise and need for cognition without interaction
+
+```{r}
+Model.1.1<-lmer(ih ~class_wins1_cent + media_wins1_cent + know_cent +needforclo_cent +(1|Score_Type)+(1|ID),   
+              data=expertise6_ready)
+summary(Model.1.1)
+```
+
+### Model of objective expertise, perceived expertise and need for cognition with interaction
+
+```{r}
+Model.2.1<-lmer(ih ~class_wins1_cent + media_wins1_cent  + know_cent+ needforclo_cent +
+                  class_wins1_cent*needforclo_cent + media_wins1_cent*needforclo_cent +
+                  know_cent*needforclo_cent+(1|Score_Type)+(1|ID),data=expertise6_ready)
+summary(Model.2.1)
+
+```

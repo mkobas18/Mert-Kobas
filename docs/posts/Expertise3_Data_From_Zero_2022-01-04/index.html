@@ -2249,6 +2249,304 @@ PC2_w2_cn:_ -0.006 -0.102  -0.062  -0.011  0.046 -0.038
 knw_cnt:nd_  0.000 -0.001   0.001   0.041  0.060 -0.251  -0.163 </code></pre>
 </div>
 </div>
+<p>#Winsorize at 1% the raw variables for our new expertise variables</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="co"># winsorize the variables (at 1%)</span></span>
+<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a>expertise3_wins_average <span class="ot">&lt;-</span> expertise3_wins_fact<span class="sc">%&gt;%</span></span>
+<span id="cb108-3"><a href="#cb108-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">numarticle_w1=</span><span class="fu">Winsorize</span>(numarticle, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.99</span>)), </span>
+<span id="cb108-4"><a href="#cb108-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">numbook_w1=</span><span class="fu">Winsorize</span>(numbook, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.99</span>)),</span>
+<span id="cb108-5"><a href="#cb108-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">high_w1=</span><span class="fu">Winsorize</span>(high, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.99</span>)),</span>
+<span id="cb108-6"><a href="#cb108-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">colle_w1=</span><span class="fu">Winsorize</span>(colle, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.99</span>)),</span>
+<span id="cb108-7"><a href="#cb108-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">grad_w1=</span><span class="fu">Winsorize</span>(grad,<span class="at">na.rm=</span><span class="cn">TRUE</span>, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.99</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Standardize the Selected variables  ----</span></span>
+<span id="cb109-2"><a href="#cb109-2" aria-hidden="true" tabindex="-1"></a>vars_to_standardize <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"know"</span>, <span class="st">"numarticle_w1"</span>,<span class="st">"numbook_w1"</span>, <span class="st">"high_w1"</span>,<span class="st">"colle_w1"</span>, <span class="st">"grad_w1"</span>)</span>
+<span id="cb109-3"><a href="#cb109-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb109-4"><a href="#cb109-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb109-5"><a href="#cb109-5" aria-hidden="true" tabindex="-1"></a>expertise3_wins_average<span class="ot">&lt;-</span>expertise3_wins_average <span class="sc">%&gt;%</span> </span>
+<span id="cb109-6"><a href="#cb109-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Score_Type) <span class="sc">%&gt;%</span> </span>
+<span id="cb109-7"><a href="#cb109-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="fu">vars</span>(vars_to_standardize), scale)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="take-the-means-of-winsorized-variables-to-create-our-new-categories-media-and-class" class="level2">
+<h2 class="anchored" data-anchor-id="take-the-means-of-winsorized-variables-to-create-our-new-categories-media-and-class">Take the means of winsorized variables to create our new categories: media and class</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>expertise3_wins_average <span class="ot">&lt;-</span> expertise3_wins_average <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">class_wins1 =</span> <span class="fu">mapply</span>(<span class="cf">function</span>(x, y, z) {</span>
+<span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(<span class="fu">is.na</span>(x), (y <span class="sc">+</span> z)<span class="sc">/</span><span class="dv">2</span>, </span>
+<span id="cb110-3"><a href="#cb110-3" aria-hidden="true" tabindex="-1"></a>         <span class="fu">ifelse</span>(<span class="fu">is.na</span>(y), (x <span class="sc">+</span> z)<span class="sc">/</span><span class="dv">2</span>, </span>
+<span id="cb110-4"><a href="#cb110-4" aria-hidden="true" tabindex="-1"></a>                <span class="fu">ifelse</span>(<span class="fu">is.na</span>(z), (x <span class="sc">+</span> y)<span class="sc">/</span><span class="dv">2</span>, (x <span class="sc">+</span> y <span class="sc">+</span> z)<span class="sc">/</span><span class="dv">3</span>)))}, </span>
+<span id="cb110-5"><a href="#cb110-5" aria-hidden="true" tabindex="-1"></a>  grad_w1, colle_w1, high_w1))</span>
+<span id="cb110-6"><a href="#cb110-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-7"><a href="#cb110-7" aria-hidden="true" tabindex="-1"></a>expertise3_wins_average <span class="ot">&lt;-</span> expertise3_wins_average <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">media_wins1 =</span> </span>
+<span id="cb110-8"><a href="#cb110-8" aria-hidden="true" tabindex="-1"></a>                                                          <span class="fu">mapply</span>(<span class="cf">function</span>(x, y) {</span>
+<span id="cb110-9"><a href="#cb110-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(<span class="fu">is.na</span>(x), (y), </span>
+<span id="cb110-10"><a href="#cb110-10" aria-hidden="true" tabindex="-1"></a>         <span class="fu">ifelse</span>(<span class="fu">is.na</span>(y), (x),</span>
+<span id="cb110-11"><a href="#cb110-11" aria-hidden="true" tabindex="-1"></a>                  (x <span class="sc">+</span> y)<span class="sc">/</span><span class="dv">2</span>))}, </span>
+<span id="cb110-12"><a href="#cb110-12" aria-hidden="true" tabindex="-1"></a>                      numarticle_w1,numbook_w1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Center variables: </span></span>
+<span id="cb111-2"><a href="#cb111-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb111-3"><a href="#cb111-3" aria-hidden="true" tabindex="-1"></a>expertise3_wins_average<span class="sc">$</span>know_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise3_wins_average<span class="sc">$</span>know, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb111-4"><a href="#cb111-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb111-5"><a href="#cb111-5" aria-hidden="true" tabindex="-1"></a>expertise3_wins_average<span class="sc">$</span>needforcog_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise3_wins_average<span class="sc">$</span>needforcog, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb111-6"><a href="#cb111-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb111-7"><a href="#cb111-7" aria-hidden="true" tabindex="-1"></a>expertise3_wins_average<span class="sc">$</span>class_wins1_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise3_wins_average<span class="sc">$</span>class_wins1, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb111-8"><a href="#cb111-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb111-9"><a href="#cb111-9" aria-hidden="true" tabindex="-1"></a>expertise3_wins_average<span class="sc">$</span>media_wins1_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise3_wins_average<span class="sc">$</span>media_wins1, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="hlm-models-2" class="level2">
+<h2 class="anchored" data-anchor-id="hlm-models-2">HLM Models</h2>
+<section id="model-objective-expertise-with-grad-courses-books-and-magazines-2" class="level3">
+<h3 class="anchored" data-anchor-id="model-objective-expertise-with-grad-courses-books-and-magazines-2">Model objective expertise with grad courses, books and magazines</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Model objective expertise ----</span></span>
+<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a>Model_obj<span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>class_wins1_cent<span class="sc">*</span>needforcog_cent<span class="sc">+</span>class_wins1_cent<span class="sc">+</span>needforcog_cent<span class="sc">+</span></span>
+<span id="cb112-4"><a href="#cb112-4" aria-hidden="true" tabindex="-1"></a>                (<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID), <span class="at">data=</span>expertise3_wins_average)</span>
+<span id="cb112-5"><a href="#cb112-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model_obj)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: ih ~ class_wins1_cent * needforcog_cent + class_wins1_cent +  
+    needforcog_cent + (1 | Score_Type) + (1 | ID)
+   Data: expertise3_wins_average
+
+REML criterion at convergence: 6299.6
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-3.08786 -0.66376 -0.01582  0.60943  2.91047 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ ID         (Intercept) 0.5123   0.7157  
+ Score_Type (Intercept) 0.3609   0.6007  
+ Residual               2.6735   1.6351  
+Number of obs: 1591, groups:  ID, 199; Score_Type, 8
+
+Fixed effects:
+                                   Estimate Std. Error         df t value
+(Intercept)                         4.87709    0.22220    7.79206  21.949
+class_wins1_cent                    0.10886    0.06430 1558.23631   1.693
+needforcog_cent                    -0.21172    0.05085  197.09991  -4.164
+class_wins1_cent:needforcog_cent   -0.10718    0.04586 1548.13753  -2.337
+                                 Pr(&gt;|t|)    
+(Intercept)                      2.75e-08 ***
+class_wins1_cent                   0.0907 .  
+needforcog_cent                  4.67e-05 ***
+class_wins1_cent:needforcog_cent   0.0196 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) cls_1_ ndfrc_
+clss_wns1_c  0.004              
+nedfrcg_cnt  0.000 -0.055       
+clss_wn1_:_ -0.014 -0.297  0.021</code></pre>
+</div>
+</div>
+</section>
+<section id="model-objective-expertise-with-high-school-and-college-courses-2" class="level3">
+<h3 class="anchored" data-anchor-id="model-objective-expertise-with-high-school-and-college-courses-2">Model objective expertise with high school and college courses</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a>Model_obj2<span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>media_wins1_cent <span class="sc">*</span> needforcog_cent <span class="sc">+</span>media_wins1_cent <span class="sc">+</span> needforcog_cent<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID), <span class="at">data=</span>expertise3_wins_average)</span>
+<span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model_obj2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: ih ~ media_wins1_cent * needforcog_cent + media_wins1_cent +  
+    needforcog_cent + (1 | Score_Type) + (1 | ID)
+   Data: expertise3_wins_average
+
+REML criterion at convergence: 6302.4
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-3.09127 -0.65543 -0.01658  0.60668  2.89733 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ ID         (Intercept) 0.5226   0.7229  
+ Score_Type (Intercept) 0.3552   0.5960  
+ Residual               2.6738   1.6352  
+Number of obs: 1591, groups:  ID, 199; Score_Type, 8
+
+Fixed effects:
+                                   Estimate Std. Error         df t value
+(Intercept)                         4.86696    0.22076    7.82441  22.046
+media_wins1_cent                   -0.12079    0.06055 1502.72603  -1.995
+needforcog_cent                    -0.19879    0.05122  198.54247  -3.881
+media_wins1_cent:needforcog_cent    0.02307    0.04339 1569.85020   0.532
+                                 Pr(&gt;|t|)    
+(Intercept)                      2.52e-08 ***
+media_wins1_cent                 0.046241 *  
+needforcog_cent                  0.000142 ***
+media_wins1_cent:needforcog_cent 0.594984    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) md_w1_ ndfrc_
+md_wns1_cnt  0.009              
+nedfrcg_cnt  0.000 -0.073       
+md_wns1_c:_ -0.022 -0.409  0.015</code></pre>
+</div>
+</div>
+</section>
+<section id="model-of-perceived-expertise-and-need-for-cognition-2" class="level3">
+<h3 class="anchored" data-anchor-id="model-of-perceived-expertise-and-need-for-cognition-2">Model of perceived expertise and need for cognition</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a>Model_perc<span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>know_cent<span class="sc">*</span>needforcog_cent<span class="sc">+</span> know_cent <span class="sc">+</span> needforcog_cent <span class="sc">+</span></span>
+<span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a>                (<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID), <span class="at">data=</span>expertise3_wins_average)</span>
+<span id="cb116-3"><a href="#cb116-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model_perc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: ih ~ know_cent * needforcog_cent + know_cent + needforcog_cent +  
+    (1 | Score_Type) + (1 | ID)
+   Data: expertise3_wins_average
+
+REML criterion at convergence: 6293.4
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-2.94526 -0.66336 -0.01584  0.61110  2.90351 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ ID         (Intercept) 0.4960   0.7043  
+ Score_Type (Intercept) 0.3643   0.6036  
+ Residual               2.6744   1.6354  
+Number of obs: 1590, groups:  ID, 199; Score_Type, 8
+
+Fixed effects:
+                            Estimate Std. Error         df t value Pr(&gt;|t|)    
+(Intercept)                  4.87459    0.22298    7.75612  21.861 3.01e-08 ***
+know_cent                    0.08693    0.04832 1357.80267   1.799  0.07227 .  
+needforcog_cent             -0.21666    0.05038  196.42283  -4.301 2.68e-05 ***
+know_cent:needforcog_cent   -0.09801    0.03666 1399.78419  -2.674  0.00759 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) knw_cn ndfrc_
+know_cent    0.000              
+nedfrcg_cnt -0.001 -0.025       
+knw_cnt:nd_ -0.007 -0.012  0.053</code></pre>
+</div>
+</div>
+</section>
+<section id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition-without-interaction-3" class="level3">
+<h3 class="anchored" data-anchor-id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition-without-interaction-3">Model of objective expertise, perceived expertise and need for cognition without interaction</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb118"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a>Model.<span class="fl">1.1</span><span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>class_wins1_cent <span class="sc">+</span> media_wins1_cent <span class="sc">+</span> know_cent <span class="sc">+</span>needforcog_cent <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID),   </span>
+<span id="cb118-2"><a href="#cb118-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data=</span>expertise3_wins_average)</span>
+<span id="cb118-3"><a href="#cb118-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model.<span class="fl">1.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: 
+ih ~ class_wins1_cent + media_wins1_cent + know_cent + needforcog_cent +  
+    (1 | Score_Type) + (1 | ID)
+   Data: expertise3_wins_average
+
+REML criterion at convergence: 6294.1
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-3.02716 -0.65887 -0.02207  0.61398  2.83610 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ ID         (Intercept) 0.488    0.6985  
+ Score_Type (Intercept) 0.359    0.5991  
+ Residual               2.676    1.6359  
+Number of obs: 1590, groups:  ID, 199; Score_Type, 8
+
+Fixed effects:
+                   Estimate Std. Error         df t value Pr(&gt;|t|)    
+(Intercept)         4.87054    0.22137    7.75433  22.002 2.87e-08 ***
+class_wins1_cent    0.10399    0.06558 1565.35319   1.586  0.11302    
+media_wins1_cent   -0.17748    0.06032 1323.81512  -2.942  0.00331 ** 
+know_cent           0.11515    0.05079 1330.40508   2.267  0.02353 *  
+needforcog_cent    -0.20245    0.05022  196.37030  -4.032 7.92e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) cls_1_ md_w1_ knw_cn
+clss_wns1_c  0.000                     
+md_wns1_cnt  0.000 -0.302              
+know_cent    0.000 -0.109 -0.245       
+nedfrcg_cnt  0.000 -0.027 -0.059  0.000</code></pre>
+</div>
+</div>
+</section>
+<section id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition-with-interaction-3" class="level3">
+<h3 class="anchored" data-anchor-id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition-with-interaction-3">Model of objective expertise, perceived expertise and need for cognition with interaction</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb120"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a>Model.<span class="fl">2.1</span><span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>class_wins1_cent <span class="sc">+</span> media_wins1_cent  <span class="sc">+</span> know_cent<span class="sc">+</span>needforcog_cent <span class="sc">+</span> class_wins1_cent<span class="sc">*</span>needforcog_cent <span class="sc">+</span> media_wins1_cent<span class="sc">*</span>needforcog_cent <span class="sc">+</span> know_cent<span class="sc">*</span>needforcog_cent<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID),   </span>
+<span id="cb120-2"><a href="#cb120-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data=</span>expertise3_wins_average)</span>
+<span id="cb120-3"><a href="#cb120-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model.<span class="fl">2.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: 
+ih ~ class_wins1_cent + media_wins1_cent + know_cent + needforcog_cent +  
+    class_wins1_cent * needforcog_cent + media_wins1_cent * needforcog_cent +  
+    know_cent * needforcog_cent + (1 | Score_Type) + (1 | ID)
+   Data: expertise3_wins_average
+
+REML criterion at convergence: 6295.8
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-2.9071 -0.6518 -0.0124  0.6077  2.8939 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ ID         (Intercept) 0.4845   0.6961  
+ Score_Type (Intercept) 0.3622   0.6019  
+ Residual               2.6621   1.6316  
+Number of obs: 1590, groups:  ID, 199; Score_Type, 8
+
+Fixed effects:
+                                   Estimate Std. Error         df t value
+(Intercept)                         4.87174    0.22229    7.74842  21.916
+class_wins1_cent                    0.13189    0.06732 1552.23948   1.959
+media_wins1_cent                   -0.18488    0.06431 1454.18260  -2.875
+know_cent                           0.10971    0.05068 1331.94834   2.165
+needforcog_cent                    -0.21263    0.05017  197.50266  -4.238
+class_wins1_cent:needforcog_cent   -0.10499    0.05062 1529.45313  -2.074
+media_wins1_cent:needforcog_cent    0.09020    0.04915 1526.66198   1.835
+know_cent:needforcog_cent          -0.09732    0.03895 1374.67803  -2.498
+                                 Pr(&gt;|t|)    
+(Intercept)                      2.99e-08 ***
+class_wins1_cent                   0.0503 .  
+media_wins1_cent                   0.0041 ** 
+know_cent                          0.0306 *  
+needforcog_cent                  3.46e-05 ***
+class_wins1_cent:needforcog_cent   0.0383 *  
+media_wins1_cent:needforcog_cent   0.0667 .  
+know_cent:needforcog_cent          0.0126 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) cls_1_ md_w1_ knw_cn ndfrc_ c_1_:_ m_1_:_
+clss_wns1_c  0.004                                          
+md_wns1_cnt  0.008 -0.233                                   
+know_cent    0.000 -0.110 -0.233                            
+nedfrcg_cnt -0.001 -0.033 -0.062  0.003                     
+clss_wn1_:_ -0.006 -0.208 -0.004  0.014  0.021              
+md_wns1_c:_ -0.017 -0.022 -0.312 -0.004 -0.009 -0.367       
+knw_cnt:nd_  0.000  0.008  0.002  0.030  0.060 -0.078 -0.261</code></pre>
+</div>
+</div>
 
 
 </section>

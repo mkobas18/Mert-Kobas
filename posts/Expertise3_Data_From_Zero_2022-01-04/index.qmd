@@ -338,10 +338,10 @@ expertise3_fact$ih<-as.numeric(expertise3_fact$ih)
 ```
 
 ###Create another data frame to winsorize expertise variables before factor analysis
+
 ```{r}
 expertise3_wins_fact<-expertise3_fact
 ```
-
 
 ## Factor analysis
 
@@ -577,7 +577,6 @@ hist(factor_exp_comb$Factor2)
 
 So our descriptive stats and graphs showed there is an extreme skewness due to extreme values in our factors.
 
-
 ## Winsorize the variables at 1%
 
 ```{r warning = FALSE, message = FALSE}
@@ -648,11 +647,13 @@ The results showed that not the interaction but main effects significantly relat
 I would expect the same result with high school and college courses, the relation may be more weak because these courses may not be recent, so let's check the model:
 
 ### Model objective expertise with high school and college courses
+
 ```{r}
 Model_obj2<-lmer(ih ~classroom_wins_1_cent * needforcog_cent +classroom_wins_1_cent + needforcog_cent+(1|Score_Type)+(1|ID), data=expertise3_ready)
 summary(Model_obj2)
 
 ```
+
 These results showed that the interaction is significant, so the relation between class and inherence scores is depend on need for cognition scores. However, since the trend of the relation between class and inherence scores is positive, this interaction seems negative, so need for cognition mitigated this relation. Commenting this counter intuitive result may be a better way to understand this interaction:
 
 Main effect of class is not significant (the relation between high school and undergraduate courses and inherence scores). This may be as a result of not challenging nature of these courses or they may not be remembered very well, if these people didn't interest in them later. The positive trend may be a product of perceived expertise, so people who take these courses think themselves as experts but they are not. However if they have tendency to engage in cognitive activities, they still trust cognitive heuristics less, so need for cognition interact with this relation.
@@ -660,6 +661,7 @@ Main effect of class is not significant (the relation between high school and un
 What about perceived expertise? I think perceived expertise may be misleading for people because especially for daily topics like breakfast, they may think that they know enough but their knowledge is limited (and they produce less diverse facts during mental shotgun stage). However, the need for cognition also moderates this relation. Let's check:
 
 ### Model of perceived expertise and need for cognition
+
 ```{r}
 Model_perc<-lmer(ih ~know_cent*needforcog_cent+ know_cent + needforcog_cent +
                 (1|Score_Type)+(1|ID), data=expertise3_ready)
@@ -668,14 +670,12 @@ summary(Model_perc)
 
 These results are similar to previous one and the relation between perceived knowledge and inherence scores moderated by need for cognition, which means people may overinterpret their knowledge and tend to think heuristically more due to this, but their tendency to engage in cognitive activities change this relation, if they like to engage in cognitive activities more, they satisfy with inherent explanations less even if they overestimate their knowledge about that area. This result partially support and partially conflict with Pennycook et al. (2017). Partially supported because just like that research, we found that people are unaware of their own inherence bias and this may be one of the reason behind inherence bias. However, they also found that Dunning-Kruger effects influence their need for cognition scores, so they also overestimate their need for cognition scores. Unlike my assumption here (the mitigating factor in engaging cognitive activities), their finding taps that perceived knowledge should be positively related to need for cognition:
 
-
 ```{r}
 corrMatrix(expertise3_ready,
            vars = vars(know_cent,needforcog_cent), flag = TRUE)
 ```
 
-However our scores showed that they are not related significantly.
-After all of these let's check our first model 1 and model 2 to adjust other variables:
+However our scores showed that they are not related significantly. After all of these let's check our first model 1 and model 2 to adjust other variables:
 
 ### Model of objective expertise, perceived expertise and need for cognition without interaction
 
@@ -698,10 +698,7 @@ summary(Model.2.1)
 
 This total model is still similar to the single models unlike the interactions between objective expertise and need for cognition. Maybe we don't have enough power to detect these interactions due to sample size. We can still make the similar comments above I guess.
 
-
-#Winsorize at 1% the raw variables before factor analysis
-We can see that there are extreme values for our factor 1 (high+colle) and factor 2 (media+grad). We can deal these values with winsorization:
-
+#Winsorize at 1% the raw variables before factor analysis We can see that there are extreme values for our factor 1 (high+colle) and factor 2 (media+grad). We can deal these values with winsorization:
 
 ```{r warning = FALSE, message = FALSE}
 # winsorize the variables (at 1%)
@@ -763,13 +760,13 @@ fa.diagram(M2,main="Expert Variables")
 Eigenvalues suggest 2 components here
 
 ### Extracting components
+
 ```{r warning = FALSE, message = FALSE}
 PrC_expert<- principal(factor_exp1, scores =TRUE, rotate= "varimax", nfactors=2, method="regression")
 
 loadings (PrC_expert)
 
 ```
-
 
 ```{r}
 #Combining data frames
@@ -802,7 +799,6 @@ hist(expertise3_wins_fact1$RC1)
 ```{r}
 hist(expertise3_wins_fact1$RC2)
 ```
-
 
 ## Long format (with component scores)
 
@@ -869,7 +865,6 @@ expertise3_win1_comp$PC2_w2_cent <- scale(expertise3_win1_comp$PC2, center = TRU
 
 ```
 
-
 ## HLM Models
 
 ### Model objective expertise with grad courses, books and magazines
@@ -886,7 +881,6 @@ summary(Model_obj)
 
 ### Model objective expertise with high school and college courses
 
-
 ```{r}
 Model_obj2<-lmer(ih ~PC2_w2_cent * needforcog_cent +PC2_w2_cent + needforcog_cent+(1|Score_Type)+(1|ID), data=expertise3_win1_comp)
 summary(Model_obj2)
@@ -894,7 +888,6 @@ summary(Model_obj2)
 ```
 
 ### Model of perceived expertise and need for cognition
-
 
 ```{r}
 Model_perc<-lmer(ih ~know_cent*needforcog_cent+ know_cent + needforcog_cent +
@@ -924,4 +917,109 @@ summary(Model.2.1)
 
 ```
 
+#Winsorize at 1% the raw variables for our new expertise variables 
 
+```{r warning = FALSE, message = FALSE}
+# winsorize the variables (at 1%)
+expertise3_wins_average <- expertise3_wins_fact%>%
+  mutate(numarticle_w1=Winsorize(numarticle, probs = c(0,0.99)), 
+         numbook_w1=Winsorize(numbook, probs = c(0,0.99)),
+         high_w1=Winsorize(high, probs = c(0,0.99)),
+         colle_w1=Winsorize(colle, probs = c(0,0.99)),
+         grad_w1=Winsorize(grad,na.rm=TRUE, probs = c(0,0.99)))
+
+```
+
+
+```{r warning = FALSE, message = FALSE}
+# Standardize the Selected variables  ----
+vars_to_standardize <- c("know", "numarticle_w1","numbook_w1", "high_w1","colle_w1", "grad_w1")
+
+
+expertise3_wins_average<-expertise3_wins_average %>% 
+  group_by(Score_Type) %>% 
+  mutate_at(vars(vars_to_standardize), scale)
+
+```
+
+## Take the means of winsorized variables to create our new categories: media and class
+
+```{r warning = FALSE, message = FALSE}
+
+expertise3_wins_average <- expertise3_wins_average %>% mutate(class_wins1 = mapply(function(x, y, z) {
+  ifelse(is.na(x), (y + z)/2, 
+         ifelse(is.na(y), (x + z)/2, 
+                ifelse(is.na(z), (x + y)/2, (x + y + z)/3)))}, 
+  grad_w1, colle_w1, high_w1))
+
+expertise3_wins_average <- expertise3_wins_average %>% mutate(media_wins1 = 
+                                                          mapply(function(x, y) {
+  ifelse(is.na(x), (y), 
+         ifelse(is.na(y), (x),
+                  (x + y)/2))}, 
+                      numarticle_w1,numbook_w1))
+
+```
+
+
+```{r warning=FALSE, message=FALSE}
+
+# Center variables: 
+
+expertise3_wins_average$know_cent <- scale(expertise3_wins_average$know, center = TRUE, scale = FALSE)
+
+expertise3_wins_average$needforcog_cent <- scale(expertise3_wins_average$needforcog, center = TRUE, scale = FALSE)
+
+expertise3_wins_average$class_wins1_cent <- scale(expertise3_wins_average$class_wins1, center = TRUE, scale = FALSE)
+
+expertise3_wins_average$media_wins1_cent <- scale(expertise3_wins_average$media_wins1, center = TRUE, scale = FALSE)
+
+```
+
+## HLM Models
+
+### Model objective expertise with grad courses, books and magazines
+
+```{r warning = FALSE, message = FALSE}
+## Model objective expertise ----
+
+Model_obj<-lmer(ih ~class_wins1_cent*needforcog_cent+class_wins1_cent+needforcog_cent+
+                (1|Score_Type)+(1|ID), data=expertise3_wins_average)
+summary(Model_obj)
+
+
+```
+
+### Model objective expertise with high school and college courses
+
+```{r}
+Model_obj2<-lmer(ih ~media_wins1_cent * needforcog_cent +media_wins1_cent + needforcog_cent+(1|Score_Type)+(1|ID), data=expertise3_wins_average)
+summary(Model_obj2)
+
+```
+
+### Model of perceived expertise and need for cognition
+
+```{r}
+Model_perc<-lmer(ih ~know_cent*needforcog_cent+ know_cent + needforcog_cent +
+                (1|Score_Type)+(1|ID), data=expertise3_wins_average)
+summary(Model_perc)
+```
+
+
+### Model of objective expertise, perceived expertise and need for cognition without interaction
+
+```{r}
+Model.1.1<-lmer(ih ~class_wins1_cent + media_wins1_cent + know_cent +needforcog_cent +(1|Score_Type)+(1|ID),   
+              data=expertise3_wins_average)
+summary(Model.1.1)
+```
+
+### Model of objective expertise, perceived expertise and need for cognition with interaction
+
+```{r}
+Model.2.1<-lmer(ih ~class_wins1_cent + media_wins1_cent  + know_cent+needforcog_cent + class_wins1_cent*needforcog_cent + media_wins1_cent*needforcog_cent + know_cent*needforcog_cent+(1|Score_Type)+(1|ID),   
+              data=expertise3_wins_average)
+summary(Model.2.1)
+
+```
