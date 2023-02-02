@@ -2547,6 +2547,394 @@ md_wns1_c:_ -0.017 -0.022 -0.312 -0.004 -0.009 -0.367
 knw_cnt:nd_  0.000  0.008  0.002  0.030  0.060 -0.078 -0.261</code></pre>
 </div>
 </div>
+<p>#Winsorize at 2.5% the raw variables for our new expertise variables</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="co"># winsorize the variables (at 1%)</span></span>
+<span id="cb122-2"><a href="#cb122-2" aria-hidden="true" tabindex="-1"></a>expertise3_wins_average_w25 <span class="ot">&lt;-</span> expertise3_wins_fact<span class="sc">%&gt;%</span></span>
+<span id="cb122-3"><a href="#cb122-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">numarticle_w1=</span><span class="fu">Winsorize</span>(numarticle, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.975</span>)), </span>
+<span id="cb122-4"><a href="#cb122-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">numbook_w1=</span><span class="fu">Winsorize</span>(numbook, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.975</span>)),</span>
+<span id="cb122-5"><a href="#cb122-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">high_w1=</span><span class="fu">Winsorize</span>(high, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.975</span>)),</span>
+<span id="cb122-6"><a href="#cb122-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">colle_w1=</span><span class="fu">Winsorize</span>(colle, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.975</span>)),</span>
+<span id="cb122-7"><a href="#cb122-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">grad_w1=</span><span class="fu">Winsorize</span>(grad,<span class="at">na.rm=</span><span class="cn">TRUE</span>, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.975</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb123"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Standardize the Selected variables  ----</span></span>
+<span id="cb123-2"><a href="#cb123-2" aria-hidden="true" tabindex="-1"></a>vars_to_standardize <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"know"</span>, <span class="st">"numarticle_w1"</span>,<span class="st">"numbook_w1"</span>, <span class="st">"high_w1"</span>,<span class="st">"colle_w1"</span>, <span class="st">"grad_w1"</span>)</span>
+<span id="cb123-3"><a href="#cb123-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb123-4"><a href="#cb123-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb123-5"><a href="#cb123-5" aria-hidden="true" tabindex="-1"></a>expertise3_wins_average_w25<span class="ot">&lt;-</span>expertise3_wins_average_w25 <span class="sc">%&gt;%</span> </span>
+<span id="cb123-6"><a href="#cb123-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Score_Type) <span class="sc">%&gt;%</span> </span>
+<span id="cb123-7"><a href="#cb123-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="fu">vars</span>(vars_to_standardize), scale)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="take-the-means-of-winsorized-variables-to-create-our-new-categories-media-and-class-1" class="level2">
+<h2 class="anchored" data-anchor-id="take-the-means-of-winsorized-variables-to-create-our-new-categories-media-and-class-1">Take the means of winsorized variables to create our new categories: media and class</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb124"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a>expertise3_wins_average_w25 <span class="ot">&lt;-</span> expertise3_wins_average_w25 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">class_wins1 =</span> <span class="fu">mapply</span>(<span class="cf">function</span>(x, y, z) {</span>
+<span id="cb124-2"><a href="#cb124-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(<span class="fu">is.na</span>(x), (y <span class="sc">+</span> z)<span class="sc">/</span><span class="dv">2</span>, </span>
+<span id="cb124-3"><a href="#cb124-3" aria-hidden="true" tabindex="-1"></a>         <span class="fu">ifelse</span>(<span class="fu">is.na</span>(y), (x <span class="sc">+</span> z)<span class="sc">/</span><span class="dv">2</span>, </span>
+<span id="cb124-4"><a href="#cb124-4" aria-hidden="true" tabindex="-1"></a>                <span class="fu">ifelse</span>(<span class="fu">is.na</span>(z), (x <span class="sc">+</span> y)<span class="sc">/</span><span class="dv">2</span>, (x <span class="sc">+</span> y <span class="sc">+</span> z)<span class="sc">/</span><span class="dv">3</span>)))}, </span>
+<span id="cb124-5"><a href="#cb124-5" aria-hidden="true" tabindex="-1"></a>  grad_w1, colle_w1, high_w1))</span>
+<span id="cb124-6"><a href="#cb124-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-7"><a href="#cb124-7" aria-hidden="true" tabindex="-1"></a>expertise3_wins_average_w25 <span class="ot">&lt;-</span> expertise3_wins_average_w25 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">media_wins1 =</span> </span>
+<span id="cb124-8"><a href="#cb124-8" aria-hidden="true" tabindex="-1"></a>                                                          <span class="fu">mapply</span>(<span class="cf">function</span>(x, y) {</span>
+<span id="cb124-9"><a href="#cb124-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(<span class="fu">is.na</span>(x), (y), </span>
+<span id="cb124-10"><a href="#cb124-10" aria-hidden="true" tabindex="-1"></a>         <span class="fu">ifelse</span>(<span class="fu">is.na</span>(y), (x),</span>
+<span id="cb124-11"><a href="#cb124-11" aria-hidden="true" tabindex="-1"></a>                  (x <span class="sc">+</span> y)<span class="sc">/</span><span class="dv">2</span>))}, </span>
+<span id="cb124-12"><a href="#cb124-12" aria-hidden="true" tabindex="-1"></a>                      numarticle_w1,numbook_w1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Center variables: </span></span>
+<span id="cb125-2"><a href="#cb125-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-3"><a href="#cb125-3" aria-hidden="true" tabindex="-1"></a>expertise3_wins_average_w25<span class="sc">$</span>know_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise3_wins_average_w25<span class="sc">$</span>know, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb125-4"><a href="#cb125-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-5"><a href="#cb125-5" aria-hidden="true" tabindex="-1"></a>expertise3_wins_average_w25<span class="sc">$</span>needforcog_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise3_wins_average_w25<span class="sc">$</span>needforcog, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb125-6"><a href="#cb125-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-7"><a href="#cb125-7" aria-hidden="true" tabindex="-1"></a>expertise3_wins_average_w25<span class="sc">$</span>class_wins1_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise3_wins_average_w25<span class="sc">$</span>class_wins1, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb125-8"><a href="#cb125-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-9"><a href="#cb125-9" aria-hidden="true" tabindex="-1"></a>expertise3_wins_average_w25<span class="sc">$</span>media_wins1_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise3_wins_average_w25<span class="sc">$</span>media_wins1, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="hlm-models-3" class="level2">
+<h2 class="anchored" data-anchor-id="hlm-models-3">HLM Models</h2>
+<section id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition" class="level3">
+<h3 class="anchored" data-anchor-id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition">Model of objective expertise, perceived expertise and need for cognition</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb126"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a>Model.<span class="fl">1.1</span><span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>class_wins1_cent <span class="sc">+</span> media_wins1_cent <span class="sc">+</span> know_cent <span class="sc">+</span>needforcog_cent <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID),   </span>
+<span id="cb126-2"><a href="#cb126-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data=</span>expertise3_wins_average_w25)</span>
+<span id="cb126-3"><a href="#cb126-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model.<span class="fl">1.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: 
+ih ~ class_wins1_cent + media_wins1_cent + know_cent + needforcog_cent +  
+    (1 | Score_Type) + (1 | ID)
+   Data: expertise3_wins_average_w25
+
+REML criterion at convergence: 6294.1
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-3.02153 -0.64676 -0.02857  0.61140  2.81613 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ ID         (Intercept) 0.4918   0.7013  
+ Score_Type (Intercept) 0.3590   0.5991  
+ Residual               2.6740   1.6353  
+Number of obs: 1590, groups:  ID, 199; Score_Type, 8
+
+Fixed effects:
+                   Estimate Std. Error         df t value Pr(&gt;|t|)    
+(Intercept)         4.87054    0.22142    7.76025  21.997 2.85e-08 ***
+class_wins1_cent    0.06547    0.05651 1577.81243   1.159  0.24683    
+media_wins1_cent   -0.18164    0.05939 1432.18838  -3.058  0.00227 ** 
+know_cent           0.12442    0.05113 1321.38198   2.433  0.01509 *  
+needforcog_cent    -0.20102    0.05030  195.97212  -3.997 9.09e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) cls_1_ md_w1_ knw_cn
+clss_wns1_c  0.000                     
+md_wns1_cnt  0.000 -0.278              
+know_cent    0.000 -0.107 -0.269       
+nedfrcg_cnt  0.000 -0.017 -0.059 -0.001</code></pre>
+</div>
+</div>
+<p>#Sqrt variables Take the square root first Take the histogram of dependent variable Do shapiro-wilk for every version of this to track the skewness or normality</p>
+<p>#Square root of the raw variables for our new expertise variables</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb128"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="co"># take the square root of the variables</span></span>
+<span id="cb128-2"><a href="#cb128-2" aria-hidden="true" tabindex="-1"></a>expertise3_sqrt <span class="ot">&lt;-</span> expertise3_wins_fact<span class="sc">%&gt;%</span></span>
+<span id="cb128-3"><a href="#cb128-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">numarticle_sqrt=</span><span class="fu">sqrt</span>(numarticle),</span>
+<span id="cb128-4"><a href="#cb128-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">numbook_sqrt=</span><span class="fu">sqrt</span>(numbook),</span>
+<span id="cb128-5"><a href="#cb128-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">high_sqrt=</span><span class="fu">sqrt</span>(high),</span>
+<span id="cb128-6"><a href="#cb128-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">colle_sqrt=</span><span class="fu">sqrt</span>(colle),</span>
+<span id="cb128-7"><a href="#cb128-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">grad_sqrt=</span><span class="fu">sqrt</span>(grad))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="standardize-and-average-of-our-variables-to-create-our-new-categories-media-and-class" class="level2">
+<h2 class="anchored" data-anchor-id="standardize-and-average-of-our-variables-to-create-our-new-categories-media-and-class">Standardize and average of our variables to create our new categories: media and class</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb129"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Standardize the Selected variables  ----</span></span>
+<span id="cb129-2"><a href="#cb129-2" aria-hidden="true" tabindex="-1"></a>vars_to_standardize <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"know"</span>, <span class="st">"numarticle_sqrt"</span>,<span class="st">"numbook_sqrt"</span>, <span class="st">"high_sqrt"</span>,<span class="st">"colle_sqrt"</span>, <span class="st">"grad_sqrt"</span>)</span>
+<span id="cb129-3"><a href="#cb129-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb129-4"><a href="#cb129-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb129-5"><a href="#cb129-5" aria-hidden="true" tabindex="-1"></a>expertise3_sqrt<span class="ot">&lt;-</span>expertise3_sqrt <span class="sc">%&gt;%</span> </span>
+<span id="cb129-6"><a href="#cb129-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Score_Type) <span class="sc">%&gt;%</span> </span>
+<span id="cb129-7"><a href="#cb129-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="fu">vars</span>(vars_to_standardize), scale)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb130"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a>expertise3_sqrt <span class="ot">&lt;-</span> expertise3_sqrt <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">class_wins1 =</span> <span class="fu">mapply</span>(<span class="cf">function</span>(x, y, z) {</span>
+<span id="cb130-2"><a href="#cb130-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(<span class="fu">is.na</span>(x), (y <span class="sc">+</span> z)<span class="sc">/</span><span class="dv">2</span>, </span>
+<span id="cb130-3"><a href="#cb130-3" aria-hidden="true" tabindex="-1"></a>         <span class="fu">ifelse</span>(<span class="fu">is.na</span>(y), (x <span class="sc">+</span> z)<span class="sc">/</span><span class="dv">2</span>, </span>
+<span id="cb130-4"><a href="#cb130-4" aria-hidden="true" tabindex="-1"></a>                <span class="fu">ifelse</span>(<span class="fu">is.na</span>(z), (x <span class="sc">+</span> y)<span class="sc">/</span><span class="dv">2</span>, (x <span class="sc">+</span> y <span class="sc">+</span> z)<span class="sc">/</span><span class="dv">3</span>)))}, </span>
+<span id="cb130-5"><a href="#cb130-5" aria-hidden="true" tabindex="-1"></a>  grad_sqrt, colle_sqrt, high_sqrt))</span>
+<span id="cb130-6"><a href="#cb130-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb130-7"><a href="#cb130-7" aria-hidden="true" tabindex="-1"></a>expertise3_sqrt <span class="ot">&lt;-</span> expertise3_sqrt <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">media_wins1 =</span> </span>
+<span id="cb130-8"><a href="#cb130-8" aria-hidden="true" tabindex="-1"></a>                                                          <span class="fu">mapply</span>(<span class="cf">function</span>(x, y) {</span>
+<span id="cb130-9"><a href="#cb130-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(<span class="fu">is.na</span>(x), (y), </span>
+<span id="cb130-10"><a href="#cb130-10" aria-hidden="true" tabindex="-1"></a>         <span class="fu">ifelse</span>(<span class="fu">is.na</span>(y), (x),</span>
+<span id="cb130-11"><a href="#cb130-11" aria-hidden="true" tabindex="-1"></a>                  (x <span class="sc">+</span> y)<span class="sc">/</span><span class="dv">2</span>))}, </span>
+<span id="cb130-12"><a href="#cb130-12" aria-hidden="true" tabindex="-1"></a>                      numarticle_sqrt,numbook_sqrt))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>#Histograms of square root variables</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb131"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(expertise3_sqrt<span class="sc">$</span>class_wins1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-69-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb132"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb132-1"><a href="#cb132-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(expertise3_sqrt<span class="sc">$</span>media_wins1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-70-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb133"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(expertise3_sqrt<span class="sc">$</span>know)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-71-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb134"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(expertise3_sqrt<span class="sc">$</span>ih)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-72-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>##Shapiro-Wilk values</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb135"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="fu">descriptives</span>(expertise3_sqrt, <span class="at">vars =</span> <span class="fu">vars</span>(class_wins1, media_wins1, know, ih), <span class="at">sw =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ DESCRIPTIVES
+
+ Descriptives                                                                          
+ ───────────────────────────────────────────────────────────────────────────────────── 
+                         class_wins1     media_wins1      know            ih           
+ ───────────────────────────────────────────────────────────────────────────────────── 
+   N                             1592             1592            1591          1591   
+   Missing                          0                0               1             1   
+   Mean                  3.005692e-17    -1.588623e-16    4.689314e-17      4.869579   
+   Median                  -0.2393335       -0.3153213      0.01275956      5.000000   
+   Standard deviation       0.7488095        0.8749660       0.9977963      1.891089   
+   Minimum                 -0.6141819       -0.7077785       -2.659207      1.000000   
+   Maximum                   7.141527         8.588626        2.956309      9.000000   
+   Shapiro-Wilk W           0.5201987        0.6946538       0.9918312     0.9818945   
+   Shapiro-Wilk p          &lt; .0000001       &lt; .0000001      &lt; .0000001    &lt; .0000001   
+ ───────────────────────────────────────────────────────────────────────────────────── </code></pre>
+</div>
+</div>
+<p>##Cente the variables</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb137"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Center variables: </span></span>
+<span id="cb137-2"><a href="#cb137-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb137-3"><a href="#cb137-3" aria-hidden="true" tabindex="-1"></a>expertise3_sqrt<span class="sc">$</span>know_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise3_sqrt<span class="sc">$</span>know, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb137-4"><a href="#cb137-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb137-5"><a href="#cb137-5" aria-hidden="true" tabindex="-1"></a>expertise3_sqrt<span class="sc">$</span>needforcog_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise3_sqrt<span class="sc">$</span>needforcog, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb137-6"><a href="#cb137-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb137-7"><a href="#cb137-7" aria-hidden="true" tabindex="-1"></a>expertise3_sqrt<span class="sc">$</span>class_wins1_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise3_sqrt<span class="sc">$</span>class_wins1, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb137-8"><a href="#cb137-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb137-9"><a href="#cb137-9" aria-hidden="true" tabindex="-1"></a>expertise3_sqrt<span class="sc">$</span>media_wins1_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise3_sqrt<span class="sc">$</span>media_wins1, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="hlm-models-4" class="level2">
+<h2 class="anchored" data-anchor-id="hlm-models-4">HLM Models</h2>
+<section id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition-1" class="level3">
+<h3 class="anchored" data-anchor-id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition-1">Model of objective expertise, perceived expertise and need for cognition</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb138"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb138-1"><a href="#cb138-1" aria-hidden="true" tabindex="-1"></a>Model.<span class="fl">1.1</span><span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>class_wins1_cent <span class="sc">+</span> media_wins1_cent <span class="sc">+</span> know_cent <span class="sc">+</span>needforcog_cent <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID),   </span>
+<span id="cb138-2"><a href="#cb138-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data=</span>expertise3_sqrt)</span>
+<span id="cb138-3"><a href="#cb138-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model.<span class="fl">1.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: 
+ih ~ class_wins1_cent + media_wins1_cent + know_cent + needforcog_cent +  
+    (1 | Score_Type) + (1 | ID)
+   Data: expertise3_sqrt
+
+REML criterion at convergence: 6295.8
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-2.98887 -0.65579 -0.02521  0.61279  2.84589 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ ID         (Intercept) 0.4937   0.7026  
+ Score_Type (Intercept) 0.3589   0.5991  
+ Residual               2.6771   1.6362  
+Number of obs: 1590, groups:  ID, 199; Score_Type, 8
+
+Fixed effects:
+                   Estimate Std. Error         df t value Pr(&gt;|t|)    
+(Intercept)         4.87049    0.22143    7.76331  21.996 2.84e-08 ***
+class_wins1_cent    0.08276    0.06617 1571.06950   1.251  0.21118    
+media_wins1_cent   -0.17106    0.06382 1220.55148  -2.680  0.00745 ** 
+know_cent           0.12201    0.05160 1311.37413   2.364  0.01820 *  
+needforcog_cent    -0.20105    0.05044  196.73295  -3.986 9.47e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) cls_1_ md_w1_ knw_cn
+clss_wns1_c  0.000                     
+md_wns1_cnt  0.000 -0.339              
+know_cent    0.000 -0.086 -0.291       
+nedfrcg_cnt  0.000 -0.026 -0.069  0.008</code></pre>
+</div>
+</div>
+<p>#Cube root variables</p>
+<p>##Cube root of the raw variables for our new expertise variables</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb140"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="co"># cube root of the variables </span></span>
+<span id="cb140-2"><a href="#cb140-2" aria-hidden="true" tabindex="-1"></a>expertise3_cube <span class="ot">&lt;-</span> expertise3_wins_fact<span class="sc">%&gt;%</span></span>
+<span id="cb140-3"><a href="#cb140-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">numarticle_cube=</span>(numarticle<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>)),</span>
+<span id="cb140-4"><a href="#cb140-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">numbook_cube=</span>(numbook<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>)),</span>
+<span id="cb140-5"><a href="#cb140-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">high_cube=</span>(high<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>)),</span>
+<span id="cb140-6"><a href="#cb140-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">colle_cube=</span>(colle<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>)),</span>
+<span id="cb140-7"><a href="#cb140-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">grad_cube=</span>(grad<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="standardize-and-average-of-variables-to-create-our-new-categories-media-and-class" class="level2">
+<h2 class="anchored" data-anchor-id="standardize-and-average-of-variables-to-create-our-new-categories-media-and-class">Standardize and average of variables to create our new categories: media and class</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb141"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb141-1"><a href="#cb141-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Standardize the Selected variables  ----</span></span>
+<span id="cb141-2"><a href="#cb141-2" aria-hidden="true" tabindex="-1"></a>vars_to_standardize <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"know"</span>, <span class="st">"numarticle_cube"</span>,<span class="st">"numbook_cube"</span>, <span class="st">"high_cube"</span>,<span class="st">"colle_cube"</span>, <span class="st">"grad_cube"</span>)</span>
+<span id="cb141-3"><a href="#cb141-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb141-4"><a href="#cb141-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb141-5"><a href="#cb141-5" aria-hidden="true" tabindex="-1"></a>expertise3_cube<span class="ot">&lt;-</span>expertise3_cube <span class="sc">%&gt;%</span> </span>
+<span id="cb141-6"><a href="#cb141-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Score_Type) <span class="sc">%&gt;%</span> </span>
+<span id="cb141-7"><a href="#cb141-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="fu">vars</span>(vars_to_standardize), scale)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb142"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb142-1"><a href="#cb142-1" aria-hidden="true" tabindex="-1"></a>expertise3_cube <span class="ot">&lt;-</span> expertise3_cube <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">class_wins1 =</span> <span class="fu">mapply</span>(<span class="cf">function</span>(x, y, z) {</span>
+<span id="cb142-2"><a href="#cb142-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(<span class="fu">is.na</span>(x), (y <span class="sc">+</span> z)<span class="sc">/</span><span class="dv">2</span>, </span>
+<span id="cb142-3"><a href="#cb142-3" aria-hidden="true" tabindex="-1"></a>         <span class="fu">ifelse</span>(<span class="fu">is.na</span>(y), (x <span class="sc">+</span> z)<span class="sc">/</span><span class="dv">2</span>, </span>
+<span id="cb142-4"><a href="#cb142-4" aria-hidden="true" tabindex="-1"></a>                <span class="fu">ifelse</span>(<span class="fu">is.na</span>(z), (x <span class="sc">+</span> y)<span class="sc">/</span><span class="dv">2</span>, (x <span class="sc">+</span> y <span class="sc">+</span> z)<span class="sc">/</span><span class="dv">3</span>)))}, </span>
+<span id="cb142-5"><a href="#cb142-5" aria-hidden="true" tabindex="-1"></a>  grad, colle, high))</span>
+<span id="cb142-6"><a href="#cb142-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb142-7"><a href="#cb142-7" aria-hidden="true" tabindex="-1"></a>expertise3_cube <span class="ot">&lt;-</span> expertise3_cube <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">media_wins1 =</span> </span>
+<span id="cb142-8"><a href="#cb142-8" aria-hidden="true" tabindex="-1"></a>                                                          <span class="fu">mapply</span>(<span class="cf">function</span>(x, y) {</span>
+<span id="cb142-9"><a href="#cb142-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(<span class="fu">is.na</span>(x), (y), </span>
+<span id="cb142-10"><a href="#cb142-10" aria-hidden="true" tabindex="-1"></a>         <span class="fu">ifelse</span>(<span class="fu">is.na</span>(y), (x),</span>
+<span id="cb142-11"><a href="#cb142-11" aria-hidden="true" tabindex="-1"></a>                  (x <span class="sc">+</span> y)<span class="sc">/</span><span class="dv">2</span>))}, </span>
+<span id="cb142-12"><a href="#cb142-12" aria-hidden="true" tabindex="-1"></a>                      numarticle,numbook))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>#Histograms of square root variables</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb143"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb143-1"><a href="#cb143-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(expertise3_cube<span class="sc">$</span>class_wins1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-79-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb144"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb144-1"><a href="#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(expertise3_cube<span class="sc">$</span>media_wins1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-80-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb145"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(expertise3_cube<span class="sc">$</span>know)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-81-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb146"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb146-1"><a href="#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(expertise3_cube<span class="sc">$</span>ih)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-82-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>##Shapiro-Wilk values</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb147"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb147-1"><a href="#cb147-1" aria-hidden="true" tabindex="-1"></a><span class="fu">descriptives</span>(expertise3_cube, <span class="at">vars =</span> <span class="fu">vars</span>(class_wins1, media_wins1, know, ih), <span class="at">sw =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ DESCRIPTIVES
+
+ Descriptives                                                                       
+ ────────────────────────────────────────────────────────────────────────────────── 
+                         class_wins1    media_wins1    know            ih           
+ ────────────────────────────────────────────────────────────────────────────────── 
+   N                            1592           1592            1591          1591   
+   Missing                         0              0               1             1   
+   Mean                    0.2552345       4.623116    4.689314e-17      4.869579   
+   Median                   0.000000      0.5000000      0.01275956      5.000000   
+   Standard deviation      0.8482782       25.33592       0.9977963      1.891089   
+   Minimum                  0.000000       0.000000       -2.659207      1.000000   
+   Maximum                  16.66667       762.5000        2.956309      9.000000   
+   Shapiro-Wilk W          0.3180596      0.1337963       0.9918312     0.9818945   
+   Shapiro-Wilk p         &lt; .0000001     &lt; .0000001      &lt; .0000001    &lt; .0000001   
+ ────────────────────────────────────────────────────────────────────────────────── </code></pre>
+</div>
+</div>
+<p>##Center variables</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb149"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb149-1"><a href="#cb149-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Center variables: </span></span>
+<span id="cb149-2"><a href="#cb149-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb149-3"><a href="#cb149-3" aria-hidden="true" tabindex="-1"></a>expertise3_cube<span class="sc">$</span>know_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise3_cube<span class="sc">$</span>know, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb149-4"><a href="#cb149-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb149-5"><a href="#cb149-5" aria-hidden="true" tabindex="-1"></a>expertise3_cube<span class="sc">$</span>needforcog_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise3_cube<span class="sc">$</span>needforcog, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb149-6"><a href="#cb149-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb149-7"><a href="#cb149-7" aria-hidden="true" tabindex="-1"></a>expertise3_cube<span class="sc">$</span>class_wins1_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise3_cube<span class="sc">$</span>class_wins1, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb149-8"><a href="#cb149-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb149-9"><a href="#cb149-9" aria-hidden="true" tabindex="-1"></a>expertise3_cube<span class="sc">$</span>media_wins1_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise3_cube<span class="sc">$</span>media_wins1, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="hlm-models-5" class="level2">
+<h2 class="anchored" data-anchor-id="hlm-models-5">HLM Models</h2>
+<section id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition-2" class="level3">
+<h3 class="anchored" data-anchor-id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition-2">Model of objective expertise, perceived expertise and need for cognition</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb150"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb150-1"><a href="#cb150-1" aria-hidden="true" tabindex="-1"></a>Model.<span class="fl">1.1</span><span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>class_wins1_cent <span class="sc">+</span> media_wins1_cent <span class="sc">+</span> know_cent <span class="sc">+</span>needforcog_cent <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID),   </span>
+<span id="cb150-2"><a href="#cb150-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data=</span>expertise3_cube)</span>
+<span id="cb150-3"><a href="#cb150-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model.<span class="fl">1.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: 
+ih ~ class_wins1_cent + media_wins1_cent + know_cent + needforcog_cent +  
+    (1 | Score_Type) + (1 | ID)
+   Data: expertise3_cube
+
+REML criterion at convergence: 6309.1
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-3.06026 -0.66519 -0.02102  0.61116  2.87227 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ ID         (Intercept) 0.5022   0.7087  
+ Score_Type (Intercept) 0.3515   0.5928  
+ Residual               2.6850   1.6386  
+Number of obs: 1590, groups:  ID, 199; Score_Type, 8
+
+Fixed effects:
+                   Estimate Std. Error         df t value Pr(&gt;|t|)    
+(Intercept)       4.870e+00  2.194e-01  7.780e+00  22.197 2.57e-08 ***
+class_wins1_cent  4.665e-02  5.605e-02  1.567e+03   0.832   0.4054    
+media_wins1_cent -1.562e-03  2.034e-03  1.099e+03  -0.768   0.4424    
+know_cent         8.241e-02  4.966e-02  1.366e+03   1.660   0.0972 .  
+needforcog_cent  -2.097e-01  5.066e-02  1.965e+02  -4.139 5.17e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) cls_1_ md_w1_ knw_cn
+clss_wns1_c  0.000                     
+md_wns1_cnt  0.000 -0.126              
+know_cent    0.000 -0.174 -0.110       
+nedfrcg_cnt  0.000 -0.047 -0.045 -0.009</code></pre>
+</div>
+</div>
 
 
 </section>

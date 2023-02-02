@@ -1021,7 +1021,6 @@ summary(Model.2.1)
 
 ```
 
-
 #Winsorize at 2.5% the raw variables for our new expertise variables
 
 ```{r warning = FALSE, message = FALSE}
@@ -1081,7 +1080,7 @@ expertise3_wins_average_w25$media_wins1_cent <- scale(expertise3_wins_average_w2
 
 ## HLM Models
 
-### Model of objective expertise, perceived expertise and need for cognition 
+### Model of objective expertise, perceived expertise and need for cognition
 
 ```{r}
 Model.1.1<-lmer(ih ~class_wins1_cent + media_wins1_cent + know_cent +needforcog_cent +(1|Score_Type)+(1|ID),   
@@ -1089,96 +1088,33 @@ Model.1.1<-lmer(ih ~class_wins1_cent + media_wins1_cent + know_cent +needforcog_
 summary(Model.1.1)
 ```
 
-#Log variables
-
-## Take the means before log variables to create our new categories: media and class
-```{r warning = FALSE, message = FALSE}
-# Standardize the Selected variables  ----
-vars_to_standardize <- c("know", "numarticle","numbook", "high","colle", "grad")
-
-
-expertise3_wins_average_log<-expertise3_wins_fact %>% 
-  group_by(Score_Type) %>% 
-  mutate_at(vars(vars_to_standardize), scale)
-
-```
-
-
-```{r warning = FALSE, message = FALSE}
-
-expertise3_wins_average_log <- expertise3_wins_average_log %>% mutate(class_wins1 = mapply(function(x, y, z) {
-  ifelse(is.na(x), (y + z)/2, 
-         ifelse(is.na(y), (x + z)/2, 
-                ifelse(is.na(z), (x + y)/2, (x + y + z)/3)))}, 
-  grad, colle, high))
-
-expertise3_wins_average_log <- expertise3_wins_average_log %>% mutate(media_wins1 = 
-                                                          mapply(function(x, y) {
-  ifelse(is.na(x), (y), 
-         ifelse(is.na(y), (x),
-                  (x + y)/2))}, 
-                      numarticle,numbook))
-
-```
-
-
-#log of the raw variables for our new expertise variables
-
-```{r warning = FALSE, message = FALSE}
-# winsorize the variables (at 1%)
-expertise3_wins_average_log <- expertise3_wins_average_log%>%
-  mutate(class_log=log10(class_wins1),
-         media_log=log10(media_wins1))
-
-```
-
-#Histograms of log variables
-```{r warning = FALSE, message = FALSE}
-hist(expertise3_wins_average_log$class_wins1)
-hist(expertise3_wins_average_log$media_wins1)
-```
-
-
-```{r warning=FALSE, message=FALSE}
-
-# Center variables: 
-
-expertise3_wins_average_log$know_cent <- scale(expertise3_wins_average_log$know, center = TRUE, scale = FALSE)
-
-expertise3_wins_average_log$needforcog_cent <- scale(expertise3_wins_average_log$needforcog, center = TRUE, scale = FALSE)
-
-expertise3_wins_average_log$class_wins1_cent <- scale(expertise3_wins_average_log$class_wins1, center = TRUE, scale = FALSE)
-
-expertise3_wins_average_log$media_wins1_cent <- scale(expertise3_wins_average_log$media_wins1, center = TRUE, scale = FALSE)
-
-```
-
-## HLM Models
-
-### Model of objective expertise, perceived expertise and need for cognition 
-
-```{r}
-Model.1.1<-lmer(ih ~class_wins1_cent + media_wins1_cent + know_cent +needforcog_cent +(1|Score_Type)+(1|ID),   
-              data=expertise3_wins_average_log)
-summary(Model.1.1)
-```
-
-
-
 #Sqrt variables
 
-## Take the means before log variables to create our new categories: media and class
+##Square root of the raw variables for our new expertise variables
+
+```{r warning = FALSE, message = FALSE}
+# take the square root of the variables
+expertise3_sqrt <- expertise3_wins_fact%>%
+  mutate(numarticle_sqrt=sqrt(numarticle),
+         numbook_sqrt=sqrt(numbook),
+         high_sqrt=sqrt(high),
+         colle_sqrt=sqrt(colle),
+         grad_sqrt=sqrt(grad))
+
+```
+
+## Standardize and average of our variables to create our new categories: media and class
+
 ```{r warning = FALSE, message = FALSE}
 # Standardize the Selected variables  ----
-vars_to_standardize <- c("know", "numarticle","numbook", "high","colle", "grad")
+vars_to_standardize <- c("know", "numarticle_sqrt","numbook_sqrt", "high_sqrt","colle_sqrt", "grad_sqrt")
 
 
-expertise3_sqrt<-expertise3_wins_fact %>% 
+expertise3_sqrt<-expertise3_sqrt %>% 
   group_by(Score_Type) %>% 
   mutate_at(vars(vars_to_standardize), scale)
 
 ```
-
 
 ```{r warning = FALSE, message = FALSE}
 
@@ -1186,34 +1122,42 @@ expertise3_sqrt <- expertise3_sqrt %>% mutate(class_wins1 = mapply(function(x, y
   ifelse(is.na(x), (y + z)/2, 
          ifelse(is.na(y), (x + z)/2, 
                 ifelse(is.na(z), (x + y)/2, (x + y + z)/3)))}, 
-  grad, colle, high))
+  grad_sqrt, colle_sqrt, high_sqrt))
 
 expertise3_sqrt <- expertise3_sqrt %>% mutate(media_wins1 = 
                                                           mapply(function(x, y) {
   ifelse(is.na(x), (y), 
          ifelse(is.na(y), (x),
                   (x + y)/2))}, 
-                      numarticle,numbook))
+                      numarticle_sqrt,numbook_sqrt))
 
 ```
 
+##Histograms of square root variables
 
-#log of the raw variables for our new expertise variables
-
-```{r warning = FALSE, message = FALSE}
-# winsorize the variables (at 1%)
-expertise3_sqrt <- expertise3_sqrt%>%
-  mutate(class_sqrt=sqrt(class_wins1),
-         media_sqrt=sqrt(media_wins1))
-
-```
-
-#Histograms of log variables
 ```{r warning = FALSE, message = FALSE}
 hist(expertise3_sqrt$class_wins1)
+```
+
+```{r warning = FALSE, message = FALSE}
 hist(expertise3_sqrt$media_wins1)
 ```
 
+```{r warning = FALSE, message = FALSE}
+hist(expertise3_sqrt$know)
+```
+
+```{r warning = FALSE, message = FALSE}
+hist(expertise3_sqrt$ih)
+```
+
+##Shapiro-Wilk values
+
+```{r warning = FALSE, message = FALSE}
+descriptives(expertise3_sqrt, vars = vars(class_wins1, media_wins1, know, ih), n=FALSE, missing= FALSE, median=FALSE, sw = TRUE)
+```
+
+##Cente the variables
 
 ```{r warning=FALSE, message=FALSE}
 
@@ -1231,7 +1175,7 @@ expertise3_sqrt$media_wins1_cent <- scale(expertise3_sqrt$media_wins1, center = 
 
 ## HLM Models
 
-### Model of objective expertise, perceived expertise and need for cognition 
+### Model of objective expertise, perceived expertise and need for cognition
 
 ```{r}
 Model.1.1<-lmer(ih ~class_wins1_cent + media_wins1_cent + know_cent +needforcog_cent +(1|Score_Type)+(1|ID),   
@@ -1239,22 +1183,33 @@ Model.1.1<-lmer(ih ~class_wins1_cent + media_wins1_cent + know_cent +needforcog_
 summary(Model.1.1)
 ```
 
-
-
 #Cube root variables
 
-## Take the means before log variables to create our new categories: media and class
+##Cube root of the raw variables for our new expertise variables
+
+```{r warning = FALSE, message = FALSE}
+# cube root of the variables 
+expertise3_cube <- expertise3_wins_fact%>%
+  mutate(numarticle_cube=(numarticle^(1/3)),
+         numbook_cube=(numbook^(1/3)),
+         high_cube=(high^(1/3)),
+         colle_cube=(colle^(1/3)),
+         grad_cube=(grad^(1/3)))
+
+```
+
+## Standardize and average of variables to create our new categories: media and class
+
 ```{r warning = FALSE, message = FALSE}
 # Standardize the Selected variables  ----
-vars_to_standardize <- c("know", "numarticle","numbook", "high","colle", "grad")
+vars_to_standardize <- c("know", "numarticle_cube","numbook_cube", "high_cube","colle_cube", "grad_cube")
 
 
-expertise3_cube<-expertise3_wins_fact %>% 
+expertise3_cube<-expertise3_cube %>% 
   group_by(Score_Type) %>% 
   mutate_at(vars(vars_to_standardize), scale)
 
 ```
-
 
 ```{r warning = FALSE, message = FALSE}
 
@@ -1262,34 +1217,42 @@ expertise3_cube <- expertise3_cube %>% mutate(class_wins1 = mapply(function(x, y
   ifelse(is.na(x), (y + z)/2, 
          ifelse(is.na(y), (x + z)/2, 
                 ifelse(is.na(z), (x + y)/2, (x + y + z)/3)))}, 
-  grad, colle, high))
+  grad_cube, colle_cube, high_cube))
 
 expertise3_cube <- expertise3_cube %>% mutate(media_wins1 = 
                                                           mapply(function(x, y) {
   ifelse(is.na(x), (y), 
          ifelse(is.na(y), (x),
                   (x + y)/2))}, 
-                      numarticle,numbook))
+                       numarticle_cube,numbook_cube))
 
 ```
 
+##Histograms of square root variables
 
-#log of the raw variables for our new expertise variables
-
-```{r warning = FALSE, message = FALSE}
-# winsorize the variables (at 1%)
-expertise3_cube <- expertise3_cube%>%
-  mutate(class_cube=class_wins1^(1/3),
-         media_cube=media_wins1^(1/3))
-
-```
-
-#Histograms of log variables
 ```{r warning = FALSE, message = FALSE}
 hist(expertise3_cube$class_wins1)
+```
+
+```{r warning = FALSE, message = FALSE}
 hist(expertise3_cube$media_wins1)
 ```
 
+```{r warning = FALSE, message = FALSE}
+hist(expertise3_cube$know)
+```
+
+```{r warning = FALSE, message = FALSE}
+hist(expertise3_cube$ih)
+```
+
+##Shapiro-Wilk values
+
+```{r warning = FALSE, message = FALSE}
+descriptives(expertise3_cube, vars = vars(class_wins1, media_wins1, know, ih), sw = TRUE)
+```
+
+##Center variables
 
 ```{r warning=FALSE, message=FALSE}
 
@@ -1307,12 +1270,10 @@ expertise3_cube$media_wins1_cent <- scale(expertise3_cube$media_wins1, center = 
 
 ## HLM Models
 
-### Model of objective expertise, perceived expertise and need for cognition 
+### Model of objective expertise, perceived expertise and need for cognition
 
 ```{r}
 Model.1.1<-lmer(ih ~class_wins1_cent + media_wins1_cent + know_cent +needforcog_cent +(1|Score_Type)+(1|ID),   
               data=expertise3_cube)
 summary(Model.1.1)
 ```
-
-
