@@ -1,9 +1,6 @@
 ---
-title: "Expertise6 Data Analysis from the very beginning"
-author: "MK"
-date: "2023-01-16"
-categories: [example data, code, analysis]
-image: "newdata.png"
+title: "Expertise6_2023-01-20"
+format: docx
 ---
 
 This post includes the trial analyses of an example data related to expertise.
@@ -663,14 +660,6 @@ expertise6_ready$media_wins1_cent <- scale(expertise6_ready$media_wins1, center 
 
 ```
 
-Descriptives
-```{r}
-
-describe(expertise6_ready)
-
-```
-
-
 ## HLM Models
 
 ### Model objective expertise with grad courses, books and magazines
@@ -718,3 +707,10 @@ Model.2.1<-lmer(ih ~class_wins1_cent + media_wins1_cent  + know_cent+ needforclo
 summary(Model.2.1)
 
 ```
+
+```{r}
+Model.2.2<-lmer(ih ~media_wins1_cent+(1|Score_Type)+(1|ID),data=expertise6_ready)
+summary(Model.2.2)
+
+```
+
