@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="MK">
-<meta name="dcterms.date" content="2023-01-16">
+<meta name="dcterms.date" content="2023-02-23">
 
 <title>Mert’s Learning Journal - Expertise6 Data Analysis from the very beginning</title>
 <style>
@@ -190,7 +190,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">January 16, 2023</p>
+        <p class="date">February 23, 2023</p>
       </div>
     </div>
     
@@ -222,13 +222,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DescTools)</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stats)</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">'reshape2'</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reshape2)</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4) </span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmerTest)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effects)</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">#Read the csv file ----</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>Expertise6 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"~/Desktop/Expertise6_5.8.14_December 23, 2022_10.51 2.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">#Read the csv file ----</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>Expertise6 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"~/Desktop/Expertise6_5.8.14_December 23, 2022_10.51 2.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Creates a new dataframe called expertise6_clean, which is a copy of the original dataframe called expertise6 and removes the second row of the dataframe and create a variable called column_names and assign it the names of the columns in the dataframe and change the column names</p>
 <div class="cell">
@@ -1241,7 +1242,7 @@ Minimum correlation of possible factor scores     0.73 0.54</code></pre>
 <span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">ifelse</span>(<span class="fu">is.na</span>(t),(x <span class="sc">+</span> y <span class="sc">+</span> z <span class="sc">+</span> r)<span class="sc">/</span><span class="dv">4</span>, </span>
 <span id="cb48-15"><a href="#cb48-15" aria-hidden="true" tabindex="-1"></a>                              <span class="fu">ifelse</span>(<span class="fu">is.na</span>(r),(x <span class="sc">+</span> y <span class="sc">+</span> z <span class="sc">+</span> t)<span class="sc">/</span><span class="dv">4</span>,</span>
 <span id="cb48-16"><a href="#cb48-16" aria-hidden="true" tabindex="-1"></a>                                     (x <span class="sc">+</span> y <span class="sc">+</span> z <span class="sc">+</span> t <span class="sc">+</span> r)<span class="sc">/</span><span class="dv">5</span>)))))}, </span>
-<span id="cb48-17"><a href="#cb48-17" aria-hidden="true" tabindex="-1"></a>  docu_wins_1,inarti_wins_1, radio_wins_1, numbook_wins_1, grad_wins_1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb48-17"><a href="#cb48-17" aria-hidden="true" tabindex="-1"></a>  docu_wins_1,inarti_wins_1, radio_wins_1, numbook_wins_1, numarticle_wins_1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="center-the-variables" class="level2">
@@ -1255,17 +1256,117 @@ Minimum correlation of possible factor scores     0.73 0.54</code></pre>
 <span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>expertise6_ready<span class="sc">$</span>media_wins1_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise6_ready<span class="sc">$</span>media_wins1, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Descriptives</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(expertise6_ready)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                  vars    n  mean    sd median trimmed   mad   min     max
+ID                   1 1536 96.50 55.44  96.50   96.50 71.16  1.00  192.00
+duration*            2 1536 92.35 52.86  92.50   92.45 68.94  1.00  182.00
+sex*                 3 1536  1.64  0.48   2.00    1.68  0.00  1.00    2.00
+education*           4 1536  3.62  0.94   4.00    3.60  1.48  1.00    6.00
+income*              5 1512 49.86 27.76  51.00   49.99 34.10  1.00  101.00
+religion*            6 1536 22.26 12.86  17.00   21.98 16.31  1.00   51.00
+identity*            7 1528 21.27 10.66  29.00   22.29  1.48  1.00   36.00
+age*                 8 1528 19.20 12.11  17.00   18.35 13.34  1.00   46.00
+political_atti*      9 1536  4.21  2.16   4.00    4.12  2.97  1.00    9.00
+english_level*      10 1536  1.01  0.10   1.00    1.00  0.00  1.00    2.00
+needforclo          11 1528  5.63  0.69   5.69    5.63  0.71  3.79    7.36
+Score_Type*         12 1536  4.50  2.29   4.50    4.50  2.97  1.00    8.00
+colle               13 1536  2.21 52.06   0.00    0.21  0.00  0.00 2000.00
+grad                14 1536  0.94 26.07   0.00    0.00  0.00  0.00 1000.00
+high                15 1536  0.66 10.56   0.00    0.06  0.00  0.00  400.00
+ih                  16 1536  5.11  2.14   5.00    5.16  2.97  1.00    9.00
+know                17 1536  0.00  1.00  -0.17   -0.06  1.10 -2.20    3.05
+numarticle          18 1536  7.38 36.32   0.00    2.09  0.00  0.00 1000.00
+numbook             19 1536  2.07 12.09   0.00    0.55  0.00  0.00  400.00
+numdocu             20 1536  3.70 36.82   0.00    0.79  0.00  0.00 1000.00
+numinarti           21 1536 13.56 82.66   0.00    2.79  0.00  0.00 2000.00
+numradio            22 1536  1.21  7.13   0.00    0.10  0.00  0.00  100.00
+numarticle_wins_1   23 1536  0.00  1.00  -0.31   -0.23  0.13 -0.49    9.84
+numbook_wins_1      24 1536  0.00  1.00  -0.29   -0.22  0.19 -0.55   11.10
+high_wins_1         25 1536  0.00  1.00  -0.27   -0.24  0.08 -0.82    7.96
+colle_wins_1        26 1536  0.00  1.00  -0.26   -0.22  0.19 -0.66    9.84
+grad_wins_1         27 1152  0.00  1.00  -0.12   -0.15  0.07 -0.31   13.78
+docu_wins_1         28 1536  0.00  1.00  -0.34   -0.23  0.17 -0.59   10.47
+inarti_wins_1       29 1536  0.00  1.00  -0.29   -0.22  0.13 -0.45   10.74
+radio_wins_1        30 1536  0.00  1.00  -0.25   -0.23  0.06 -0.43   10.69
+class_wins1         31 1536  0.00  0.72  -0.25   -0.16  0.08 -0.58    7.38
+media_wins1         32 1536  0.00  0.73  -0.26   -0.17  0.16 -0.48    6.57
+know_cent           33 1536  0.00  1.00  -0.17   -0.06  1.10 -2.20    3.05
+needforclo_cent     34 1528  0.00  0.69   0.06    0.00  0.71 -1.84    1.73
+class_wins1_cent    35 1536  0.00  0.72  -0.25   -0.16  0.08 -0.58    7.38
+media_wins1_cent    36 1536  0.00  0.73  -0.26   -0.17  0.16 -0.48    6.57
+                    range  skew kurtosis   se
+ID                 191.00  0.00    -1.20 1.41
+duration*          181.00 -0.01    -1.23 1.35
+sex*                 1.00 -0.59    -1.66 0.01
+education*           5.00  0.33     0.17 0.02
+income*            100.00 -0.01    -1.06 0.71
+religion*           50.00  0.19    -1.09 0.33
+identity*           35.00 -0.59    -1.40 0.27
+age*                45.00  0.51    -0.83 0.31
+political_atti*      8.00  0.34    -0.76 0.06
+english_level*       1.00  9.63    90.89 0.00
+needforclo           3.57 -0.05    -0.24 0.02
+Score_Type*          7.00  0.00    -1.24 0.06
+colle             2000.00 37.08  1410.78 1.33
+grad              1000.00 36.95  1404.30 0.67
+high               400.00 35.76  1333.98 0.27
+ih                   8.00 -0.12    -0.85 0.05
+know                 5.25  0.46    -0.47 0.03
+numarticle        1000.00 17.54   410.05 0.93
+numbook            400.00 24.68   771.98 0.31
+numdocu           1000.00 25.86   695.08 0.94
+numinarti         2000.00 15.21   284.41 2.11
+numradio           100.00 11.51   148.11 0.18
+numarticle_wins_1   10.34  4.72    26.00 0.03
+numbook_wins_1      11.66  4.80    28.73 0.03
+high_wins_1          8.78  3.87    18.44 0.03
+colle_wins_1        10.50  4.42    26.23 0.03
+grad_wins_1         14.09  7.79    71.79 0.03
+docu_wins_1         11.07  4.15    22.30 0.03
+inarti_wins_1       11.18  5.44    35.99 0.03
+radio_wins_1        11.13  5.36    35.25 0.03
+class_wins1          7.95  4.16    24.16 0.02
+media_wins1          7.06  4.05    20.95 0.02
+know_cent            5.25  0.46    -0.47 0.03
+needforclo_cent      3.57 -0.05    -0.24 0.02
+class_wins1_cent     7.95  4.16    24.16 0.02
+media_wins1_cent     7.06  4.05    20.95 0.02</code></pre>
+</div>
+</div>
+<p>##Shapiro-Wilk values</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">descriptives</span>(expertise6_ready, <span class="at">vars =</span> <span class="fu">vars</span>(class_wins1, media_wins1, know, ih),<span class="at">n=</span><span class="cn">FALSE</span>, <span class="at">missing=</span> <span class="cn">FALSE</span>, <span class="at">median=</span><span class="cn">FALSE</span>, <span class="at">sw =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ DESCRIPTIVES
+
+ Descriptives                                                                         
+ ──────────────────────────────────────────────────────────────────────────────────── 
+                         class_wins1     media_wins1     know            ih           
+ ──────────────────────────────────────────────────────────────────────────────────── 
+   Mean                  2.746646e-18    2.432227e-17    5.261995e-17      5.112305   
+   Standard deviation       0.7210980       0.7266705       0.9977173      2.142995   
+   Minimum                 -0.5754818      -0.4829025       -2.197199      1.000000   
+   Maximum                   7.378558        6.574853        3.050287      9.000000   
+   Shapiro-Wilk W           0.5389428       0.5381616       0.9721739     0.9707327   
+   Shapiro-Wilk p          &lt; .0000001      &lt; .0000001      &lt; .0000001    &lt; .0000001   
+ ──────────────────────────────────────────────────────────────────────────────────── </code></pre>
+</div>
+</div>
 </section>
 <section id="hlm-models" class="level2">
 <h2 class="anchored" data-anchor-id="hlm-models">HLM Models</h2>
 <section id="model-objective-expertise-with-grad-courses-books-and-magazines" class="level3">
 <h3 class="anchored" data-anchor-id="model-objective-expertise-with-grad-courses-books-and-magazines">Model objective expertise with grad courses, books and magazines</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Model objective expertise ----</span></span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>Model_obj<span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>class_wins1_cent<span class="sc">*</span>needforclo_cent<span class="sc">+</span>class_wins1_cent<span class="sc">+</span>needforclo_cent<span class="sc">+</span></span>
-<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>                (<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID), <span class="at">data=</span>expertise6_ready)</span>
-<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model_obj)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Model objective expertise ----</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>Model_obj<span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>class_wins1_cent<span class="sc">*</span>needforclo_cent<span class="sc">+</span>class_wins1_cent<span class="sc">+</span>needforclo_cent<span class="sc">+</span></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>                (<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID), <span class="at">data=</span>expertise6_ready)</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model_obj)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
 lmerModLmerTest]
@@ -1311,8 +1412,8 @@ clss_wn1_:_  0.004  0.093 -0.050</code></pre>
 <section id="model-objective-expertise-with-high-school-and-college-courses" class="level3">
 <h3 class="anchored" data-anchor-id="model-objective-expertise-with-high-school-and-college-courses">Model objective expertise with high school and college courses</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>Model_obj2<span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>media_wins1_cent <span class="sc">*</span> needforclo_cent <span class="sc">+</span>media_wins1_cent <span class="sc">+</span> needforclo_cent<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID), <span class="at">data=</span>expertise6_ready)</span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model_obj2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>Model_obj2<span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>media_wins1_cent <span class="sc">*</span> needforclo_cent <span class="sc">+</span>media_wins1_cent <span class="sc">+</span> needforclo_cent<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID), <span class="at">data=</span>expertise6_ready)</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model_obj2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
 lmerModLmerTest]
@@ -1320,47 +1421,47 @@ Formula: ih ~ media_wins1_cent * needforclo_cent + media_wins1_cent +
     needforclo_cent + (1 | Score_Type) + (1 | ID)
    Data: expertise6_ready
 
-REML criterion at convergence: 6315.2
+REML criterion at convergence: 6312
 
 Scaled residuals: 
      Min       1Q   Median       3Q      Max 
--2.94495 -0.65906  0.02574  0.65749  2.56054 
+-2.95382 -0.66151  0.02337  0.66064  2.55803 
 
 Random effects:
  Groups     Name        Variance Std.Dev.
- ID         (Intercept) 0.7589   0.8711  
- Score_Type (Intercept) 0.7772   0.8816  
- Residual               3.1176   1.7657  
+ ID         (Intercept) 0.7553   0.8691  
+ Score_Type (Intercept) 0.7773   0.8817  
+ Residual               3.1108   1.7638  
 Number of obs: 1528, groups:  ID, 191; Score_Type, 8
 
 Fixed effects:
                                    Estimate Std. Error         df t value
-(Intercept)                         5.10200    0.32119    7.57087  15.884
-media_wins1_cent                   -0.18698    0.07638 1505.70217  -2.448
-needforclo_cent                     0.18792    0.11181  188.37578   1.681
-media_wins1_cent:needforclo_cent   -0.07847    0.10019 1474.34770  -0.783
+(Intercept)                         5.10190    0.32118    7.56820  15.885
+media_wins1_cent                   -0.22040    0.07087 1498.82315  -3.110
+needforclo_cent                     0.18599    0.11163  188.65641   1.666
+media_wins1_cent:needforclo_cent   -0.06861    0.08735 1466.83328  -0.785
                                  Pr(&gt;|t|)    
-(Intercept)                      4.37e-07 ***
-media_wins1_cent                   0.0145 *  
-needforclo_cent                    0.0945 .  
-media_wins1_cent:needforclo_cent   0.4336    
+(Intercept)                      4.38e-07 ***
+media_wins1_cent                  0.00191 ** 
+needforclo_cent                   0.09735 .  
+media_wins1_cent:needforclo_cent  0.43236    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Correlation of Fixed Effects:
             (Intr) md_w1_ ndfrc_
 md_wns1_cnt  0.000              
-nedfrcl_cnt  0.000  0.014       
-md_wns1_c:_  0.004  0.094 -0.036</code></pre>
+nedfrcl_cnt  0.000  0.017       
+md_wns1_c:_  0.004  0.087 -0.044</code></pre>
 </div>
 </div>
 </section>
 <section id="model-of-perceived-expertise-and-need-for-cognition" class="level3">
 <h3 class="anchored" data-anchor-id="model-of-perceived-expertise-and-need-for-cognition">Model of perceived expertise and need for cognition</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>Model_perc<span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>know_cent<span class="sc">*</span>needforclo_cent<span class="sc">+</span> know_cent <span class="sc">+</span> needforclo_cent <span class="sc">+</span></span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>                (<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID), <span class="at">data=</span>expertise6_ready)</span>
-<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model_perc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>Model_perc<span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>know_cent<span class="sc">*</span>needforclo_cent<span class="sc">+</span> know_cent <span class="sc">+</span> needforclo_cent <span class="sc">+</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>                (<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID), <span class="at">data=</span>expertise6_ready)</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model_perc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
 lmerModLmerTest]
@@ -1401,9 +1502,9 @@ knw_cnt:nd_  0.012  0.063 -0.040</code></pre>
 <section id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition-without-interaction" class="level3">
 <h3 class="anchored" data-anchor-id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition-without-interaction">Model of objective expertise, perceived expertise and need for cognition without interaction</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>Model.<span class="fl">1.1</span><span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>class_wins1_cent <span class="sc">+</span> media_wins1_cent <span class="sc">+</span> know_cent <span class="sc">+</span>needforclo_cent <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID),   </span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data=</span>expertise6_ready)</span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model.<span class="fl">1.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>Model.<span class="fl">1.1</span><span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>class_wins1_cent <span class="sc">+</span> media_wins1_cent <span class="sc">+</span> know_cent <span class="sc">+</span>needforclo_cent <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID),   </span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data=</span>expertise6_ready)</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model.<span class="fl">1.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
 lmerModLmerTest]
@@ -1412,45 +1513,45 @@ ih ~ class_wins1_cent + media_wins1_cent + know_cent + needforclo_cent +
     (1 | Score_Type) + (1 | ID)
    Data: expertise6_ready
 
-REML criterion at convergence: 6319.9
+REML criterion at convergence: 6316.6
 
 Scaled residuals: 
      Min       1Q   Median       3Q      Max 
--2.93086 -0.66258  0.01667  0.66013  2.53736 
+-2.94278 -0.66321  0.01385  0.66298  2.54206 
 
 Random effects:
  Groups     Name        Variance Std.Dev.
- ID         (Intercept) 0.7605   0.8721  
+ ID         (Intercept) 0.7506   0.8664  
  Score_Type (Intercept) 0.7758   0.8808  
- Residual               3.1202   1.7664  
+ Residual               3.1160   1.7652  
 Number of obs: 1528, groups:  ID, 191; Score_Type, 8
 
 Fixed effects:
                    Estimate Std. Error         df t value Pr(&gt;|t|)    
-(Intercept)         5.10291    0.32094    7.57320  15.900 4.32e-07 ***
-class_wins1_cent    0.02859    0.08345 1490.43898   0.343    0.732    
-media_wins1_cent   -0.18826    0.09341 1513.35766  -2.015    0.044 *  
-know_cent          -0.02028    0.05887 1416.04242  -0.345    0.731    
-needforclo_cent     0.18335    0.11195  183.73314   1.638    0.103    
+(Intercept)       5.103e+00  3.209e-01  7.566e+00  15.905 4.36e-07 ***
+class_wins1_cent  2.461e-02  7.825e-02  1.493e+03   0.314  0.75321    
+media_wins1_cent -2.259e-01  8.177e-02  1.508e+03  -2.762  0.00581 ** 
+know_cent        -2.644e-03  5.943e-02  1.411e+03  -0.044  0.96453    
+needforclo_cent   1.823e-01  1.114e-01  1.840e+02   1.635  0.10367    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Correlation of Fixed Effects:
             (Intr) cls_1_ md_w1_ knw_cn
 clss_wns1_c  0.000                     
-md_wns1_cnt  0.000 -0.481              
-know_cent    0.001 -0.211 -0.216       
-nedfrcl_cnt  0.000  0.000 -0.001  0.046</code></pre>
+md_wns1_cnt  0.000 -0.357              
+know_cent    0.001 -0.239 -0.259       
+nedfrcl_cnt  0.000 -0.001  0.003  0.044</code></pre>
 </div>
 </div>
 </section>
 <section id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition-with-interaction" class="level3">
 <h3 class="anchored" data-anchor-id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition-with-interaction">Model of objective expertise, perceived expertise and need for cognition with interaction</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>Model.<span class="fl">2.1</span><span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>class_wins1_cent <span class="sc">+</span> media_wins1_cent  <span class="sc">+</span> know_cent<span class="sc">+</span> needforclo_cent <span class="sc">+</span></span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>                  class_wins1_cent<span class="sc">*</span>needforclo_cent <span class="sc">+</span> media_wins1_cent<span class="sc">*</span>needforclo_cent <span class="sc">+</span></span>
-<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>                  know_cent<span class="sc">*</span>needforclo_cent<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID),<span class="at">data=</span>expertise6_ready)</span>
-<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model.<span class="fl">2.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>Model.<span class="fl">2.1</span><span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>class_wins1_cent <span class="sc">+</span> media_wins1_cent  <span class="sc">+</span> know_cent<span class="sc">+</span> needforclo_cent <span class="sc">+</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>                  class_wins1_cent<span class="sc">*</span>needforclo_cent <span class="sc">+</span> media_wins1_cent<span class="sc">*</span>needforclo_cent <span class="sc">+</span></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>                  know_cent<span class="sc">*</span>needforclo_cent<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID),<span class="at">data=</span>expertise6_ready)</span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model.<span class="fl">2.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
 lmerModLmerTest]
@@ -1460,50 +1561,721 @@ ih ~ class_wins1_cent + media_wins1_cent + know_cent + needforclo_cent +
     know_cent * needforclo_cent + (1 | Score_Type) + (1 | ID)
    Data: expertise6_ready
 
-REML criterion at convergence: 6326.7
+REML criterion at convergence: 6324.1
 
 Scaled residuals: 
      Min       1Q   Median       3Q      Max 
--2.92927 -0.66314  0.01952  0.65538  2.56700 
+-2.94235 -0.65807  0.01588  0.66131  2.55946 
 
 Random effects:
  Groups     Name        Variance Std.Dev.
- ID         (Intercept) 0.7658   0.8751  
- Score_Type (Intercept) 0.7735   0.8795  
- Residual               3.1215   1.7668  
+ ID         (Intercept) 0.7574   0.8703  
+ Score_Type (Intercept) 0.7741   0.8798  
+ Residual               3.1172   1.7656  
 Number of obs: 1528, groups:  ID, 191; Score_Type, 8
 
 Fixed effects:
                                    Estimate Std. Error         df t value
-(Intercept)                       5.102e+00  3.206e-01  7.580e+00  15.917
-class_wins1_cent                  3.627e-02  8.392e-02  1.487e+03   0.432
-media_wins1_cent                 -2.009e-01  9.422e-02  1.505e+03  -2.133
-know_cent                        -1.764e-02  5.906e-02  1.411e+03  -0.299
-needforclo_cent                   1.831e-01  1.124e-01  1.831e+02   1.629
-class_wins1_cent:needforclo_cent  1.133e-01  1.156e-01  1.442e+03   0.980
-media_wins1_cent:needforclo_cent -1.560e-01  1.334e-01  1.512e+03  -1.170
-know_cent:needforclo_cent        -7.489e-03  8.398e-02  1.403e+03  -0.089
+(Intercept)                       5.102e+00  3.206e-01  7.573e+00  15.914
+class_wins1_cent                  2.937e-02  7.858e-02  1.490e+03   0.374
+media_wins1_cent                 -2.337e-01  8.223e-02  1.499e+03  -2.842
+know_cent                        -1.025e-03  5.960e-02  1.407e+03  -0.017
+needforclo_cent                   1.836e-01  1.120e-01  1.834e+02   1.640
+class_wins1_cent:needforclo_cent  9.434e-02  1.101e-01  1.439e+03   0.857
+media_wins1_cent:needforclo_cent -1.188e-01  1.108e-01  1.512e+03  -1.073
+know_cent:needforclo_cent        -8.282e-03  8.415e-02  1.402e+03  -0.098
                                  Pr(&gt;|t|)    
-(Intercept)                      4.25e-07 ***
-class_wins1_cent                   0.6656    
-media_wins1_cent                   0.0331 *  
-know_cent                          0.7653    
-needforclo_cent                    0.1050    
-class_wins1_cent:needforclo_cent   0.3272    
-media_wins1_cent:needforclo_cent   0.2423    
-know_cent:needforclo_cent          0.9290    
+(Intercept)                      4.29e-07 ***
+class_wins1_cent                  0.70864    
+media_wins1_cent                  0.00455 ** 
+know_cent                         0.98628    
+needforclo_cent                   0.10278    
+class_wins1_cent:needforclo_cent  0.39167    
+media_wins1_cent:needforclo_cent  0.28364    
+know_cent:needforclo_cent         0.92162    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Correlation of Fixed Effects:
             (Intr) cls_1_ md_w1_ knw_cn ndfrc_ c_1_:_ m_1_:_
 clss_wns1_c  0.001                                          
-md_wns1_cnt -0.001 -0.484                                   
-know_cent    0.001 -0.203 -0.221                            
-nedfrcl_cnt  0.000 -0.004 -0.001  0.043                     
-clss_wn1_:_  0.000  0.088 -0.069  0.032 -0.028              
-md_wns1_c:_ -0.001 -0.068  0.124 -0.053 -0.002 -0.560       
-knw_cnt:nd_  0.011  0.034 -0.052  0.055 -0.021 -0.190 -0.235</code></pre>
+md_wns1_cnt -0.001 -0.359                                   
+know_cent    0.001 -0.234 -0.263                            
+nedfrcl_cnt  0.000 -0.005  0.002  0.043                     
+clss_wn1_:_ -0.001  0.075 -0.043  0.023 -0.024              
+md_wns1_c:_  0.000 -0.044  0.099 -0.044 -0.014 -0.495       
+knw_cnt:nd_  0.011  0.023 -0.038  0.051 -0.018 -0.213 -0.249</code></pre>
+</div>
+</div>
+<p>#Plot of the model 1.1</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>Model.<span class="fl">1.1</span> <span class="ot">&lt;-</span> <span class="fu">lmer</span>(ih <span class="sc">~</span>class_wins1_cent <span class="sc">+</span> media_wins1_cent <span class="sc">+</span> know_cent <span class="sc">+</span>needforclo_cent <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID),   </span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data=</span>expertise6_ready)</span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model.<span class="fl">1.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: 
+ih ~ class_wins1_cent + media_wins1_cent + know_cent + needforclo_cent +  
+    (1 | Score_Type) + (1 | ID)
+   Data: expertise6_ready
+
+REML criterion at convergence: 6316.6
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-2.94278 -0.66321  0.01385  0.66298  2.54206 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ ID         (Intercept) 0.7506   0.8664  
+ Score_Type (Intercept) 0.7758   0.8808  
+ Residual               3.1160   1.7652  
+Number of obs: 1528, groups:  ID, 191; Score_Type, 8
+
+Fixed effects:
+                   Estimate Std. Error         df t value Pr(&gt;|t|)    
+(Intercept)       5.103e+00  3.209e-01  7.566e+00  15.905 4.36e-07 ***
+class_wins1_cent  2.461e-02  7.825e-02  1.493e+03   0.314  0.75321    
+media_wins1_cent -2.259e-01  8.177e-02  1.508e+03  -2.762  0.00581 ** 
+know_cent        -2.644e-03  5.943e-02  1.411e+03  -0.044  0.96453    
+needforclo_cent   1.823e-01  1.114e-01  1.840e+02   1.635  0.10367    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) cls_1_ md_w1_ knw_cn
+clss_wns1_c  0.000                     
+md_wns1_cnt  0.000 -0.357              
+know_cent    0.001 -0.239 -0.259       
+nedfrcl_cnt  0.000 -0.001  0.003  0.044</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save fitted data</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>ef.<span class="fl">1.</span>media <span class="ot">&lt;-</span> <span class="fu">effect</span>(<span class="at">term =</span> <span class="st">"media_wins1_cent"</span>,</span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">mod =</span> Model.<span class="fl">1.1</span>)</span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>ef.<span class="fl">1.</span>media.data <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(ef.<span class="fl">1.</span>media) <span class="co">#convert the effects list to a data frame</span></span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a>ef.<span class="fl">1.</span>media.data <span class="co">#print effects data frame</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  media_wins1_cent      fit        se    lower    upper
+1             -0.5 5.215930 0.3234555 4.581465 5.850395
+2              1.0 4.877152 0.3310815 4.227728 5.526575
+3              3.0 4.425447 0.4038177 3.633349 5.217545
+4              5.0 3.973743 0.5196216 2.954493 4.992992
+5              7.0 3.522038 0.6560706 2.235141 4.808936</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>expert_media_graph <span class="ot">&lt;-</span> expertise6_ready <span class="sc">%&gt;%</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ID) <span class="sc">%&gt;%</span></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">ih =</span> <span class="fu">mean</span>(ih),</span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">media_wins1_cent =</span> media_wins1)</span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>expert_media_graph <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(expert_media_graph)</span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>expert_media_graph<span class="sc">$</span>media_wins1_cent<span class="ot">&lt;-</span>expert_media_graph<span class="sc">$</span>media_wins1_cent<span class="sc">-</span><span class="fu">min</span>(expert_media_graph<span class="sc">$</span>media_wins1_cent)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>fig.<span class="fl">1.</span>expert6_w1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> ef.<span class="fl">1.</span>media.data, <span class="fu">aes</span>(<span class="at">x =</span> media_wins1_cent,</span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>                                                  <span class="at">y =</span> fit)) <span class="sc">+</span></span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>expert_media_graph, <span class="fu">aes</span>(<span class="at">x=</span>media_wins1_cent,<span class="at">y=</span>ih),</span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">show.legend =</span> <span class="cn">FALSE</span>, <span class="at">pch=</span><span class="dv">21</span>, <span class="at">color=</span><span class="st">"blueviolet"</span>, <span class="at">alpha=</span>.<span class="dv">25</span>, <span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>media_wins1_cent), <span class="at">color =</span> <span class="st">"darkred"</span>, <span class="at">size =</span> <span class="fl">1.2</span>)  <span class="sc">+</span></span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> fit<span class="sc">-</span>se, <span class="at">ymax =</span> fit<span class="sc">+</span>se), <span class="at">alpha =</span> <span class="fl">0.50</span>, <span class="at">fill =</span> <span class="st">"gray70"</span>) <span class="sc">+</span></span>
+<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Expertise and Inherence Bias"</span>, <span class="at">x =</span> <span class="st">"Expertise (books,articles)"</span>,</span>
+<span id="cb69-8"><a href="#cb69-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Inherence bias"</span>) <span class="sc">+</span></span>
+<span id="cb69-9"><a href="#cb69-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">8</span>), <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">8</span>, <span class="dv">2</span>), <span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb69-10"><a href="#cb69-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">2</span>), <span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb69-11"><a href="#cb69-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb69-12"><a href="#cb69-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb69-13"><a href="#cb69-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb69-14"><a href="#cb69-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb69-15"><a href="#cb69-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb69-16"><a href="#cb69-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb69-17"><a href="#cb69-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.border =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb69-18"><a href="#cb69-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.background=</span><span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"gray96"</span>),</span>
+<span id="cb69-19"><a href="#cb69-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"gray96"</span>))</span>
+<span id="cb69-20"><a href="#cb69-20" aria-hidden="true" tabindex="-1"></a>fig.<span class="fl">1.</span>expert6_w1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="fu">paste0</span>(<span class="st">"figure_expertise6+media_w1"</span>,</span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>              <span class="fu">format</span>(<span class="fu">Sys.time</span>(), <span class="st">"%Y-%m-%d"</span>)</span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>              ,<span class="st">".eps"</span>), <span class="at">width =</span> <span class="dv">20</span>, <span class="at">height =</span> <span class="dv">20</span>, <span class="at">units =</span> <span class="st">"cm"</span>) <span class="do">###Save the Figure 3C</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="winsorize-the-variables-at-2.5" class="level2">
+<h2 class="anchored" data-anchor-id="winsorize-the-variables-at-2.5">Winsorize the variables at 2.5%</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co"># winsorize the variables (at 2.5%)</span></span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>expertise6_readyw25 <span class="ot">&lt;-</span> expertise6_fact<span class="sc">%&gt;%</span></span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">numarticle_wins_1=</span><span class="fu">Winsorize</span>(numarticle, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.975</span>)), </span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">numbook_wins_1=</span><span class="fu">Winsorize</span>(numbook, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.975</span>)),</span>
+<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">high_wins_1=</span><span class="fu">Winsorize</span>(high, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.975</span>)),</span>
+<span id="cb71-6"><a href="#cb71-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">colle_wins_1=</span><span class="fu">Winsorize</span>(colle, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.975</span>)),</span>
+<span id="cb71-7"><a href="#cb71-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">grad_wins_1=</span><span class="fu">Winsorize</span>(grad,<span class="at">na.rm=</span><span class="cn">TRUE</span>, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.975</span>)),</span>
+<span id="cb71-8"><a href="#cb71-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">docu_wins_1=</span><span class="fu">Winsorize</span>(numdocu,<span class="at">na.rm=</span><span class="cn">TRUE</span>, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.975</span>)),</span>
+<span id="cb71-9"><a href="#cb71-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">inarti_wins_1=</span><span class="fu">Winsorize</span>(numinarti,<span class="at">na.rm=</span><span class="cn">TRUE</span>, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.975</span>)),</span>
+<span id="cb71-10"><a href="#cb71-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">radio_wins_1=</span><span class="fu">Winsorize</span>(numradio,<span class="at">na.rm=</span><span class="cn">TRUE</span>, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.975</span>)))</span>
+<span id="cb71-11"><a href="#cb71-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-12"><a href="#cb71-12" aria-hidden="true" tabindex="-1"></a><span class="co">#check descriptives</span></span>
+<span id="cb71-13"><a href="#cb71-13" aria-hidden="true" tabindex="-1"></a><span class="fu">descriptives</span>(<span class="at">dat=</span>expertise6_readyw25, <span class="fu">vars</span>(docu_wins_1,inarti_wins_1, radio_wins_1 ), <span class="at">median=</span>F, <span class="at">n=</span>F, <span class="at">missing=</span>T, <span class="at">sd=</span>T, <span class="at">skew =</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ DESCRIPTIVES
+
+ Descriptives                                                            
+ ─────────────────────────────────────────────────────────────────────── 
+                          docu_wins_1    inarti_wins_1    radio_wins_1   
+ ─────────────────────────────────────────────────────────────────────── 
+   Missing                          0                0               0   
+   Mean                      1.908203         7.897135       0.6673177   
+   Standard deviation        4.235883         19.75722        1.995598   
+   Minimum                   0.000000         0.000000        0.000000   
+   Maximum                   20.00000         100.0000        10.00000   
+   Skewness                  3.115780         3.750920        3.538529   
+   Std. error skewness     0.06243908       0.06243908      0.06243908   
+ ─────────────────────────────────────────────────────────────────────── </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">descriptives</span>(<span class="at">dat=</span>expertise6_readyw25, <span class="fu">vars</span>(high_wins_1, colle_wins_1), <span class="at">median=</span>F, <span class="at">n=</span>F, <span class="at">missing=</span>T, <span class="at">sd=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ DESCRIPTIVES
+
+ Descriptives                                          
+ ───────────────────────────────────────────────────── 
+                         high_wins_1    colle_wins_1   
+ ───────────────────────────────────────────────────── 
+   Missing                         0               0   
+   Mean                    0.3079427       0.5032552   
+   Standard deviation      0.8547027        1.128830   
+   Minimum                  0.000000        0.000000   
+   Maximum                  4.000000        5.000000   
+ ───────────────────────────────────────────────────── </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">descriptives</span>(<span class="at">dat=</span>expertise6_readyw25, <span class="fu">vars</span>(numarticle_wins_1, numbook_wins_1, grad_wins_1), <span class="at">median=</span>F, <span class="at">n=</span>F, <span class="at">missing=</span>T, <span class="at">sd=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ DESCRIPTIVES
+
+ Descriptives                                                                 
+ ──────────────────────────────────────────────────────────────────────────── 
+                         numarticle_wins_1    numbook_wins_1    grad_wins_1   
+ ──────────────────────────────────────────────────────────────────────────── 
+   Missing                               0                 0              0   
+   Mean                           4.841797          1.345052     0.02929688   
+   Standard deviation             10.50945          3.036276      0.1686923   
+   Minimum                        0.000000          0.000000       0.000000   
+   Maximum                        50.00000          15.00000       1.000000   
+ ──────────────────────────────────────────────────────────────────────────── </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Standardize the Selected variables  ----</span></span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>vars_to_standardize <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"know"</span>, <span class="st">"docu_wins_1"</span>,<span class="st">"inarti_wins_1"</span>, <span class="st">"radio_wins_1"</span>,<span class="st">"high_wins_1"</span>, <span class="st">"colle_wins_1"</span>,</span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"numarticle_wins_1"</span>, <span class="st">"numbook_wins_1"</span>, <span class="st">"grad_wins_1"</span>)</span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-6"><a href="#cb77-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-7"><a href="#cb77-7" aria-hidden="true" tabindex="-1"></a>expertise6_readyw25<span class="ot">&lt;-</span>expertise6_readyw25 <span class="sc">%&gt;%</span> </span>
+<span id="cb77-8"><a href="#cb77-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Score_Type) <span class="sc">%&gt;%</span> </span>
+<span id="cb77-9"><a href="#cb77-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="fu">vars</span>(vars_to_standardize), scale)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(expertise6_readyw25<span class="sc">$</span>grad_wins_1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 384</code></pre>
+</div>
+</div>
+</section>
+<section id="take-the-means-of-winsorized-variables-to-create-our-new-categories-media-and-class-1" class="level2">
+<h2 class="anchored" data-anchor-id="take-the-means-of-winsorized-variables-to-create-our-new-categories-media-and-class-1">Take the means of winsorized variables to create our new categories: media and class</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>expertise6_readyw25 <span class="ot">&lt;-</span> expertise6_readyw25 <span class="sc">%&gt;%</span> <span class="fu">replace_na</span>(<span class="fu">list</span>(<span class="at">colle_wins_1 =</span> <span class="cn">NA</span>, <span class="at">high_wins_1 =</span> <span class="cn">NA</span>, <span class="at">grad_wins_1 =</span> <span class="cn">NA</span>, <span class="at">docu_wins_1=</span> <span class="cn">NA</span>,<span class="at">inarti_wins_1 =</span> <span class="cn">NA</span>, <span class="at">radio_wins_1 =</span> <span class="cn">NA</span>, <span class="at">numarticle_wins_1 =</span> <span class="cn">NA</span>, <span class="at">numbook_wins_1 =</span> <span class="cn">NA</span>))</span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a>expertise6_readyw25 <span class="ot">&lt;-</span> expertise6_readyw25 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">class_wins1 =</span> <span class="fu">mapply</span>(<span class="cf">function</span>(x, y, z) {</span>
+<span id="cb80-5"><a href="#cb80-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(<span class="fu">is.na</span>(x), (y <span class="sc">+</span> z)<span class="sc">/</span><span class="dv">2</span>, </span>
+<span id="cb80-6"><a href="#cb80-6" aria-hidden="true" tabindex="-1"></a>         <span class="fu">ifelse</span>(<span class="fu">is.na</span>(y), (x <span class="sc">+</span> z)<span class="sc">/</span><span class="dv">2</span>, </span>
+<span id="cb80-7"><a href="#cb80-7" aria-hidden="true" tabindex="-1"></a>                <span class="fu">ifelse</span>(<span class="fu">is.na</span>(z), (x <span class="sc">+</span> y)<span class="sc">/</span><span class="dv">2</span>, (x <span class="sc">+</span> y <span class="sc">+</span> z)<span class="sc">/</span><span class="dv">3</span>)))}, </span>
+<span id="cb80-8"><a href="#cb80-8" aria-hidden="true" tabindex="-1"></a>  grad_wins_1, colle_wins_1, high_wins_1))</span>
+<span id="cb80-9"><a href="#cb80-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-10"><a href="#cb80-10" aria-hidden="true" tabindex="-1"></a>expertise6_readyw25 <span class="ot">&lt;-</span> expertise6_readyw25 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">media_wins1 =</span> <span class="fu">mapply</span>(<span class="cf">function</span>(x, y, z, t, r) {</span>
+<span id="cb80-11"><a href="#cb80-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(<span class="fu">is.na</span>(x), (y <span class="sc">+</span> z <span class="sc">+</span> t <span class="sc">+</span> r)<span class="sc">/</span><span class="dv">4</span>, </span>
+<span id="cb80-12"><a href="#cb80-12" aria-hidden="true" tabindex="-1"></a>         <span class="fu">ifelse</span>(<span class="fu">is.na</span>(y), (x <span class="sc">+</span> z <span class="sc">+</span> t <span class="sc">+</span> r)<span class="sc">/</span><span class="dv">4</span>,</span>
+<span id="cb80-13"><a href="#cb80-13" aria-hidden="true" tabindex="-1"></a>                <span class="fu">ifelse</span>(<span class="fu">is.na</span>(z), (x <span class="sc">+</span> y <span class="sc">+</span> t <span class="sc">+</span> r)<span class="sc">/</span><span class="dv">4</span>, </span>
+<span id="cb80-14"><a href="#cb80-14" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">ifelse</span>(<span class="fu">is.na</span>(t),(x <span class="sc">+</span> y <span class="sc">+</span> z <span class="sc">+</span> r)<span class="sc">/</span><span class="dv">4</span>, </span>
+<span id="cb80-15"><a href="#cb80-15" aria-hidden="true" tabindex="-1"></a>                              <span class="fu">ifelse</span>(<span class="fu">is.na</span>(r),(x <span class="sc">+</span> y <span class="sc">+</span> z <span class="sc">+</span> t)<span class="sc">/</span><span class="dv">4</span>,</span>
+<span id="cb80-16"><a href="#cb80-16" aria-hidden="true" tabindex="-1"></a>                                     (x <span class="sc">+</span> y <span class="sc">+</span> z <span class="sc">+</span> t <span class="sc">+</span> r)<span class="sc">/</span><span class="dv">5</span>)))))}, </span>
+<span id="cb80-17"><a href="#cb80-17" aria-hidden="true" tabindex="-1"></a>  docu_wins_1,inarti_wins_1, radio_wins_1, numbook_wins_1, numarticle_wins_1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="center-the-variables-1" class="level2">
+<h2 class="anchored" data-anchor-id="center-the-variables-1">Center the variables</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>expertise6_readyw25<span class="sc">$</span>know_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise6_readyw25<span class="sc">$</span>know, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>expertise6_readyw25<span class="sc">$</span>needforclo_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise6_readyw25<span class="sc">$</span>needforclo, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb81-4"><a href="#cb81-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb81-5"><a href="#cb81-5" aria-hidden="true" tabindex="-1"></a>expertise6_readyw25<span class="sc">$</span>class_wins1_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise6_readyw25<span class="sc">$</span>class_wins1, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb81-6"><a href="#cb81-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb81-7"><a href="#cb81-7" aria-hidden="true" tabindex="-1"></a>expertise6_readyw25<span class="sc">$</span>media_wins1_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise6_readyw25<span class="sc">$</span>media_wins1, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>##Shapiro-Wilk values</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">descriptives</span>(expertise6_readyw25, <span class="at">vars =</span> <span class="fu">vars</span>(class_wins1, media_wins1, know, ih),<span class="at">n=</span><span class="cn">FALSE</span>, <span class="at">missing=</span> <span class="cn">FALSE</span>, <span class="at">median=</span><span class="cn">FALSE</span>, <span class="at">sw =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ DESCRIPTIVES
+
+ Descriptives                                                                           
+ ────────────────────────────────────────────────────────────────────────────────────── 
+                         class_wins1      media_wins1      know            ih           
+ ────────────────────────────────────────────────────────────────────────────────────── 
+   Mean                  -1.966020e-17    -3.545341e-17    5.261995e-17      5.112305   
+   Standard deviation        0.7133831        0.7273781       0.9977173      2.142995   
+   Minimum                  -0.6311378       -0.5679514       -2.197199      1.000000   
+   Maximum                    5.997473         5.102448        3.050287      9.000000   
+   Shapiro-Wilk W            0.5950088        0.6332209       0.9721739     0.9707327   
+   Shapiro-Wilk p           &lt; .0000001       &lt; .0000001      &lt; .0000001    &lt; .0000001   
+ ────────────────────────────────────────────────────────────────────────────────────── </code></pre>
+</div>
+</div>
+</section>
+<section id="hlm-models-1" class="level2">
+<h2 class="anchored" data-anchor-id="hlm-models-1">HLM Models</h2>
+<section id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition-without-interaction-1" class="level3">
+<h3 class="anchored" data-anchor-id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition-without-interaction-1">Model of objective expertise, perceived expertise and need for cognition without interaction</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>Model.<span class="fl">1.1</span><span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>class_wins1_cent <span class="sc">+</span> media_wins1_cent <span class="sc">+</span> know_cent <span class="sc">+</span>needforclo_cent <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID),   </span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data=</span>expertise6_readyw25)</span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model.<span class="fl">1.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: 
+ih ~ class_wins1_cent + media_wins1_cent + know_cent + needforclo_cent +  
+    (1 | Score_Type) + (1 | ID)
+   Data: expertise6_readyw25
+
+REML criterion at convergence: 6314
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-2.95570 -0.66262  0.01905  0.66183  2.53467 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ ID         (Intercept) 0.7398   0.8601  
+ Score_Type (Intercept) 0.7757   0.8808  
+ Residual               3.1141   1.7647  
+Number of obs: 1528, groups:  ID, 191; Score_Type, 8
+
+Fixed effects:
+                   Estimate Std. Error         df t value Pr(&gt;|t|)    
+(Intercept)         5.10310    0.32075    7.55730  15.910 4.39e-07 ***
+class_wins1_cent    0.02293    0.07879 1496.51118   0.291  0.77104    
+media_wins1_cent   -0.26334    0.08251 1499.89932  -3.192  0.00144 ** 
+know_cent           0.01554    0.06023 1401.19389   0.258  0.79639    
+needforclo_cent     0.18163    0.11090  183.85178   1.638  0.10319    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) cls_1_ md_w1_ knw_cn
+clss_wns1_c  0.000                     
+md_wns1_cnt -0.001 -0.335              
+know_cent    0.001 -0.235 -0.300       
+nedfrcl_cnt  0.000  0.001  0.004  0.042</code></pre>
+</div>
+</div>
+<p>#Plot of the model 1.1</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>Model.<span class="fl">1.1</span> <span class="ot">&lt;-</span> <span class="fu">lmer</span>(ih <span class="sc">~</span>class_wins1_cent <span class="sc">+</span> media_wins1_cent <span class="sc">+</span> know_cent <span class="sc">+</span>needforclo_cent <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID),   </span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data=</span>expertise6_readyw25)</span>
+<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model.<span class="fl">1.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: 
+ih ~ class_wins1_cent + media_wins1_cent + know_cent + needforclo_cent +  
+    (1 | Score_Type) + (1 | ID)
+   Data: expertise6_readyw25
+
+REML criterion at convergence: 6314
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-2.95570 -0.66262  0.01905  0.66183  2.53467 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ ID         (Intercept) 0.7398   0.8601  
+ Score_Type (Intercept) 0.7757   0.8808  
+ Residual               3.1141   1.7647  
+Number of obs: 1528, groups:  ID, 191; Score_Type, 8
+
+Fixed effects:
+                   Estimate Std. Error         df t value Pr(&gt;|t|)    
+(Intercept)         5.10310    0.32075    7.55730  15.910 4.39e-07 ***
+class_wins1_cent    0.02293    0.07879 1496.51118   0.291  0.77104    
+media_wins1_cent   -0.26334    0.08251 1499.89932  -3.192  0.00144 ** 
+know_cent           0.01554    0.06023 1401.19389   0.258  0.79639    
+needforclo_cent     0.18163    0.11090  183.85178   1.638  0.10319    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) cls_1_ md_w1_ knw_cn
+clss_wns1_c  0.000                     
+md_wns1_cnt -0.001 -0.335              
+know_cent    0.001 -0.235 -0.300       
+nedfrcl_cnt  0.000  0.001  0.004  0.042</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save fitted data</span></span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a>ef.<span class="fl">1.</span>media <span class="ot">&lt;-</span> <span class="fu">effect</span>(<span class="at">term =</span> <span class="st">"media_wins1_cent"</span>,</span>
+<span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">mod =</span> Model.<span class="fl">1.1</span>)</span>
+<span id="cb88-4"><a href="#cb88-4" aria-hidden="true" tabindex="-1"></a>ef.<span class="fl">1.</span>media.data <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(ef.<span class="fl">1.</span>media) <span class="co">#convert the effects list to a data frame</span></span>
+<span id="cb88-5"><a href="#cb88-5" aria-hidden="true" tabindex="-1"></a>ef.<span class="fl">1.</span>media.data <span class="co">#print effects data frame</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  media_wins1_cent      fit        se    lower    upper
+1             -0.6 5.261047 0.3245589 4.624418 5.897677
+2              0.8 4.892372 0.3274497 4.250072 5.534673
+3              2.0 4.576366 0.3606657 3.868912 5.283820
+4              4.0 4.049687 0.4601571 3.147079 4.952296
+5              5.0 3.786348 0.5224948 2.761463 4.811234</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>expert_media_graph <span class="ot">&lt;-</span> expertise6_readyw25 <span class="sc">%&gt;%</span></span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ID) <span class="sc">%&gt;%</span></span>
+<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">ih =</span> <span class="fu">mean</span>(ih),</span>
+<span id="cb90-4"><a href="#cb90-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">media_wins1_cent =</span> media_wins1)</span>
+<span id="cb90-5"><a href="#cb90-5" aria-hidden="true" tabindex="-1"></a>expert_media_graph <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(expert_media_graph)</span>
+<span id="cb90-6"><a href="#cb90-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-7"><a href="#cb90-7" aria-hidden="true" tabindex="-1"></a>expert_media_graph<span class="sc">$</span>media_wins1_cent<span class="ot">&lt;-</span>expert_media_graph<span class="sc">$</span>media_wins1_cent<span class="sc">-</span><span class="fu">min</span>(expert_media_graph<span class="sc">$</span>media_wins1_cent)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>fig.<span class="fl">1.</span>expert6_w1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> ef.<span class="fl">1.</span>media.data, <span class="fu">aes</span>(<span class="at">x =</span> media_wins1_cent,</span>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a>                                                  <span class="at">y =</span> fit)) <span class="sc">+</span></span>
+<span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>expert_media_graph, <span class="fu">aes</span>(<span class="at">x=</span>media_wins1_cent,<span class="at">y=</span>ih),</span>
+<span id="cb91-4"><a href="#cb91-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">show.legend =</span> <span class="cn">FALSE</span>, <span class="at">pch=</span><span class="dv">21</span>, <span class="at">color=</span><span class="st">"blueviolet"</span>, <span class="at">alpha=</span>.<span class="dv">25</span>, <span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb91-5"><a href="#cb91-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>media_wins1_cent), <span class="at">color =</span> <span class="st">"darkred"</span>, <span class="at">size =</span> <span class="fl">1.2</span>)  <span class="sc">+</span></span>
+<span id="cb91-6"><a href="#cb91-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> fit<span class="sc">-</span>se, <span class="at">ymax =</span> fit<span class="sc">+</span>se), <span class="at">alpha =</span> <span class="fl">0.50</span>, <span class="at">fill =</span> <span class="st">"gray70"</span>) <span class="sc">+</span></span>
+<span id="cb91-7"><a href="#cb91-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Expertise and Inherence Bias"</span>, <span class="at">x =</span> <span class="st">"Expertise (books,articles)"</span>,</span>
+<span id="cb91-8"><a href="#cb91-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Inherence bias"</span>) <span class="sc">+</span></span>
+<span id="cb91-9"><a href="#cb91-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">6</span>), <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">6</span>, <span class="dv">2</span>), <span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb91-10"><a href="#cb91-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">8</span>), <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">8</span>, <span class="dv">2</span>), <span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb91-11"><a href="#cb91-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb91-12"><a href="#cb91-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb91-13"><a href="#cb91-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb91-14"><a href="#cb91-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb91-15"><a href="#cb91-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb91-16"><a href="#cb91-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb91-17"><a href="#cb91-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.border =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb91-18"><a href="#cb91-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.background=</span><span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"gray96"</span>),</span>
+<span id="cb91-19"><a href="#cb91-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"gray96"</span>))</span>
+<span id="cb91-20"><a href="#cb91-20" aria-hidden="true" tabindex="-1"></a>fig.<span class="fl">1.</span>expert6_w1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-44-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="fu">paste0</span>(<span class="st">"figure_expertise6+media_w25"</span>,</span>
+<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a>              <span class="fu">format</span>(<span class="fu">Sys.time</span>(), <span class="st">"%Y-%m-%d"</span>)</span>
+<span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a>              ,<span class="st">".eps"</span>), <span class="at">width =</span> <span class="dv">20</span>, <span class="at">height =</span> <span class="dv">20</span>, <span class="at">units =</span> <span class="st">"cm"</span>) <span class="do">###Save the Figure</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>#Sqrt variables</p>
+<p>##Square root of the raw variables for our new expertise variables</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="co"># take the square root of the variables</span></span>
+<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a>expertise6_sqrt <span class="ot">&lt;-</span> expertise6_fact<span class="sc">%&gt;%</span></span>
+<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">numarticle_sqrt=</span><span class="fu">sqrt</span>(numarticle),</span>
+<span id="cb93-4"><a href="#cb93-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">numbook_sqrt=</span><span class="fu">sqrt</span>(numbook),</span>
+<span id="cb93-5"><a href="#cb93-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">high_sqrt=</span><span class="fu">sqrt</span>(high),</span>
+<span id="cb93-6"><a href="#cb93-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">colle_sqrt=</span><span class="fu">sqrt</span>(colle),</span>
+<span id="cb93-7"><a href="#cb93-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">grad_sqrt=</span><span class="fu">sqrt</span>(grad),</span>
+<span id="cb93-8"><a href="#cb93-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">docu_sqrt=</span><span class="fu">sqrt</span>(numdocu),</span>
+<span id="cb93-9"><a href="#cb93-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">inarti_sqrt=</span><span class="fu">sqrt</span>(numinarti),</span>
+<span id="cb93-10"><a href="#cb93-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">radio_sqrt=</span><span class="fu">sqrt</span>(numradio))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Standardize the Selected variables  ----</span></span>
+<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a>vars_to_standardize <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"know"</span>, <span class="st">"docu_sqrt"</span>,<span class="st">"inarti_sqrt"</span>, <span class="st">"radio_sqrt"</span>,<span class="st">"high_sqrt"</span>, <span class="st">"colle_sqrt"</span>,</span>
+<span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"numarticle_sqrt"</span>, <span class="st">"numbook_sqrt"</span>, <span class="st">"grad_sqrt"</span>)</span>
+<span id="cb94-4"><a href="#cb94-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-5"><a href="#cb94-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-6"><a href="#cb94-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-7"><a href="#cb94-7" aria-hidden="true" tabindex="-1"></a>expertise6_sqrt<span class="ot">&lt;-</span>expertise6_sqrt <span class="sc">%&gt;%</span> </span>
+<span id="cb94-8"><a href="#cb94-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Score_Type) <span class="sc">%&gt;%</span> </span>
+<span id="cb94-9"><a href="#cb94-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="fu">vars</span>(vars_to_standardize), scale)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="take-the-means-of-winsorized-variables-to-create-our-new-categories-media-and-class-2" class="level2">
+<h2 class="anchored" data-anchor-id="take-the-means-of-winsorized-variables-to-create-our-new-categories-media-and-class-2">Take the means of winsorized variables to create our new categories: media and class</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>expertise6_sqrt <span class="ot">&lt;-</span> expertise6_sqrt <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">class_wins1 =</span> <span class="fu">mapply</span>(<span class="cf">function</span>(x, y, z) {</span>
+<span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(<span class="fu">is.na</span>(x), (y <span class="sc">+</span> z)<span class="sc">/</span><span class="dv">2</span>, </span>
+<span id="cb95-3"><a href="#cb95-3" aria-hidden="true" tabindex="-1"></a>         <span class="fu">ifelse</span>(<span class="fu">is.na</span>(y), (x <span class="sc">+</span> z)<span class="sc">/</span><span class="dv">2</span>, </span>
+<span id="cb95-4"><a href="#cb95-4" aria-hidden="true" tabindex="-1"></a>                <span class="fu">ifelse</span>(<span class="fu">is.na</span>(z), (x <span class="sc">+</span> y)<span class="sc">/</span><span class="dv">2</span>, (x <span class="sc">+</span> y <span class="sc">+</span> z)<span class="sc">/</span><span class="dv">3</span>)))}, </span>
+<span id="cb95-5"><a href="#cb95-5" aria-hidden="true" tabindex="-1"></a>  grad_sqrt, colle_sqrt, high_sqrt))</span>
+<span id="cb95-6"><a href="#cb95-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb95-7"><a href="#cb95-7" aria-hidden="true" tabindex="-1"></a>expertise6_sqrt <span class="ot">&lt;-</span> expertise6_sqrt <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">media_wins1 =</span> <span class="fu">mapply</span>(<span class="cf">function</span>(x, y, z, t, r) {</span>
+<span id="cb95-8"><a href="#cb95-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(<span class="fu">is.na</span>(x), (y <span class="sc">+</span> z <span class="sc">+</span> t <span class="sc">+</span> r)<span class="sc">/</span><span class="dv">4</span>, </span>
+<span id="cb95-9"><a href="#cb95-9" aria-hidden="true" tabindex="-1"></a>         <span class="fu">ifelse</span>(<span class="fu">is.na</span>(y), (x <span class="sc">+</span> z <span class="sc">+</span> t <span class="sc">+</span> r)<span class="sc">/</span><span class="dv">4</span>,</span>
+<span id="cb95-10"><a href="#cb95-10" aria-hidden="true" tabindex="-1"></a>                <span class="fu">ifelse</span>(<span class="fu">is.na</span>(z), (x <span class="sc">+</span> y <span class="sc">+</span> t <span class="sc">+</span> r)<span class="sc">/</span><span class="dv">4</span>, </span>
+<span id="cb95-11"><a href="#cb95-11" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">ifelse</span>(<span class="fu">is.na</span>(t),(x <span class="sc">+</span> y <span class="sc">+</span> z <span class="sc">+</span> r)<span class="sc">/</span><span class="dv">4</span>, </span>
+<span id="cb95-12"><a href="#cb95-12" aria-hidden="true" tabindex="-1"></a>                              <span class="fu">ifelse</span>(<span class="fu">is.na</span>(r),(x <span class="sc">+</span> y <span class="sc">+</span> z <span class="sc">+</span> t)<span class="sc">/</span><span class="dv">4</span>,</span>
+<span id="cb95-13"><a href="#cb95-13" aria-hidden="true" tabindex="-1"></a>                                     (x <span class="sc">+</span> y <span class="sc">+</span> z <span class="sc">+</span> t <span class="sc">+</span> r)<span class="sc">/</span><span class="dv">5</span>)))))}, </span>
+<span id="cb95-14"><a href="#cb95-14" aria-hidden="true" tabindex="-1"></a>  docu_sqrt,inarti_sqrt, radio_sqrt, numbook_sqrt, numarticle_sqrt))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="center-the-variables-2" class="level2">
+<h2 class="anchored" data-anchor-id="center-the-variables-2">Center the variables</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>expertise6_sqrt<span class="sc">$</span>know_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise6_sqrt<span class="sc">$</span>know, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a>expertise6_sqrt<span class="sc">$</span>needforclo_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise6_sqrt<span class="sc">$</span>needforclo, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb96-4"><a href="#cb96-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-5"><a href="#cb96-5" aria-hidden="true" tabindex="-1"></a>expertise6_sqrt<span class="sc">$</span>class_wins1_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise6_sqrt<span class="sc">$</span>class_wins1, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb96-6"><a href="#cb96-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-7"><a href="#cb96-7" aria-hidden="true" tabindex="-1"></a>expertise6_sqrt<span class="sc">$</span>media_wins1_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise6_sqrt<span class="sc">$</span>media_wins1, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="hlm-models-2" class="level2">
+<h2 class="anchored" data-anchor-id="hlm-models-2">HLM Models</h2>
+<section id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition-without-interaction-2" class="level3">
+<h3 class="anchored" data-anchor-id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition-without-interaction-2">Model of objective expertise, perceived expertise and need for cognition without interaction</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>Model.<span class="fl">1.1</span><span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>class_wins1_cent <span class="sc">+</span> media_wins1_cent <span class="sc">+</span> know_cent <span class="sc">+</span>needforclo_cent <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID),   </span>
+<span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data=</span>expertise6_sqrt)</span>
+<span id="cb97-3"><a href="#cb97-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model.<span class="fl">1.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: 
+ih ~ class_wins1_cent + media_wins1_cent + know_cent + needforclo_cent +  
+    (1 | Score_Type) + (1 | ID)
+   Data: expertise6_sqrt
+
+REML criterion at convergence: 6310.1
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-2.94094 -0.67254  0.00759  0.67196  2.53215 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ ID         (Intercept) 0.7285   0.8535  
+ Score_Type (Intercept) 0.7760   0.8809  
+ Residual               3.1093   1.7633  
+Number of obs: 1528, groups:  ID, 191; Score_Type, 8
+
+Fixed effects:
+                   Estimate Std. Error         df t value Pr(&gt;|t|)    
+(Intercept)       5.103e+00  3.207e-01  7.548e+00  15.912 4.44e-07 ***
+class_wins1_cent  1.329e-01  7.130e-02  1.496e+03   1.864 0.062523 .  
+media_wins1_cent -3.284e-01  8.534e-02  1.475e+03  -3.849 0.000124 ***
+know_cent         8.013e-03  5.948e-02  1.392e+03   0.135 0.892865    
+needforclo_cent   1.785e-01  1.104e-01  1.834e+02   1.617 0.107519    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) cls_1_ md_w1_ knw_cn
+clss_wns1_c  0.000                     
+md_wns1_cnt -0.001 -0.374              
+know_cent    0.001 -0.157 -0.329       
+nedfrcl_cnt  0.000 -0.026  0.008  0.050</code></pre>
+</div>
+</div>
+<p>#Cube root variables</p>
+<p>##Cube root of the raw variables for our new expertise variables</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="co"># cube root of the variables </span></span>
+<span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a>expertise6_cube <span class="ot">&lt;-</span> expertise6_fact<span class="sc">%&gt;%</span></span>
+<span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">numarticle_cube=</span>(numarticle<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>)),</span>
+<span id="cb99-4"><a href="#cb99-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">numbook_cube=</span>(numbook<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>)),</span>
+<span id="cb99-5"><a href="#cb99-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">high_cube=</span>(high<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>)),</span>
+<span id="cb99-6"><a href="#cb99-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">colle_cube=</span>(colle<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>)),</span>
+<span id="cb99-7"><a href="#cb99-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">grad_cube=</span>(grad<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>)),</span>
+<span id="cb99-8"><a href="#cb99-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">docu_cube=</span>(numdocu<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>)),</span>
+<span id="cb99-9"><a href="#cb99-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">inarti_cube=</span>(numinarti<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>)),</span>
+<span id="cb99-10"><a href="#cb99-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">radio_cube=</span>(numradio<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Standardize the Selected variables  ----</span></span>
+<span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a>vars_to_standardize <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"know"</span>, <span class="st">"docu_cube"</span>,<span class="st">"inarti_cube"</span>, <span class="st">"radio_cube"</span>,<span class="st">"high_cube"</span>, <span class="st">"colle_cube"</span>,</span>
+<span id="cb100-3"><a href="#cb100-3" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"numarticle_cube"</span>, <span class="st">"numbook_cube"</span>, <span class="st">"grad_cube"</span>)</span>
+<span id="cb100-4"><a href="#cb100-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb100-5"><a href="#cb100-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb100-6"><a href="#cb100-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb100-7"><a href="#cb100-7" aria-hidden="true" tabindex="-1"></a>expertise6_cube<span class="ot">&lt;-</span>expertise6_cube <span class="sc">%&gt;%</span> </span>
+<span id="cb100-8"><a href="#cb100-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Score_Type) <span class="sc">%&gt;%</span> </span>
+<span id="cb100-9"><a href="#cb100-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="fu">vars</span>(vars_to_standardize), scale)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="take-the-means-of-winsorized-variables-to-create-our-new-categories-media-and-class-3" class="level2">
+<h2 class="anchored" data-anchor-id="take-the-means-of-winsorized-variables-to-create-our-new-categories-media-and-class-3">Take the means of winsorized variables to create our new categories: media and class</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a>expertise6_cube <span class="ot">&lt;-</span> expertise6_cube <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">class_wins1 =</span> <span class="fu">mapply</span>(<span class="cf">function</span>(x, y, z) {</span>
+<span id="cb101-2"><a href="#cb101-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(<span class="fu">is.na</span>(x), (y <span class="sc">+</span> z)<span class="sc">/</span><span class="dv">2</span>, </span>
+<span id="cb101-3"><a href="#cb101-3" aria-hidden="true" tabindex="-1"></a>         <span class="fu">ifelse</span>(<span class="fu">is.na</span>(y), (x <span class="sc">+</span> z)<span class="sc">/</span><span class="dv">2</span>, </span>
+<span id="cb101-4"><a href="#cb101-4" aria-hidden="true" tabindex="-1"></a>                <span class="fu">ifelse</span>(<span class="fu">is.na</span>(z), (x <span class="sc">+</span> y)<span class="sc">/</span><span class="dv">2</span>, (x <span class="sc">+</span> y <span class="sc">+</span> z)<span class="sc">/</span><span class="dv">3</span>)))}, </span>
+<span id="cb101-5"><a href="#cb101-5" aria-hidden="true" tabindex="-1"></a>  grad_cube, colle_cube, high_cube))</span>
+<span id="cb101-6"><a href="#cb101-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb101-7"><a href="#cb101-7" aria-hidden="true" tabindex="-1"></a>expertise6_cube <span class="ot">&lt;-</span> expertise6_cube <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">media_wins1 =</span> <span class="fu">mapply</span>(<span class="cf">function</span>(x, y, z, t, r) {</span>
+<span id="cb101-8"><a href="#cb101-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(<span class="fu">is.na</span>(x), (y <span class="sc">+</span> z <span class="sc">+</span> t <span class="sc">+</span> r)<span class="sc">/</span><span class="dv">4</span>, </span>
+<span id="cb101-9"><a href="#cb101-9" aria-hidden="true" tabindex="-1"></a>         <span class="fu">ifelse</span>(<span class="fu">is.na</span>(y), (x <span class="sc">+</span> z <span class="sc">+</span> t <span class="sc">+</span> r)<span class="sc">/</span><span class="dv">4</span>,</span>
+<span id="cb101-10"><a href="#cb101-10" aria-hidden="true" tabindex="-1"></a>                <span class="fu">ifelse</span>(<span class="fu">is.na</span>(z), (x <span class="sc">+</span> y <span class="sc">+</span> t <span class="sc">+</span> r)<span class="sc">/</span><span class="dv">4</span>, </span>
+<span id="cb101-11"><a href="#cb101-11" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">ifelse</span>(<span class="fu">is.na</span>(t),(x <span class="sc">+</span> y <span class="sc">+</span> z <span class="sc">+</span> r)<span class="sc">/</span><span class="dv">4</span>, </span>
+<span id="cb101-12"><a href="#cb101-12" aria-hidden="true" tabindex="-1"></a>                              <span class="fu">ifelse</span>(<span class="fu">is.na</span>(r),(x <span class="sc">+</span> y <span class="sc">+</span> z <span class="sc">+</span> t)<span class="sc">/</span><span class="dv">4</span>,</span>
+<span id="cb101-13"><a href="#cb101-13" aria-hidden="true" tabindex="-1"></a>                                     (x <span class="sc">+</span> y <span class="sc">+</span> z <span class="sc">+</span> t <span class="sc">+</span> r)<span class="sc">/</span><span class="dv">5</span>)))))}, </span>
+<span id="cb101-14"><a href="#cb101-14" aria-hidden="true" tabindex="-1"></a>  docu_cube,inarti_cube, radio_cube, numbook_cube, numarticle_cube))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>##Histograms of square root variables</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(expertise6_sqrt<span class="sc">$</span>class_wins1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-53-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(expertise6_sqrt<span class="sc">$</span>media_wins1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-54-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(expertise6_sqrt<span class="sc">$</span>know)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-55-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(expertise6_sqrt<span class="sc">$</span>ih)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-56-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>##Shapiro-Wilk values</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">descriptives</span>(expertise6_sqrt, <span class="at">vars =</span> <span class="fu">vars</span>(class_wins1, media_wins1, know, ih), <span class="at">n=</span><span class="cn">FALSE</span>, <span class="at">missing=</span> <span class="cn">FALSE</span>, <span class="at">median=</span><span class="cn">FALSE</span>, <span class="at">sw =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ DESCRIPTIVES
+
+ Descriptives                                                                         
+ ──────────────────────────────────────────────────────────────────────────────────── 
+                         class_wins1     media_wins1     know            ih           
+ ──────────────────────────────────────────────────────────────────────────────────── 
+   Mean                  1.420305e-17    2.533419e-17    5.261995e-17      5.112305   
+   Standard deviation       0.7850757       0.7272822       0.9977173      2.142995   
+   Minimum                 -0.3681922      -0.6669302       -2.197199      1.000000   
+   Maximum                   12.85515        6.200443        3.050287      9.000000   
+   Shapiro-Wilk W           0.4392085       0.7072822       0.9721739     0.9707327   
+   Shapiro-Wilk p          &lt; .0000001      &lt; .0000001      &lt; .0000001    &lt; .0000001   
+ ──────────────────────────────────────────────────────────────────────────────────── </code></pre>
+</div>
+</div>
+</section>
+<section id="center-the-variables-3" class="level2">
+<h2 class="anchored" data-anchor-id="center-the-variables-3">Center the variables</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>expertise6_cube<span class="sc">$</span>know_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise6_cube<span class="sc">$</span>know, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb108-3"><a href="#cb108-3" aria-hidden="true" tabindex="-1"></a>expertise6_cube<span class="sc">$</span>needforclo_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise6_cube<span class="sc">$</span>needforclo, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb108-4"><a href="#cb108-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb108-5"><a href="#cb108-5" aria-hidden="true" tabindex="-1"></a>expertise6_cube<span class="sc">$</span>class_wins1_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise6_cube<span class="sc">$</span>class_wins1, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb108-6"><a href="#cb108-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb108-7"><a href="#cb108-7" aria-hidden="true" tabindex="-1"></a>expertise6_cube<span class="sc">$</span>media_wins1_cent <span class="ot">&lt;-</span> <span class="fu">scale</span>(expertise6_cube<span class="sc">$</span>media_wins1, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>##Histograms of cube root variables</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(expertise6_cube<span class="sc">$</span>class_wins1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-59-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(expertise6_cube<span class="sc">$</span>media_wins1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-60-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(expertise6_cube<span class="sc">$</span>know)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-61-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(expertise6_cube<span class="sc">$</span>ih)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-62-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>##Shapiro-Wilk values</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="fu">descriptives</span>(expertise6_cube, <span class="at">vars =</span> <span class="fu">vars</span>(class_wins1, media_wins1, know, ih),<span class="at">n=</span><span class="cn">FALSE</span>, <span class="at">missing=</span> <span class="cn">FALSE</span>, <span class="at">median=</span><span class="cn">FALSE</span>, <span class="at">sw =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ DESCRIPTIVES
+
+ Descriptives                                                                         
+ ──────────────────────────────────────────────────────────────────────────────────── 
+                         class_wins1     media_wins1     know            ih           
+ ──────────────────────────────────────────────────────────────────────────────────── 
+   Mean                  4.452457e-17    1.832663e-16    5.261995e-17      5.112305   
+   Standard deviation       0.7589839       0.7322954       0.9977173      2.142995   
+   Minimum                 -0.5470988      -0.8251761       -2.197199      1.000000   
+   Maximum                   10.38594        4.701118        3.050287      9.000000   
+   Shapiro-Wilk W           0.5526782       0.8353051       0.9721739     0.9707327   
+   Shapiro-Wilk p          &lt; .0000001      &lt; .0000001      &lt; .0000001    &lt; .0000001   
+ ──────────────────────────────────────────────────────────────────────────────────── </code></pre>
+</div>
+</div>
+</section>
+<section id="hlm-models-3" class="level2">
+<h2 class="anchored" data-anchor-id="hlm-models-3">HLM Models</h2>
+<section id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition-without-interaction-3" class="level3">
+<h3 class="anchored" data-anchor-id="model-of-objective-expertise-perceived-expertise-and-need-for-cognition-without-interaction-3">Model of objective expertise, perceived expertise and need for cognition without interaction</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a>Model.<span class="fl">1.1</span><span class="ot">&lt;-</span><span class="fu">lmer</span>(ih <span class="sc">~</span>class_wins1_cent <span class="sc">+</span> media_wins1_cent <span class="sc">+</span> know_cent <span class="sc">+</span>needforclo_cent <span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>Score_Type)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>ID),   </span>
+<span id="cb115-2"><a href="#cb115-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data=</span>expertise6_cube)</span>
+<span id="cb115-3"><a href="#cb115-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model.<span class="fl">1.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: 
+ih ~ class_wins1_cent + media_wins1_cent + know_cent + needforclo_cent +  
+    (1 | Score_Type) + (1 | ID)
+   Data: expertise6_cube
+
+REML criterion at convergence: 6308.2
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-2.93913 -0.66733  0.00914  0.65985  2.52937 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ ID         (Intercept) 0.7172   0.8469  
+ Score_Type (Intercept) 0.7758   0.8808  
+ Residual               3.1096   1.7634  
+Number of obs: 1528, groups:  ID, 191; Score_Type, 8
+
+Fixed effects:
+                   Estimate Std. Error         df t value Pr(&gt;|t|)    
+(Intercept)         5.10324    0.32057    7.54005  15.919 4.48e-07 ***
+class_wins1_cent    0.12867    0.07402 1503.91694   1.738   0.0824 .  
+media_wins1_cent   -0.35420    0.08629 1418.15202  -4.105 4.28e-05 ***
+know_cent           0.02167    0.06034 1373.20152   0.359   0.7195    
+needforclo_cent     0.17650    0.10979  182.95923   1.608   0.1096    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) cls_1_ md_w1_ knw_cn
+clss_wns1_c  0.000                     
+md_wns1_cnt  0.000 -0.358              
+know_cent    0.001 -0.177 -0.346       
+nedfrcl_cnt  0.000 -0.022  0.014  0.046</code></pre>
 </div>
 </div>
 

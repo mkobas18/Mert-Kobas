@@ -1,7 +1,7 @@
 ---
 title: "Expertise6 Data Analysis from the very beginning"
 author: "MK"
-date: "2023-01-16"
+date: "2023-02-23"
 categories: [example data, code, analysis]
 image: "newdata.png"
 ---
@@ -22,9 +22,10 @@ library(psych)
 library(DescTools)
 library(stats)
 library(factoextra)
-library('reshape2')
+library(reshape2)
 library(lme4) 
 library(lmerTest)
+library(effects)
 
 
 #Read the csv file ----
@@ -671,6 +672,14 @@ describe(expertise6_ready)
 
 ```
 
+
+##Shapiro-Wilk values
+
+```{r warning = FALSE, message = FALSE}
+descriptives(expertise6_ready, vars = vars(class_wins1, media_wins1, know, ih),n=FALSE, missing= FALSE, median=FALSE, sw = TRUE)
+```
+
+
 ## HLM Models
 
 ### Model objective expertise with grad courses, books and magazines
@@ -720,7 +729,200 @@ summary(Model.2.1)
 ```
 
 
-#&
+#Plot of the model 1.1
+```{r warning = FALSE, message = FALSE}
+Model.1.1 <- lmer(ih ~class_wins1_cent + media_wins1_cent + know_cent +needforclo_cent +(1|Score_Type)+(1|ID),   
+              data=expertise6_ready)
+summary(Model.1.1)
+# save fitted data
+ef.1.media <- effect(term = "media_wins1_cent",
+                                   mod = Model.1.1)
+ef.1.media.data <- as.data.frame(ef.1.media) #convert the effects list to a data frame
+ef.1.media.data #print effects data frame
+
+expert_media_graph <- expertise6_ready %>%
+  group_by(ID) %>%
+  summarise(ih = mean(ih),
+            media_wins1_cent = media_wins1)
+expert_media_graph <- as.data.frame(expert_media_graph)
+
+expert_media_graph$media_wins1_cent<-expert_media_graph$media_wins1_cent-min(expert_media_graph$media_wins1_cent)
+```
+
+```{r warning = FALSE, message = FALSE}
+fig.1.expert6_w1 <- ggplot(data = ef.1.media.data, aes(x = media_wins1_cent,
+                                                  y = fit)) +
+  geom_point(data=expert_media_graph, aes(x=media_wins1_cent,y=ih),
+             show.legend = FALSE, pch=21, color="blueviolet", alpha=.25, size=3) +
+  geom_line(aes(x=media_wins1_cent), color = "darkred", size = 1.2)  +
+  geom_ribbon(aes(ymin = fit-se, ymax = fit+se), alpha = 0.50, fill = "gray70") +
+  labs(title = "Expertise and Inherence Bias", x = "Expertise (books,articles)",
+       y = "Inherence bias") +
+  scale_x_continuous(limits = c(0, 8), breaks = seq(0, 8, 2), expand = c(0, 0)) +
+  scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, 2), expand = c(0, 0)) +
+  theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),
+        axis.title = element_text(size = 14, face = "bold"),
+        axis.text = element_text(size = 12),
+        legend.title = element_blank(),
+        panel.grid = element_blank(),
+        panel.border = element_blank(),
+        plot.background=element_rect(fill = "gray96"),
+        panel.background = element_rect(fill = "gray96"))
+fig.1.expert6_w1
+
+ggsave(paste0("figure_expertise6+media_w1",
+              format(Sys.time(), "%Y-%m-%d")
+              ,".eps"), width = 20, height = 20, units = "cm") ###Save the Figure 3C
+
+```
+
+
+## Winsorize the variables at 2.5%
+
+```{r warning = FALSE, message = FALSE}
+# winsorize the variables (at 2.5%)
+expertise6_readyw25 <- expertise6_fact%>%
+  mutate(numarticle_wins_1=Winsorize(numarticle, probs = c(0,0.975)), 
+         numbook_wins_1=Winsorize(numbook, probs = c(0,0.975)),
+         high_wins_1=Winsorize(high, probs = c(0,0.975)),
+         colle_wins_1=Winsorize(colle, probs = c(0,0.975)),
+         grad_wins_1=Winsorize(grad,na.rm=TRUE, probs = c(0,0.975)),
+         docu_wins_1=Winsorize(numdocu,na.rm=TRUE, probs = c(0,0.975)),
+         inarti_wins_1=Winsorize(numinarti,na.rm=TRUE, probs = c(0,0.975)),
+         radio_wins_1=Winsorize(numradio,na.rm=TRUE, probs = c(0,0.975)))
+
+#check descriptives
+descriptives(dat=expertise6_readyw25, vars(docu_wins_1,inarti_wins_1, radio_wins_1 ), median=F, n=F, missing=T, sd=T, skew =T)
+
+descriptives(dat=expertise6_readyw25, vars(high_wins_1, colle_wins_1), median=F, n=F, missing=T, sd=T)
+
+descriptives(dat=expertise6_readyw25, vars(numarticle_wins_1, numbook_wins_1, grad_wins_1), median=F, n=F, missing=T, sd=T)
+
+```
+
+```{r warning = FALSE, message = FALSE}
+# Standardize the Selected variables  ----
+vars_to_standardize <- c("know", "docu_wins_1","inarti_wins_1", "radio_wins_1","high_wins_1", "colle_wins_1",
+                         "numarticle_wins_1", "numbook_wins_1", "grad_wins_1")
+
+
+
+expertise6_readyw25<-expertise6_readyw25 %>% 
+  group_by(Score_Type) %>% 
+  mutate_at(vars(vars_to_standardize), scale)
+
+```
+
+```{r warning = FALSE, message = FALSE}
+sum(is.na(expertise6_readyw25$grad_wins_1))
+
+
+```
+
+## Take the means of winsorized variables to create our new categories: media and class
+
+```{r warning = FALSE, message = FALSE}
+expertise6_readyw25 <- expertise6_readyw25 %>% replace_na(list(colle_wins_1 = NA, high_wins_1 = NA, grad_wins_1 = NA, docu_wins_1= NA,inarti_wins_1 = NA, radio_wins_1 = NA, numarticle_wins_1 = NA, numbook_wins_1 = NA))
+
+
+expertise6_readyw25 <- expertise6_readyw25 %>% mutate(class_wins1 = mapply(function(x, y, z) {
+  ifelse(is.na(x), (y + z)/2, 
+         ifelse(is.na(y), (x + z)/2, 
+                ifelse(is.na(z), (x + y)/2, (x + y + z)/3)))}, 
+  grad_wins_1, colle_wins_1, high_wins_1))
+
+expertise6_readyw25 <- expertise6_readyw25 %>% mutate(media_wins1 = mapply(function(x, y, z, t, r) {
+  ifelse(is.na(x), (y + z + t + r)/4, 
+         ifelse(is.na(y), (x + z + t + r)/4,
+                ifelse(is.na(z), (x + y + t + r)/4, 
+                       ifelse(is.na(t),(x + y + z + r)/4, 
+                              ifelse(is.na(r),(x + y + z + t)/4,
+                                     (x + y + z + t + r)/5)))))}, 
+  docu_wins_1,inarti_wins_1, radio_wins_1, numbook_wins_1, numarticle_wins_1))
+
+```
+
+## Center the variables
+
+```{r warning = FALSE, message = FALSE}
+
+expertise6_readyw25$know_cent <- scale(expertise6_readyw25$know, center = TRUE, scale = FALSE)
+
+expertise6_readyw25$needforclo_cent <- scale(expertise6_readyw25$needforclo, center = TRUE, scale = FALSE)
+
+expertise6_readyw25$class_wins1_cent <- scale(expertise6_readyw25$class_wins1, center = TRUE, scale = FALSE)
+
+expertise6_readyw25$media_wins1_cent <- scale(expertise6_readyw25$media_wins1, center = TRUE, scale = FALSE)
+
+```
+
+
+##Shapiro-Wilk values
+
+```{r warning = FALSE, message = FALSE}
+descriptives(expertise6_readyw25, vars = vars(class_wins1, media_wins1, know, ih),n=FALSE, missing= FALSE, median=FALSE, sw = TRUE)
+```
+
+
+## HLM Models
+
+### Model of objective expertise, perceived expertise and need for cognition without interaction
+
+```{r}
+Model.1.1<-lmer(ih ~class_wins1_cent + media_wins1_cent + know_cent +needforclo_cent +(1|Score_Type)+(1|ID),   
+              data=expertise6_readyw25)
+summary(Model.1.1)
+```
+
+#Plot of the model 1.1
+```{r warning = FALSE, message = FALSE}
+Model.1.1 <- lmer(ih ~class_wins1_cent + media_wins1_cent + know_cent +needforclo_cent +(1|Score_Type)+(1|ID),   
+              data=expertise6_readyw25)
+summary(Model.1.1)
+# save fitted data
+ef.1.media <- effect(term = "media_wins1_cent",
+                                   mod = Model.1.1)
+ef.1.media.data <- as.data.frame(ef.1.media) #convert the effects list to a data frame
+ef.1.media.data #print effects data frame
+
+expert_media_graph <- expertise6_readyw25 %>%
+  group_by(ID) %>%
+  summarise(ih = mean(ih),
+            media_wins1_cent = media_wins1)
+expert_media_graph <- as.data.frame(expert_media_graph)
+
+expert_media_graph$media_wins1_cent<-expert_media_graph$media_wins1_cent-min(expert_media_graph$media_wins1_cent)
+```
+
+```{r warning = FALSE, message = FALSE}
+fig.1.expert6_w1 <- ggplot(data = ef.1.media.data, aes(x = media_wins1_cent,
+                                                  y = fit)) +
+  geom_point(data=expert_media_graph, aes(x=media_wins1_cent,y=ih),
+             show.legend = FALSE, pch=21, color="blueviolet", alpha=.25, size=3) +
+  geom_line(aes(x=media_wins1_cent), color = "darkred", size = 1.2)  +
+  geom_ribbon(aes(ymin = fit-se, ymax = fit+se), alpha = 0.50, fill = "gray70") +
+  labs(title = "Expertise and Inherence Bias", x = "Expertise (books,articles)",
+       y = "Inherence bias") +
+  scale_x_continuous(limits = c(0, 6), breaks = seq(0, 6, 2), expand = c(0, 0)) +
+  scale_y_continuous(limits = c(0, 8), breaks = seq(0, 8, 2), expand = c(0, 0)) +
+  theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),
+        axis.title = element_text(size = 14, face = "bold"),
+        axis.text = element_text(size = 12),
+        legend.title = element_blank(),
+        panel.grid = element_blank(),
+        panel.border = element_blank(),
+        plot.background=element_rect(fill = "gray96"),
+        panel.background = element_rect(fill = "gray96"))
+fig.1.expert6_w1
+
+ggsave(paste0("figure_expertise6+media_w25",
+              format(Sys.time(), "%Y-%m-%d")
+              ,".eps"), width = 20, height = 20, units = "cm") ###Save the Figure
+
+```
+
 
 #Sqrt variables
 
@@ -789,13 +991,6 @@ expertise6_sqrt$media_wins1_cent <- scale(expertise6_sqrt$media_wins1, center = 
 
 ```
 
-Descriptives
-
-```{r}
-
-describe(expertise6_sqrt)
-
-```
 
 ## HLM Models
 
@@ -860,6 +1055,32 @@ expertise6_cube <- expertise6_cube %>% mutate(media_wins1 = mapply(function(x, y
 
 ```
 
+
+##Histograms of square root variables
+
+```{r warning = FALSE, message = FALSE}
+hist(expertise6_sqrt$class_wins1)
+```
+
+```{r warning = FALSE, message = FALSE}
+hist(expertise6_sqrt$media_wins1)
+```
+
+```{r warning = FALSE, message = FALSE}
+hist(expertise6_sqrt$know)
+```
+
+```{r warning = FALSE, message = FALSE}
+hist(expertise6_sqrt$ih)
+```
+
+##Shapiro-Wilk values
+
+```{r warning = FALSE, message = FALSE}
+descriptives(expertise6_sqrt, vars = vars(class_wins1, media_wins1, know, ih), n=FALSE, missing= FALSE, median=FALSE, sw = TRUE)
+```
+
+
 ## Center the variables
 
 ```{r warning = FALSE, message = FALSE}
@@ -874,13 +1095,31 @@ expertise6_cube$media_wins1_cent <- scale(expertise6_cube$media_wins1, center = 
 
 ```
 
-Descriptives
 
-```{r}
+##Histograms of cube root variables
 
-describe(expertise6_cube)
-
+```{r warning = FALSE, message = FALSE}
+hist(expertise6_cube$class_wins1)
 ```
+
+```{r warning = FALSE, message = FALSE}
+hist(expertise6_cube$media_wins1)
+```
+
+```{r warning = FALSE, message = FALSE}
+hist(expertise6_cube$know)
+```
+
+```{r warning = FALSE, message = FALSE}
+hist(expertise6_cube$ih)
+```
+
+##Shapiro-Wilk values
+
+```{r warning = FALSE, message = FALSE}
+descriptives(expertise6_cube, vars = vars(class_wins1, media_wins1, know, ih),n=FALSE, missing= FALSE, median=FALSE, sw = TRUE)
+```
+
 
 ## HLM Models
 
