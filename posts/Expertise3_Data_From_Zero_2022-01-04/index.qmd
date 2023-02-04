@@ -966,7 +966,6 @@ expertise3_wins_average <- expertise3_wins_average %>% mutate(media_wins1 =
 descriptives(expertise3_wins_average, vars = vars(class_wins1, media_wins1, know, ih), n=FALSE, missing= FALSE, median=FALSE, sw = TRUE)
 ```
 
-
 ```{r warning=FALSE, message=FALSE}
 
 # Center variables: 
@@ -983,7 +982,6 @@ expertise3_wins_average$media_wins1_cent <- scale(expertise3_wins_average$media_
 
 ## HLM Models
 
-
 ### Model of objective expertise, perceived expertise and need for cognition without interaction
 
 ```{r}
@@ -993,6 +991,7 @@ summary(Model.1.1)
 ```
 
 #Plot of the model 1.1
+
 ```{r warning = FALSE, message = FALSE}
 Model.1.1 <- lmer(ih ~class_wins1_cent + media_wins1_cent + know_cent +needforcog_cent +(1|Score_Type)+(1|ID),   
               data=expertise3_wins_average)
@@ -1039,7 +1038,6 @@ ggsave(paste0("figure_expertise+media_w1",
               ,".eps"), width = 20, height = 20, units = "cm") ###Save the Figure 3C
 
 ```
-
 
 #Winsorize at 2.5% the raw variables for our new expertise variables
 
@@ -1114,7 +1112,6 @@ Model.1.1<-lmer(ih ~class_wins1_cent + media_wins1_cent + know_cent +needforcog_
 summary(Model.1.1)
 ```
 
-
 #Plot of the model 1.1 with 2.5 winsorize
 
 ```{r warning = FALSE, message = FALSE}
@@ -1136,7 +1133,6 @@ expert_media_graph <- as.data.frame(expert_media_graph)
 expert_media_graph$media_wins1_cent<-expert_media_graph$media_wins1_cent-min(expert_media_graph$media_wins1_cent)
 
 ```
-
 
 ```{r warning = FALSE, message = FALSE}
 fig.1.expert_w25 <- ggplot(data = ef.1.media.data, aes(x = media_wins1_cent,
@@ -1165,7 +1161,6 @@ ggsave(paste0("figure_expertise+media_w25",
               ,".eps"), width = 20, height = 20, units = "cm") ###Save the Figure 3C
 
 ```
-
 
 #Sqrt variables
 
@@ -1356,5 +1351,3 @@ Model.1.1<-lmer(ih ~class_wins1_cent + media_wins1_cent + know_cent +needforcog_
               data=expertise3_cube)
 summary(Model.1.1)
 ```
-
-
