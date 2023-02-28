@@ -89,13 +89,14 @@ These areas of course can be combined or named differently at different universi
 :::
 
 ## Funding Opportunities
+::: nonincremental
 
 -   Scholarships/Fellowships by the programs
 
 -   Stipends based on research grants
 
-    ![](Mert%20Kobas's%20Blog/Mert%20Kobas/profile.png){width="434"}
-
+    ![](grad-school-funding_1200x630.png) {fig-align="center"}
+::: 
 ## Timeline
 
 -   Nov 15/Dec 1: Deadline of applications in US/Canada
@@ -183,19 +184,23 @@ These areas of course can be combined or named differently at different universi
 
 ## Application tips
 
+::: nonincremental
 -   Where can you follow academic opportunities?
 
     -   Academic twitter/mastodon
 
 ![](Screen%20Shot%202023-02-27%20at%204.33.11%20PM.png){width="595"}
+:::
 
 ## 
 
+::: nonincremental
 -   Lab websites, researchgate, findaphd.com, scholarshipdb.com
 
 -   Mail lists of societies
 
 ![](Screen%20Shot%202023-02-27%20at%204.43.29%20PM.png)
+:::
 
 ## Application tips
 
