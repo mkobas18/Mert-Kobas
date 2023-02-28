@@ -1,7 +1,7 @@
 ---
 title: "Grad School Applications"
 author: "Mert Kobaş"
-date: "2023-02-23"
+date: "2023-02-28"
 categories: [presentations, grad school, application]
 image: "grad-school-funding_1200x630.png"
 format: 
@@ -18,17 +18,17 @@ format:
 
 ## Overwiev
 
--   Aims and offers of graduate programs in psychology
+-   Graduate programs in psychology
 
     -   Research Specific Areas
 
     -   Application Specific Areas
 
--   Expectations of the programs
-
--   Benefits of the students
+-   Timeline
 
 -   Application process
+
+-   Application tips
 
 ::: notes
 We're gonna talk about grad school applications in psychology. This date is not an optimal date for this maybe because senior students or masters students who are applying for the next year probably has been done with their applications and for junior students, it may be early, but getting familiar with the doctoral and masters programs in our areas is a good starting point to prepare your future, if you wanna stay this area. My preparation for this presentations is based on introducing these graduate programs in psychology, mentioning about the expectations, responsibilities of students and the benefits that the students get and also how can you start for application process with critical dates, critical documents, tips and resources.
@@ -43,6 +43,7 @@ We're gonna talk about grad school applications in psychology. This date is not 
 -   What can be the expectations in the programs?
 
 ::: notes
+What is the general aim of graduate programs in psychology? We can say that the general aim is So we can ask the biggest question, why do we apply? what are our goals? Are our goals align with this general aim? Also, what should be our expectations and what are the expectations of the programs? These are the questions of pre-application process of course. If you decide that these are my expectations like and programs ask research outputs or clinical experience, that aligns with mine it leads to other question, like which kind of areas and programs will I encounter in psych area (or pysch related areas)?
 :::
 
 ## Research Specific Areas
@@ -54,7 +55,7 @@ We're gonna talk about grad school applications in psychology. This date is not 
 -   Teaching: PhD students usually have TA duties for graduate and undergraduate courses
 
 ::: notes
--   phd students have also teaching duties like being a teaching assistant for grad and undergrad courses. Beside, phd students may also have opportunities to teach undergraduate courses in psychology.
+-   We may generalize under two categories and most of the phd programs are research oriented. -Click- So in these programs, coursework are ... -Click- Phd students were expected to conduct... -Click- Phd students have also teaching duties like being a teaching assistant for grad and undergrad courses. Beside, phd students may also have opportunities to teach undergraduate courses in psychology.
 :::
 
 ## Application Focused Areas
@@ -64,6 +65,10 @@ We're gonna talk about grad school applications in psychology. This date is not 
 -   They involves less research and more coursework and clinical training than PhD programs.
 
 -   Graduates of PsyD programs are typically prepared for careers in clinical practice, such as working as licensed psychologists in private practice, hospitals, or other mental health settings.
+
+::: notes
+The other area we may cover is application focused areas. Of course, these artifical distinctions are mutually exclusive and many programs try to cover both of them. But programs like clinical psychology, educational psychology maybe counselling and sometimes even neuro related areas can be under these application focused areas. -Click and read-
+:::
 
 ## PsyD or PhD?
 
@@ -82,7 +87,7 @@ We're gonna talk about grad school applications in psychology. This date is not 
 -   Neurosicence
 
 ::: notes
-Maybe we can talk about sub areas in psychology, these are not mutually exclusive areas as you know, but it may help us to decide what our main focus and what kind of tradition that its contain For example, developmental psych focused on social-emotional and cognitive development as a lifelong process, social psychology focused on the topics like attitudes, the self, self-regulation, social motivation, emotion, stereotyping and cognitive psychology focused on the topics like attention, memory, training and learning, emotion.
+Maybe we can talk about sub areas in psychology, these are again not mutually exclusive areas as you know, but it may help us to decide what our main focus and what kind of tradition that its contain For example, developmental psych focused on social-emotional and cognitive development as a lifelong process, social psychology focused on the topics like attitudes, the self, self-regulation, social motivation, emotion, stereotyping and cognitive psychology focused on the topics like attention, memory, training and learning, emotion.
 
 Clinical areas contain different topics like intervention and prevention methods across the life course for such phenomena as aggression and antisocial behavior, depression, personality disorders, eating disorders and obesity, substance abuse, HIVAIDS, cardiovascular disease, and chronic pain.
 
@@ -92,14 +97,19 @@ These areas of course can be combined or named differently at different universi
 :::
 
 ## Funding Opportunities
-::: nonincremental
 
+::: nonincremental
 -   Scholarships/Fellowships by the programs
 
 -   Stipends based on research grants
 
     ![](grad-school-funding_1200x630.png) {fig-align="center"}
-::: 
+:::
+
+::: notes
+Ok, so you decided that I wanna do phd in this area like developmental psychology, but as an adult, you probably need a support to continue your education. Whether a phd student is a worker or a student is usually ambigious, but funding opportunities can be combined under two general categories.
+:::
+
 ## Timeline
 
 -   Nov 15/Dec 1: Deadline of applications in US/Canada
@@ -109,6 +119,12 @@ These areas of course can be combined or named differently at different universi
 -   Feb/March: Offers
 
 -   April 1/April 15: Deadline for decisions
+
+::: notes
+Financial situation was done, I mean so so, but you don't know when you apply. So, let's talk about timelines. Mostly US and Canada programs have the deadline of december 1st for phd programs (it can be sometimes november 15, be careful!) England, European countries or other programs in the world have different systems. Some of them followed US systems, but as I mentioned in the funding part, if a PI has a research funding, these countries opened announcements for phd opportunities. They usually expect students who have or will obtain masters degree to apply these programs, but it can be different, so please check. I will mention several websites to check these programs also.
+
+-Click and explain the rest of the timeline-
+:::
 
 ## Personal timeline example for a student {.scrollable}
 
@@ -123,6 +139,10 @@ These areas of course can be combined or named differently at different universi
 -   October/November: Standardized tests (GRE, Toefl, Ielts, etc.)
 
 -   November/December: Applications
+
+::: notes
+We mentioned standardized tests here, but what are they?
+:::
 
 ## Exams: Toefl/Ielts-Gre
 
@@ -144,6 +164,10 @@ These areas of course can be combined or named differently at different universi
 ![](Screen%20Shot%202023-02-27%20at%201.23.17%20PM.png){fig-align="center" width="600"}
 :::
 
+::: notes
+Click and read
+:::
+
 ## Searching for advisor and programs
 
 -   After deciding the area and the topics that you interested in, the period of lab search may start.
@@ -157,6 +181,10 @@ These areas of course can be combined or named differently at different universi
 ```{=html}
 <iframe width="1100" height="650" fig-align="center" src="https://www.cimpianlab.com/" title="Lab Website"></iframe>
 ```
+::: notes
+You decided several labs and several possible advisors, what should you do after this? Email these advisors may be a way for the first contact. There can warnings in the lab website for this, so be careful
+:::
+
 ## Why should you email the professors
 
 -   To learn availability in the lab
@@ -165,6 +193,10 @@ These areas of course can be combined or named differently at different universi
 
 -   Learn useful information (like collaboration between faculty members)
 
+::: notes
+What are the benefits of emailing to professors?
+:::
+
 ## How to email the faculty
 
 -   Brief and informative
@@ -172,6 +204,10 @@ These areas of course can be combined or named differently at different universi
 -   Personal details (your current education status, the lab experience, interest,etc.)
 
 -   A well-prepared CV
+
+::: notes
+How should you write?
+:::
 
 ## Statement of Purpose
 
@@ -184,6 +220,10 @@ These areas of course can be combined or named differently at different universi
 -   Your future projections after grad school and plans about grad school
 
 -   The contributions of the program and the advisor
+
+::: notes
+Another important material is statement of purpose -Click- Aim of sop is to express... what you should mention in the sop? -Click and read-
+:::
 
 ## Application tips
 
@@ -252,3 +292,9 @@ A good advisor is aware of phd is a place to contribute to these skills, focus o
 -   [Cognitive Development Society Mail List](https://cogdevsoc.org/listserv/)
 
 -   [NYU Application Resources](https://drive.google.com/drive/folders/1eZ1CMG-bZQlPtB6OkduFy0Qq2-uS-mjH)
+
+-   [Scholarship Database](https://scholarshipdb.net/)
+
+-   [Find A Phd](https://www.findaphd.com/)
+
+# Thanks! Questions?
