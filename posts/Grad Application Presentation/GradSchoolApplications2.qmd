@@ -146,7 +146,6 @@ We mentioned standardized tests here, but what are they?
 
 ## Exams: Toefl/Ielts-Gre
 
-::: panel-tabset
 ## Check the website
 
 ::: nonincremental
@@ -162,7 +161,7 @@ We mentioned standardized tests here, but what are they?
 :::
 
 ![](Screen%20Shot%202023-02-27%20at%201.23.17%20PM.png){fig-align="center" width="600"}
-:::
+
 
 ::: notes
 Click and read
