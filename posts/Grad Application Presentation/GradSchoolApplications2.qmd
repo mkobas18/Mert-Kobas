@@ -1,6 +1,9 @@
 ---
 title: "Grad School Applications"
 author: "Mert Kobaş"
+date: "2023-02-23"
+categories: [presentations, grad school, application]
+image: "grad-school-funding_1200x630.png"
 format: 
   revealjs:
     theme: serif
