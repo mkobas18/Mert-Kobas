@@ -1,0 +1,18 @@
+---
+title: "Untitled"
+format: pptx
+---
+
+## Explanation
+
+-   Explanation is a way of understanding why something happens or exists. It is a way of providing a logical or causal account for an event or phenomenon.
+
+-   Explanations can be based on scientific theories, logical reasoning, or personal beliefs.
+
+```{r warning = FALSE, message = FALSE}
+#| label: myplt
+#| echo:false
+#| eval: true
+fig.1.expert_w25
+
+```

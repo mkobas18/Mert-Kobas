@@ -1,0 +1,246 @@
+---
+title: "Grad School Applications"
+author: "Mert Kobaş"
+format: 
+  revealjs:
+    theme: serif
+    transition: slide
+    incremental: true   
+    slide-number: true
+    chalkboard: 
+      buttons: false
+    preview-links: auto
+    css: styles.css
+---
+
+## Overwiev
+
+-   Aims and offers of graduate programs in psychology
+
+    -   Research Specific Areas
+
+    -   Application Specific Areas
+
+-   Expectations of the programs
+
+-   Benefits of the students
+
+-   Application process
+
+::: notes
+We're gonna talk about grad school applications in psychology. This date is not an optimal date for this maybe because senior students or masters students who are applying for the next year probably has been done with their applications and for junior students, it may be early, but getting familiar with the doctoral and masters programs in our areas is a good starting point to prepare your future, if you wanna stay this area. My preparation for this presentations is based on introducing these graduate programs in psychology, mentioning about the expectations, responsibilities of students and the benefits that the students get and also how can you start for application process with critical dates, critical documents, tips and resources.
+:::
+
+## Aims, reasons and expectations
+
+-   The general aim: Preparing students for careers in academia, research, or clinical practice.
+
+-   Why do you apply?
+
+-   What can be the expectations in the programs?
+
+::: notes
+:::
+
+## Research Specific Areas
+
+-   Coursework are based on conceptual knowledge, statistics and research methodology.
+
+-   Research: Students are expected to conduct original research in psychology, typically resulting in a dissertation or thesis. This involves developing research questions, designing studies, collecting and analyzing data, and reporting findings.
+
+-   Teaching: PhD students usually have TA duties for graduate and undergraduate courses
+
+::: notes
+-   phd students have also teaching duties like being a teaching assistant for grad and undergrad courses. Beside, phd students may also have opportunities to teach undergraduate courses in psychology.
+:::
+
+## Application Focused Areas
+
+-   PsyD (Doctor of Psychology) program is a professional doctoral degree that typically emphasizes clinical training over research.
+
+-   They involves less research and more coursework and clinical training than PhD programs.
+
+-   Graduates of PsyD programs are typically prepared for careers in clinical practice, such as working as licensed psychologists in private practice, hospitals, or other mental health settings.
+
+## PsyD or PhD?
+
+{{< video https://youtu.be/rBuDogUBFgo width="100%" height="85%" >}}
+
+## Sub areas in psychology
+
+-   Developmental
+
+-   Social
+
+-   Cognitive
+
+-   Clinical
+
+-   Neurosicence
+
+::: notes
+Maybe we can talk about sub areas in psychology, these are not mutually exclusive areas as you know, but it may help us to decide what our main focus and what kind of tradition that its contain For example, developmental psych focused on social-emotional and cognitive development as a lifelong process, social psychology focused on the topics like attitudes, the self, self-regulation, social motivation, emotion, stereotyping and cognitive psychology focused on the topics like attention, memory, training and learning, emotion.
+
+Clinical areas contain different topics like intervention and prevention methods across the life course for such phenomena as aggression and antisocial behavior, depression, personality disorders, eating disorders and obesity, substance abuse, HIVAIDS, cardiovascular disease, and chronic pain.
+
+For neuroscience, the topics can be like social and motivated behavior; social and emotional interplay at the neural circuit and behavioral systems level, midbrain dopaminergic reward systems; cognitive development and aging; neural basis of vision and audition.
+
+These areas of course can be combined or named differently at different universities, like cognitive and behavioral sciences or clinical neuroscience or developmental psychopathology, etc. Finding an appropriate program for yourself should be based on your interests, your skills, your resources, so you should decide an optimal way to find best programs for yourself.
+:::
+
+## Funding Opportunities
+
+-   Scholarships/Fellowships by the programs
+
+-   Stipends based on research grants
+
+    ![](Mert%20Kobas's%20Blog/Mert%20Kobas/profile.png){width="434"}
+
+## Timeline
+
+-   Nov 15/Dec 1: Deadline of applications in US/Canada
+
+-   Jan/Feb: Interviews
+
+-   Feb/March: Offers
+
+-   April 1/April 15: Deadline for decisions
+
+## Personal timeline example for a student {.scrollable}
+
+-   September 15: Deciding to apply PhD programs
+
+-   September/October: Consulting your own professors/supervisors and asking for reference letters
+
+-   September/October/November: SoP, Personal history, CV
+
+-   October/November: Contact professors that you want to apply
+
+-   October/November: Standardized tests (GRE, Toefl, Ielts, etc.)
+
+-   November/December: Applications
+
+## Exams: Toefl/Ielts-Gre
+
+::: panel-tabset
+## Check the website
+
+::: nonincremental
+-   Gre can be optional (if you're international, toefl may be also), check the website!
+:::
+
+![](Screen%20Shot%202023-02-27%20at%201.13.53%20PM.png){fig-align="center" width="600"}
+
+## Area-Specific Gre
+
+::: nonincremental
+-   Gre has two main components, quantitative and verbal parts. Also, there may be area specific gre requirements like psychology area test.
+:::
+
+![](Screen%20Shot%202023-02-27%20at%201.23.17%20PM.png){fig-align="center" width="600"}
+:::
+
+## Searching for advisor and programs
+
+-   After deciding the area and the topics that you interested in, the period of lab search may start.
+
+-   What can be the sources? Your own professors, the articles that you read, supervisors/friends in PhD programs
+
+-   Looking for lab/department website
+
+## Looking for the lab website
+
+```{=html}
+<iframe width="1100" height="650" fig-align="center" src="https://www.cimpianlab.com/" title="Lab Website"></iframe>
+```
+## Why should you email the professors
+
+-   To learn availability in the lab
+
+-   To be "on the radar"
+
+-   Learn useful information (like collaboration between faculty members)
+
+## How to email the faculty
+
+-   Brief and informative
+
+-   Personal details (your current education status, the lab experience, interest,etc.)
+
+-   A well-prepared CV
+
+## Statement of Purpose
+
+-   Why you interest in this area
+
+-   Your experience
+
+-   The reasons behind your focus on research and teaching
+
+-   Your future projections after grad school and plans about grad school
+
+-   The contributions of the program and the advisor
+
+## Application tips
+
+-   Where can you follow academic opportunities?
+
+    -   Academic twitter/mastodon
+
+![](Screen%20Shot%202023-02-27%20at%204.33.11%20PM.png){width="595"}
+
+## 
+
+-   Lab websites, researchgate, findaphd.com, scholarshipdb.com
+
+-   Mail lists of societies
+
+![](Screen%20Shot%202023-02-27%20at%204.43.29%20PM.png)
+
+## Application tips
+
+-   Quantifiable outputs
+
+    -   Poster/conference presentations
+
+    -   Honors thesis
+
+    -   Undergraduate journals, school clubs
+
+    -   Awards, gpa
+
+## 
+
+-   Research Experience
+
+    -   What did you do?
+
+    -   How did you do?
+
+    -   What did you learn?
+
+    -   What was your contribution?
+
+    -   Research related skills (statistics, research methods)
+
+    -   Conceptual understanding
+
+::: notes
+A good advisor is aware of phd is a place to contribute to these skills, focus on specific research topics and clarify what you learn before, but it's alway good to show your enthusiasm and openness to take feedback to contribute yourself
+:::
+
+## Application tips
+
+-   How many programs should someone apply?
+
+-   Application fee waivers!
+
+    ![](Screen%20Shot%202023-02-28%20at%2010.36.26%20AM.png){width="780"}
+
+## Useful Links
+
+-   [Why and how to email faculty prior to applying to graduate school](https://lucklab.ucdavis.edu/blog/2018/9/17/emailing-faculty)
+
+-   [Cognitive Development Society Mail List](https://cogdevsoc.org/listserv/)
+
+-   [NYU Application Resources](https://drive.google.com/drive/folders/1eZ1CMG-bZQlPtB6OkduFy0Qq2-uS-mjH)

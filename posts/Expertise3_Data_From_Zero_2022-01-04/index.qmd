@@ -21,6 +21,9 @@ library(DescTools)
 library(stats)
 library(factoextra)
 library(effects)
+library(rempsyc)
+library(sjPlot)
+
 #Read the csv file ----
 Expertise3 <- read_csv("~/Desktop/Expertise3_December 23, 2022_10.53.csv")
 
@@ -917,7 +920,7 @@ summary(Model.2.1)
 
 ```
 
-#Winsorize at 1% the raw variables for our new expertise variables
+## Winsorize at 1% the raw variables for our new expertise variables
 
 ```{r warning = FALSE, message = FALSE}
 # winsorize the variables (at 1%)
@@ -960,6 +963,15 @@ expertise3_wins_average <- expertise3_wins_average %>% mutate(media_wins1 =
 
 ```
 
+##Descriptives
+
+```{r}
+expertise3_wins_average$age<-as.numeric(expertise3_wins_average$age)
+expertise3_wins_average%>%
+  group_by(ID)%>%
+  descriptives(vars=vars(age))
+```
+
 ##Shapiro-Wilk values
 
 ```{r warning = FALSE, message = FALSE}
@@ -978,6 +990,8 @@ expertise3_wins_average$class_wins1_cent <- scale(expertise3_wins_average$class_
 
 expertise3_wins_average$media_wins1_cent <- scale(expertise3_wins_average$media_wins1, center = TRUE, scale = FALSE)
 
+
+write.csv(expertise3_wins_average, '/Users/mertkobas/Desktop/expert3_wins_average.csv')
 ```
 
 ## HLM Models
@@ -988,6 +1002,13 @@ expertise3_wins_average$media_wins1_cent <- scale(expertise3_wins_average$media_
 Model.1.1<-lmer(ih ~class_wins1_cent + media_wins1_cent + know_cent +needforcog_cent +(1|Score_Type)+(1|ID),   
               data=expertise3_wins_average)
 summary(Model.1.1)
+confint(Model.1.1)
+```
+
+##Table for model 1.1 with wins 1%
+
+```{r}
+tab_model(Model.1.1, file = "expertise3_model1.1_w1.doc")
 ```
 
 #Plot of the model 1.1
@@ -1018,7 +1039,7 @@ fig.1.expert_w1 <- ggplot(data = ef.1.media.data, aes(x = media_wins1_cent,
              show.legend = FALSE, pch=21, color="blueviolet", alpha=.25, size=3) +
   geom_line(aes(x=media_wins1_cent), color = "darkred", size = 1.2)  +
   geom_ribbon(aes(ymin = fit-se, ymax = fit+se), alpha = 0.50, fill = "gray70") +
-  labs(title = "Expertise and Inherence Bias", x = "Expertise (books,articles)",
+  labs(title = "Expertise and Inherence Bias", x = "Expertise (informational sources)",
        y = "Inherence bias") +
   scale_x_continuous(limits = c(0, 8), breaks = seq(0, 8, 2), expand = c(0, 0)) +
   scale_y_continuous(limits = c(0, 8), breaks = seq(0, 8, 2), expand = c(0, 0)) +
@@ -1029,14 +1050,103 @@ fig.1.expert_w1 <- ggplot(data = ef.1.media.data, aes(x = media_wins1_cent,
         legend.title = element_blank(),
         panel.grid = element_blank(),
         panel.border = element_blank(),
+        #plot.background=element_rect(fill = "gray96"),
+       # panel.background = element_rect(fill = "gray96")
+       )
+fig.1.expert_w1
+
+ggsave(paste0("figure_expertise+media_w1",
+              format(Sys.time(), "%Y-%m-%d")
+              ,".png"), width = 25, height = 20, units = "cm") 
+
+```
+
+#Plot of the model 1.1
+
+```{r warning = FALSE, message = FALSE}
+Model.1.1 <- lmer(ih ~class_wins1_cent + media_wins1_cent + know_cent +needforcog_cent +(1|Score_Type)+(1|ID),   
+              data=expertise3_wins_average)
+summary(Model.1.1)
+# save fitted data
+ef.1.media <- effect(term = "know_cent",
+                                   mod = Model.1.1)
+ef.1.media.data <- as.data.frame(ef.1.media) #convert the effects list to a data frame
+ef.1.media.data #print effects data frame
+
+expert_media_graph <- expertise3_wins_average %>%
+  group_by(ID) %>%
+  summarise(ih = mean(ih),
+            know_cent = know_cent)
+expert_media_graph <- as.data.frame(expert_media_graph)
+```
+
+```{r warning = FALSE, message = FALSE}
+fig.1.expert_w1 <- ggplot(data = ef.1.media.data, aes(x = know_cent,
+                                                  y = fit)) +
+  geom_point(data=expert_media_graph, aes(x=know_cent,y=ih),
+             show.legend = FALSE, pch=21, color="blueviolet", alpha=.25, size=3) +
+  geom_line(aes(x=know_cent), color = "darkred", size = 1.2)  +
+  geom_ribbon(aes(ymin = fit-se, ymax = fit+se), alpha = 0.50, fill = "gray70") +
+  labs(title = "Expertise and Inherence Bias", x = "Subjective expertise",
+       y = "Inherence bias") +
+  #scale_x_continuous(limits = c(0, 8), breaks = seq(0, 8, 2), expand = c(0, 0)) +
+  #scale_y_continuous(limits = c(0, 8), breaks = seq(0, 8, 2), expand = c(0, 0)) +
+  theme_classic() +
+  theme(plot.title = element_blank(),
+        axis.title = element_text(size = 25, face = "bold"),
+        axis.text = element_text(size = 18),
+        legend.title = element_blank(),
+        panel.grid = element_blank(),
+        panel.border = element_blank(),
         plot.background=element_rect(fill = "gray96"),
         panel.background = element_rect(fill = "gray96"))
 fig.1.expert_w1
 
 ggsave(paste0("figure_expertise+media_w1",
               format(Sys.time(), "%Y-%m-%d")
-              ,".eps"), width = 20, height = 20, units = "cm") ###Save the Figure 3C
+              ,".png"), width = 25, height = 20, units = "cm") 
 
+```
+
+#Interaction between subjective and objective expertises
+
+```{r warning = FALSE, message = FALSE}
+Model.2.1<-lmer(ih ~class_wins1_cent*know_cent + media_wins1_cent*know_cent + needforcog_cent +(1|Score_Type)+(1|ID),   
+              data=expertise3_wins_average)
+summary(Model.2.1)
+
+```
+
+#Median splitting for interaction between subjective and objective expertises
+
+```{r warning = FALSE, message = FALSE}
+#Check correlation first
+corrMatrix(data=expertise3_wins_average, vars=vars(know_cent,class_wins1_cent, media_wins1_cent),plots=TRUE, plotStats = TRUE)
+
+```
+
+#Median splitting of the variables
+
+```{r}
+med_know_cent
+descriptives(expertise3_wins_average,vars=vars(know_cent))
+```
+
+```{r}
+expertise3_wins_average<-expertise3_wins_average%>%
+  mutate(med_know=case_when(
+      know_cent > 0.01275956 ~ "High_subjexp",
+      know_cent < 0.01275956 ~ "Low_subjexp",
+      know_cent == 0.01275956 ~ "Median_subjexp"))
+
+```
+
+##Run the interaction model again with splitted variables
+
+```{r}
+Model.2.1<-lmer(ih ~class_wins1_cent*med_know + media_wins1_cent*med_know + needforcog_cent +(1|Score_Type)+(1|ID),   
+              data=expertise3_wins_average)
+summary(Model.2.1)
 ```
 
 #Winsorize at 2.5% the raw variables for our new expertise variables
@@ -1135,6 +1245,8 @@ expert_media_graph$media_wins1_cent<-expert_media_graph$media_wins1_cent-min(exp
 ```
 
 ```{r warning = FALSE, message = FALSE}
+#| label: myplt
+#| eval: false
 fig.1.expert_w25 <- ggplot(data = ef.1.media.data, aes(x = media_wins1_cent,
                                                   y = fit)) +
   geom_point(data=expert_media_graph, aes(x=media_wins1_cent,y=ih),
